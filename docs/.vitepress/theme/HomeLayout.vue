@@ -508,25 +508,31 @@ Use &lt;vibe-flag-boolean&gt; for on/off features:
 
 /* ===== HERO 3: Terminal ===== */
 .hero-terminal {
-  background: #0a0a0a;
+  background: var(--h-bg);
   margin: 0;
   max-width: 100%;
   padding: 100px 24px;
+}
+.dark .hero-terminal {
+  background: #0a0a0a;
 }
 .hero-terminal .hero-content {
   max-width: 800px;
 }
 .hero-title-mono {
   font-family: 'SF Mono', 'Fira Code', Menlo, Consolas, monospace;
-  color: #fafafa;
+  color: var(--h-text);
   font-size: clamp(32px, 5vw, 56px);
   font-weight: 700;
 }
 .mono-muted {
+  color: var(--h-text-faint);
+}
+.dark .mono-muted {
   color: #525252;
 }
 .hero-subtitle-light {
-  color: #a3a3a3;
+  color: var(--h-text-muted);
 }
 .terminal-window {
   background: #171717;
