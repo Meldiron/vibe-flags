@@ -338,6 +338,29 @@ Use &lt;vibe-flag-boolean&gt; for on/off features:
       </div>
     </section>
 
+    <!-- ─────────────────────────────────────────────────────────
+         CTA Section (toggleable)
+         ───────────────────────────────────────────────────────── -->
+    <vibe-flag-boolean name="showCta" description="Show CTA section" value="true">
+      <section class="cta-section">
+        <div class="section-inner cta-inner">
+          <h2 class="cta-title">Start shipping faster.</h2>
+          <p class="cta-subtitle">
+            Drop in one script tag and get feature flags, variant switching, and a<br class="cta-br" />
+            polished toolbar — no backend, no account, no config.
+          </p>
+          <div class="cta-install">
+            <span class="install-prompt">$</span>
+            <code class="install-cmd">npm i @vibe-flags/core</code>
+          </div>
+          <div class="cta-actions">
+            <a href="/docs/getting-started" class="btn btn-cta-primary">Get Started</a>
+            <a href="/api/components" class="btn btn-cta-outline">API Reference →</a>
+          </div>
+        </div>
+      </section>
+    </vibe-flag-boolean>
+
     <vibe-toolbar></vibe-toolbar>
 
   </div>
@@ -802,5 +825,78 @@ Use &lt;vibe-flag-boolean&gt; for on/off features:
 }
 .ai-section .section-header {
   width: 100%;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   CTA Section
+   ═══════════════════════════════════════════════════════════════ */
+.cta-section {
+  background: var(--vp-c-bg-soft);
+  border-top: 1px solid var(--vp-c-divider);
+}
+.cta-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding-top: 80px;
+  padding-bottom: 80px;
+}
+.cta-title {
+  font-size: clamp(28px, 4.5vw, 44px);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  color: var(--vp-c-text-1);
+  margin-bottom: 16px;
+}
+.cta-subtitle {
+  font-size: 17px;
+  color: var(--vp-c-text-2);
+  line-height: 1.75;
+  max-width: 520px;
+  margin: 0 auto 32px;
+}
+.cta-br {
+  display: none;
+}
+@media (min-width: 640px) {
+  .cta-br {
+    display: inline;
+  }
+}
+.cta-install {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 11px 22px;
+  background: var(--vp-c-bg);
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 8px;
+  margin-bottom: 28px;
+}
+.cta-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.btn-cta-primary {
+  background: #6366f1;
+  color: #fff;
+  border-color: #6366f1;
+}
+.btn-cta-primary:hover {
+  background: #4f46e5;
+  border-color: #4f46e5;
+}
+.btn-cta-outline {
+  background: transparent;
+  color: var(--vp-c-text-2);
+  border-color: var(--vp-c-divider);
+}
+.btn-cta-outline:hover {
+  border-color: var(--vp-c-border);
+  color: var(--vp-c-text-1);
 }
 </style>
