@@ -2,6 +2,7 @@ export interface FlagConfigBoolean {
   key: string;
   type: 'boolean';
   label?: string;
+  default?: boolean;
 }
 
 export interface FlagConfigSelect {

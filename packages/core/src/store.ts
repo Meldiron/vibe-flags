@@ -3,7 +3,7 @@ import type { FlagConfig, FlagValue, FlagState } from './types.js';
 const NAMESPACE = 'vibe-flags:';
 
 function getInitialValue(config: FlagConfig): FlagValue {
-  if (config.type === 'boolean') return false;
+  if (config.type === 'boolean') return config.default ?? false;
   return config.options[0] || '';
 }
 

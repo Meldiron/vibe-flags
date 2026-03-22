@@ -6,7 +6,7 @@ export default defineConfig({
   head: [
     ['link', { rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' }],
     ['link', { rel: 'author', type: 'text/plain', href: '/llms.txt' }],
-    ['script', { type: 'module', src: 'https://cdn.jsdelivr.net/npm/@vibe-flags/core@latest/dist/vibe-flags.cdn.mjs' }],
+    ['script', { type: 'module', src: 'https://cdn.jsdelivr.net/npm/@vibe-flags/core@0.1.7/dist/vibe-flags.cdn.mjs' }],
   ],
   vue: {
     template: {

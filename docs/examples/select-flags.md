@@ -5,7 +5,7 @@ Select flags let users choose between multiple options. They start as the first 
 ## Layout Selector
 
 ```html
-<script type="module" src="https://cdn.jsdelivr.net/npm/@vibe-flags/core/dist/vibe-flags.cdn.mjs"></script>
+<script type="module" src="https://cdn.jsdelivr.net/npm/@vibe-flags/core@0.1.7/dist/vibe-flags.cdn.mjs"></script>
 
 <vibe-flag-select name="layout" description="Layout mode">
   <vibe-flag-option value="grid">

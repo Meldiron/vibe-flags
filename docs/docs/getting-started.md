@@ -5,7 +5,7 @@ Add one script tag, write some HTML. That's it.
 ## Quick Start
 
 ```html
-<script type="module" src="https://cdn.jsdelivr.net/npm/@vibe-flags/core/dist/vibe-flags.cdn.mjs"></script>
+<script type="module" src="https://cdn.jsdelivr.net/npm/@vibe-flags/core@0.1.7/dist/vibe-flags.cdn.mjs"></script>
 
 <vibe-flag-boolean name="showBanner" description="Welcome banner" value="true">
   <div style="padding: 16px; background: #dbeafe; border-radius: 8px;">

@@ -5,7 +5,7 @@ Boolean flags are on/off toggles that start as `false`.
 ## Multiple Boolean Flags
 
 ```html
-<script type="module" src="https://cdn.jsdelivr.net/npm/@vibe-flags/core/dist/vibe-flags.cdn.mjs"></script>
+<script type="module" src="https://cdn.jsdelivr.net/npm/@vibe-flags/core@0.1.7/dist/vibe-flags.cdn.mjs"></script>
 
 <vibe-flag-boolean name="darkMode" description="Dark Mode" value="true">
   <style>body { background: #1a1a1a; color: white; }</style>

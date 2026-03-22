@@ -56,6 +56,30 @@ describe('<vibe-flag-boolean>', () => {
     expect(el.shadowRoot!.querySelector('slot')).toBeNull();
   });
 
+  it('initializes with default=true and shows children when value="true"', async () => {
+    const el = await fixture(html`
+      <vibe-flag-boolean name="ctaFlag" description="CTA" .default=${true} value="true">
+        <div>CTA content</div>
+      </vibe-flag-boolean>
+    `);
+    await el.updateComplete;
+    expect(flagStore.get('ctaFlag')).toBe(true);
+    expect(el.shadowRoot!.querySelector('slot')).not.toBeNull();
+  });
+
+  it('hides children when default=true flag is toggled off', async () => {
+    const el = await fixture(html`
+      <vibe-flag-boolean name="toggleFlag" .default=${true} value="true">
+        <div>Content</div>
+      </vibe-flag-boolean>
+    `);
+    await el.updateComplete;
+    expect(el.shadowRoot!.querySelector('slot')).not.toBeNull();
+
+    flagStore.set('toggleFlag', false);
+    await waitUntil(() => el.shadowRoot!.querySelector('slot') === null, 'hidden after set false');
+  });
+
   it('reacts to store changes', async () => {
     const el = await fixture(html`
       <vibe-flag-boolean name="showBanner" value="true">

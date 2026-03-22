@@ -48,8 +48,7 @@ onUnmounted(() => {
               <a href="/api/components" class="btn btn-outline">API Reference</a>
             </div>
             <div class="install-box">
-              <span class="install-prompt">$</span>
-              <code class="install-cmd">npm i @vibe-flags/core</code>
+              <code class="install-cmd">&lt;script type="module"<br class="install-br" /> src="https://cdn.jsdelivr.net/npm/@vibe-flags/core@0.1.7/dist/vibe-flags.cdn.mjs"&gt;&lt;/script&gt;</code>
             </div>
           </div>
         </section>
@@ -81,7 +80,7 @@ onUnmounted(() => {
               </div>
               <pre class="cb-body"><code><span class="c-tag">&lt;script</span>
     <span class="c-attr">type</span>=<span class="c-str">"module"</span>
-    <span class="c-attr">src</span>=<span class="c-str">"https://cdn.jsdelivr.net/npm/@vibe-flags/core/dist/vibe-flags.cdn.mjs"</span>
+    <span class="c-attr">src</span>=<span class="c-str">"https://cdn.jsdelivr.net/npm/@vibe-flags/core@0.1.7/dist/vibe-flags.cdn.mjs"</span>
 <span class="c-tag">&gt;&lt;/script&gt;</span>
 
 <span class="c-comment">&lt;!-- Boolean flag: shows content when enabled --&gt;</span>
@@ -303,7 +302,7 @@ Section to redesign: [EXPLAIN YOUR SECTION HERE]</pre>
 
 Add to the HTML &lt;head&gt;:
 ```
-&lt;script type="module" src="https://cdn.jsdelivr.net/npm/@vibe-flags/core/dist/vibe-flags.cdn.mjs"&gt;&lt;/script&gt;
+&lt;script type="module" src="https://cdn.jsdelivr.net/npm/@vibe-flags/core@0.1.7/dist/vibe-flags.cdn.mjs"&gt;&lt;/script&gt;
 ```
 
 ## Structure
@@ -341,7 +340,7 @@ Use &lt;vibe-flag-boolean&gt; for on/off features:
     <!-- ─────────────────────────────────────────────────────────
          CTA Section (toggleable)
          ───────────────────────────────────────────────────────── -->
-    <vibe-flag-boolean name="showCta" description="Show CTA section" value="true">
+    <vibe-flag-boolean name="showCta" description="Show CTA section" :default="true" value="true">
       <section class="cta-section">
         <div class="section-inner cta-inner">
           <h2 class="cta-title">Start shipping faster.</h2>
@@ -350,8 +349,7 @@ Use &lt;vibe-flag-boolean&gt; for on/off features:
             polished toolbar — no backend, no account, no config.
           </p>
           <div class="cta-install">
-            <span class="install-prompt">$</span>
-            <code class="install-cmd">npm i @vibe-flags/core</code>
+            <code class="install-cmd">&lt;script type="module" src="https://cdn.jsdelivr.net/npm/@vibe-flags/core@0.1.7/dist/vibe-flags.cdn.mjs"&gt;&lt;/script&gt;</code>
           </div>
           <div class="cta-actions">
             <a href="/docs/getting-started" class="btn btn-cta-primary">Get Started</a>
@@ -623,6 +621,11 @@ Use &lt;vibe-flag-boolean&gt; for on/off features:
   background: var(--vp-c-bg-soft);
   border: 1px solid var(--vp-c-divider);
   border-radius: 8px;
+  max-width: 100%;
+  overflow-x: auto;
+}
+.install-br {
+  display: none;
 }
 .install-prompt {
   font-family: var(--vp-font-family-mono);
@@ -803,7 +806,13 @@ Use &lt;vibe-flag-boolean&gt; for on/off features:
 .chip-active {
   background: var(--vp-c-bg);
   color: var(--vp-c-text-1);
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.15);
+  border: 1px solid var(--vp-c-divider);
+}
+.dark .chip-active {
+  background: #111111;
+  border-color: #2e2e2e;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.5);
 }
 
 /* AI card (extends .code-block) */

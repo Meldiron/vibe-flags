@@ -24,6 +24,9 @@ export class VibeFlagBoolean extends LitElement {
   @property({ type: String })
   value = '';
 
+  @property({ type: Boolean })
+  default = false;
+
   @state()
   private isMatch = false;
 
@@ -44,7 +47,7 @@ export class VibeFlagBoolean extends LitElement {
   }
 
   protected willUpdate(changed: Map<string, unknown>): void {
-    if (changed.has('name') || changed.has('description')) {
+    if (changed.has('name') || changed.has('description') || changed.has('default')) {
       this.registerFlag();
     }
   }
@@ -56,6 +59,7 @@ export class VibeFlagBoolean extends LitElement {
         key: this.name,
         type: 'boolean',
         label: this.description || undefined,
+        default: this.default,
       });
     }
     this.evaluate();
