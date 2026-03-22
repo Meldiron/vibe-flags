@@ -1,19 +1,5 @@
 # Components
 
-## `<vibe-flags>`
-
-The root wrapper component. Place flag components and `<vibe-toolbar>` inside it.
-
-### Example
-
-```html
-<vibe-flags>
-  <!-- flags and toolbar here -->
-</vibe-flags>
-```
-
----
-
 ## `<vibe-flag-boolean>`
 
 Declares a boolean flag and conditionally renders its children. Self-registers with the store on connect. Starts as `false`.
@@ -88,10 +74,8 @@ Floating toggle button + slide-out sidebar. Automatically discovers all register
 ### Example
 
 ```html
-<vibe-flags>
-  <vibe-flag-boolean name="beta" description="Beta features" value="true">
-    <p>Beta content</p>
-  </vibe-flag-boolean>
-  <vibe-toolbar></vibe-toolbar>
-</vibe-flags>
+<vibe-flag-boolean name="beta" description="Beta features" value="true">
+  <p>Beta content</p>
+</vibe-flag-boolean>
+<vibe-toolbar></vibe-toolbar>
 ```

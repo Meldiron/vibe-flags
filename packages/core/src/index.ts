@@ -1,5 +1,4 @@
 // Components (side-effect: registers custom elements)
-export { VibeFlags } from './components/vibe-flags.js';
 export { VibeFlagBoolean } from './components/vibe-flag-boolean.js';
 export { VibeFlagSelect } from './components/vibe-flag-select.js';
 export { VibeFlagOption } from './components/vibe-flag-option.js';

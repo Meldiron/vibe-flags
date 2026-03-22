@@ -7,19 +7,17 @@ Add one script tag, write some HTML. That's it.
 ```html
 <script type="module" src="https://cdn.jsdelivr.net/npm/@vibe-flags/core/dist/vibe-flags.cdn.mjs"></script>
 
-<vibe-flags>
-  <vibe-flag-boolean name="showBanner" description="Welcome banner" value="true">
-    <div style="padding: 16px; background: #dbeafe; border-radius: 8px;">
-      Welcome to the beta! This banner is controlled by a feature flag.
-    </div>
-  </vibe-flag-boolean>
+<vibe-flag-boolean name="showBanner" description="Welcome banner" value="true">
+  <div style="padding: 16px; background: #dbeafe; border-radius: 8px;">
+    Welcome to the beta! This banner is controlled by a feature flag.
+  </div>
+</vibe-flag-boolean>
 
-  <vibe-flag-boolean name="darkMode" description="Dark mode" value="true">
-    <style>body { background: #1a1a1a; color: #fafafa; }</style>
-  </vibe-flag-boolean>
+<vibe-flag-boolean name="darkMode" description="Dark mode" value="true">
+  <style>body { background: #1a1a1a; color: #fafafa; }</style>
+</vibe-flag-boolean>
 
-  <vibe-toolbar></vibe-toolbar>
-</vibe-flags>
+<vibe-toolbar></vibe-toolbar>
 ```
 
 A toggle button appears on the right edge of your page. Click it to open the toolbar, flip some flags, and watch the page react. Values persist across refreshes.

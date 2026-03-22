@@ -1,6 +1,5 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { fixture, html, waitUntil } from '@open-wc/testing';
-import '../src/components/vibe-flags.js';
 import '../src/components/vibe-flag-boolean.js';
 import '../src/components/vibe-flag-select.js';
 import '../src/components/vibe-flag-option.js';
@@ -16,69 +15,44 @@ describe('<vibe-toolbar>', () => {
   });
 
   it('renders the FAB button', async () => {
-    const el = await fixture(html`
-      <vibe-flags>
-        <vibe-toolbar></vibe-toolbar>
-      </vibe-flags>
-    `);
-    const toolbar = el.querySelector('vibe-toolbar')!;
-    await toolbar.updateComplete;
-    expect(toolbar.shadowRoot!.querySelector('.fab')).not.toBeNull();
+    const el = await fixture(html`<vibe-toolbar></vibe-toolbar>`);
+    await el.updateComplete;
+    expect(el.shadowRoot!.querySelector('.fab')).not.toBeNull();
   });
 
   it('opens card on FAB click', async () => {
-    const el = await fixture(html`
-      <vibe-flags>
-        <vibe-toolbar></vibe-toolbar>
-      </vibe-flags>
-    `);
-    const toolbar = el.querySelector('vibe-toolbar')!;
-    await toolbar.updateComplete;
+    const el = await fixture(html`<vibe-toolbar></vibe-toolbar>`);
+    await el.updateComplete;
 
-    (toolbar.shadowRoot!.querySelector('.fab') as HTMLElement).click();
-    await toolbar.updateComplete;
+    (el.shadowRoot!.querySelector('.fab') as HTMLElement).click();
+    await el.updateComplete;
 
-    expect(toolbar.shadowRoot!.querySelector('.card')?.classList.contains('open')).toBe(true);
+    expect(el.shadowRoot!.querySelector('.card')?.classList.contains('open')).toBe(true);
   });
 
   it('lists all configured flags', async () => {
-    const el = await fixture(html`
-      <vibe-flags>
-        <vibe-toolbar></vibe-toolbar>
-      </vibe-flags>
-    `);
-    const toolbar = el.querySelector('vibe-toolbar')!;
-    await toolbar.updateComplete;
-    expect(toolbar.shadowRoot!.querySelectorAll('.flag-item').length).toBe(2);
+    const el = await fixture(html`<vibe-toolbar></vibe-toolbar>`);
+    await el.updateComplete;
+    expect(el.shadowRoot!.querySelectorAll('.flag-item').length).toBe(2);
   });
 
   it('toggles boolean flag via switch', async () => {
-    const el = await fixture(html`
-      <vibe-flags>
-        <vibe-toolbar></vibe-toolbar>
-      </vibe-flags>
-    `);
-    const toolbar = el.querySelector('vibe-toolbar')!;
-    await toolbar.updateComplete;
+    const el = await fixture(html`<vibe-toolbar></vibe-toolbar>`);
+    await el.updateComplete;
 
-    (toolbar.shadowRoot!.querySelector('.toggle input') as HTMLInputElement).click();
-    await toolbar.updateComplete;
+    (el.shadowRoot!.querySelector('.toggle input') as HTMLInputElement).click();
+    await el.updateComplete;
     expect(flagStore.get('darkMode')).toBe(true);
   });
 
   it('changes select flag via dropdown', async () => {
-    const el = await fixture(html`
-      <vibe-flags>
-        <vibe-toolbar></vibe-toolbar>
-      </vibe-flags>
-    `);
-    const toolbar = el.querySelector('vibe-toolbar')!;
-    await toolbar.updateComplete;
+    const el = await fixture(html`<vibe-toolbar></vibe-toolbar>`);
+    await el.updateComplete;
 
-    const select = toolbar.shadowRoot!.querySelector('.select') as HTMLSelectElement;
+    const select = el.shadowRoot!.querySelector('.select') as HTMLSelectElement;
     select.value = 'dark';
     select.dispatchEvent(new Event('change'));
-    await toolbar.updateComplete;
+    await el.updateComplete;
     expect(flagStore.get('theme')).toBe('dark');
   });
 
@@ -86,38 +60,28 @@ describe('<vibe-toolbar>', () => {
     flagStore.set('darkMode', true);
     flagStore.set('theme', 'dark');
 
-    const el = await fixture(html`
-      <vibe-flags>
-        <vibe-toolbar></vibe-toolbar>
-      </vibe-flags>
-    `);
-    const toolbar = el.querySelector('vibe-toolbar')!;
-    await toolbar.updateComplete;
+    const el = await fixture(html`<vibe-toolbar></vibe-toolbar>`);
+    await el.updateComplete;
 
-    (toolbar.shadowRoot!.querySelector('.reset-btn') as HTMLElement).click();
-    await toolbar.updateComplete;
+    (el.shadowRoot!.querySelector('.reset-btn') as HTMLElement).click();
+    await el.updateComplete;
     expect(flagStore.get('darkMode')).toBe(false);
     expect(flagStore.get('theme')).toBe('light');
   });
 
   it('closes card on second FAB click', async () => {
-    const el = await fixture(html`
-      <vibe-flags>
-        <vibe-toolbar></vibe-toolbar>
-      </vibe-flags>
-    `);
-    const toolbar = el.querySelector('vibe-toolbar')!;
-    await toolbar.updateComplete;
+    const el = await fixture(html`<vibe-toolbar></vibe-toolbar>`);
+    await el.updateComplete;
 
-    const fab = toolbar.shadowRoot!.querySelector('.fab') as HTMLElement;
+    const fab = el.shadowRoot!.querySelector('.fab') as HTMLElement;
     fab.click();
-    await toolbar.updateComplete;
-    expect(toolbar.shadowRoot!.querySelector('.card.open')).not.toBeNull();
+    await el.updateComplete;
+    expect(el.shadowRoot!.querySelector('.card.open')).not.toBeNull();
 
     fab.click();
-    await toolbar.updateComplete;
+    await el.updateComplete;
     await waitUntil(
-      () => !toolbar.shadowRoot!.querySelector('.card')?.classList.contains('open'),
+      () => !el.shadowRoot!.querySelector('.card')?.classList.contains('open'),
       'card should close'
     );
   });
@@ -127,12 +91,12 @@ describe('<vibe-toolbar>', () => {
     flagStore.unregister('theme');
 
     const el = await fixture(html`
-      <vibe-flags>
+      <div>
         <vibe-flag-boolean name="myFlag" description="My Flag" value="true">
           <p>Content</p>
         </vibe-flag-boolean>
         <vibe-toolbar></vibe-toolbar>
-      </vibe-flags>
+      </div>
     `);
     const toolbar = el.querySelector('vibe-toolbar')!;
     await toolbar.updateComplete;

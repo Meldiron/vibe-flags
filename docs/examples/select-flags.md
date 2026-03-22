@@ -7,35 +7,33 @@ Select flags let users choose between multiple options. They start as the first 
 ```html
 <script type="module" src="https://cdn.jsdelivr.net/npm/@vibe-flags/core/dist/vibe-flags.cdn.mjs"></script>
 
-<vibe-flags>
-  <vibe-flag-select name="layout" description="Layout mode">
-    <vibe-flag-option value="grid">
-      <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px;">
-        <div style="background: #f3f4f6; padding: 20px;">Card 1</div>
-        <div style="background: #f3f4f6; padding: 20px;">Card 2</div>
-        <div style="background: #f3f4f6; padding: 20px;">Card 3</div>
-      </div>
-    </vibe-flag-option>
+<vibe-flag-select name="layout" description="Layout mode">
+  <vibe-flag-option value="grid">
+    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px;">
+      <div style="background: #f3f4f6; padding: 20px;">Card 1</div>
+      <div style="background: #f3f4f6; padding: 20px;">Card 2</div>
+      <div style="background: #f3f4f6; padding: 20px;">Card 3</div>
+    </div>
+  </vibe-flag-option>
 
-    <vibe-flag-option value="list">
-      <div style="display: flex; flex-direction: column; gap: 8px;">
-        <div style="background: #f3f4f6; padding: 12px;">Item 1</div>
-        <div style="background: #f3f4f6; padding: 12px;">Item 2</div>
-        <div style="background: #f3f4f6; padding: 12px;">Item 3</div>
-      </div>
-    </vibe-flag-option>
+  <vibe-flag-option value="list">
+    <div style="display: flex; flex-direction: column; gap: 8px;">
+      <div style="background: #f3f4f6; padding: 12px;">Item 1</div>
+      <div style="background: #f3f4f6; padding: 12px;">Item 2</div>
+      <div style="background: #f3f4f6; padding: 12px;">Item 3</div>
+    </div>
+  </vibe-flag-option>
 
-    <vibe-flag-option value="table">
-      <table style="width: 100%; border-collapse: collapse;">
-        <tr><td style="border: 1px solid #e5e7eb; padding: 8px;">Row 1</td></tr>
-        <tr><td style="border: 1px solid #e5e7eb; padding: 8px;">Row 2</td></tr>
-        <tr><td style="border: 1px solid #e5e7eb; padding: 8px;">Row 3</td></tr>
-      </table>
-    </vibe-flag-option>
-  </vibe-flag-select>
+  <vibe-flag-option value="table">
+    <table style="width: 100%; border-collapse: collapse;">
+      <tr><td style="border: 1px solid #e5e7eb; padding: 8px;">Row 1</td></tr>
+      <tr><td style="border: 1px solid #e5e7eb; padding: 8px;">Row 2</td></tr>
+      <tr><td style="border: 1px solid #e5e7eb; padding: 8px;">Row 3</td></tr>
+    </table>
+  </vibe-flag-option>
+</vibe-flag-select>
 
-  <vibe-toolbar></vibe-toolbar>
-</vibe-flags>
+<vibe-toolbar></vibe-toolbar>
 ```
 
 Each `<vibe-flag-option>` is a case — only the one matching the current value is visible. The toolbar renders a dropdown with all options.

@@ -1,6 +1,5 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { fixture, html, waitUntil } from '@open-wc/testing';
-import '../src/components/vibe-flags.js';
 import '../src/components/vibe-flag-select.js';
 import '../src/components/vibe-flag-option.js';
 import { flagStore } from '../src/store.js';
@@ -13,12 +12,10 @@ describe('<vibe-flag-select>', () => {
 
   it('registers a select flag from child options', async () => {
     await fixture(html`
-      <vibe-flags>
-        <vibe-flag-select name="theme" description="Theme">
-          <vibe-flag-option value="light"><p>Light</p></vibe-flag-option>
-          <vibe-flag-option value="dark"><p>Dark</p></vibe-flag-option>
-        </vibe-flag-select>
-      </vibe-flags>
+      <vibe-flag-select name="theme" description="Theme">
+        <vibe-flag-option value="light"><p>Light</p></vibe-flag-option>
+        <vibe-flag-option value="dark"><p>Dark</p></vibe-flag-option>
+      </vibe-flag-select>
     `);
     // Wait for microtask registration
     await new Promise((r) => setTimeout(r, 10));
@@ -34,12 +31,10 @@ describe('<vibe-flag-select>', () => {
 
   it('shows only the active option', async () => {
     const el = await fixture(html`
-      <vibe-flags>
-        <vibe-flag-select name="layout" description="Layout">
-          <vibe-flag-option value="grid"><div id="grid">Grid</div></vibe-flag-option>
-          <vibe-flag-option value="list"><div id="list">List</div></vibe-flag-option>
-        </vibe-flag-select>
-      </vibe-flags>
+      <vibe-flag-select name="layout" description="Layout">
+        <vibe-flag-option value="grid"><div id="grid">Grid</div></vibe-flag-option>
+        <vibe-flag-option value="list"><div id="list">List</div></vibe-flag-option>
+      </vibe-flag-select>
     `);
     await new Promise((r) => setTimeout(r, 10));
 
@@ -54,12 +49,10 @@ describe('<vibe-flag-select>', () => {
 
   it('switches active option when store changes', async () => {
     const el = await fixture(html`
-      <vibe-flags>
-        <vibe-flag-select name="layout" description="Layout">
-          <vibe-flag-option value="grid"><div>Grid</div></vibe-flag-option>
-          <vibe-flag-option value="list"><div>List</div></vibe-flag-option>
-        </vibe-flag-select>
-      </vibe-flags>
+      <vibe-flag-select name="layout" description="Layout">
+        <vibe-flag-option value="grid"><div>Grid</div></vibe-flag-option>
+        <vibe-flag-option value="list"><div>List</div></vibe-flag-option>
+      </vibe-flag-select>
     `);
     await new Promise((r) => setTimeout(r, 10));
 
@@ -75,14 +68,12 @@ describe('<vibe-flag-select>', () => {
   });
 
   it('works with three options', async () => {
-    const el = await fixture(html`
-      <vibe-flags>
-        <vibe-flag-select name="size">
-          <vibe-flag-option value="sm"><span>Small</span></vibe-flag-option>
-          <vibe-flag-option value="md"><span>Medium</span></vibe-flag-option>
-          <vibe-flag-option value="lg"><span>Large</span></vibe-flag-option>
-        </vibe-flag-select>
-      </vibe-flags>
+    await fixture(html`
+      <vibe-flag-select name="size">
+        <vibe-flag-option value="sm"><span>Small</span></vibe-flag-option>
+        <vibe-flag-option value="md"><span>Medium</span></vibe-flag-option>
+        <vibe-flag-option value="lg"><span>Large</span></vibe-flag-option>
+      </vibe-flag-select>
     `);
     await new Promise((r) => setTimeout(r, 10));
 

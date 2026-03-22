@@ -22,8 +22,6 @@ onUnmounted(() => {
 
 <template>
   <div class="home-root">
-    <vibe-flags>
-
       <!-- Light mode toggle: dark by default, toggle on for light -->
       <vibe-flag-boolean name="lightMode" description="Light mode"></vibe-flag-boolean>
 
@@ -132,18 +130,16 @@ onUnmounted(() => {
                 </div>
                 <pre class="terminal-body"><code><span class="t-tag">&lt;script</span> <span class="t-attr">type</span>=<span class="t-str">"module"</span> <span class="t-attr">src</span>=<span class="t-str">"https://cdn.jsdelivr.net/npm/@vibe-flags/core/dist/vibe-flags.cdn.mjs"</span><span class="t-tag">&gt;&lt;/script&gt;</span>
 
-<span class="t-tag">&lt;vibe-flags&gt;</span>
-  <span class="t-tag">&lt;vibe-flag-boolean</span> <span class="t-attr">name</span>=<span class="t-str">"beta"</span> <span class="t-attr">description</span>=<span class="t-str">"Beta features"</span> <span class="t-attr">value</span>=<span class="t-str">"true"</span><span class="t-tag">&gt;</span>
-    <span class="t-tag">&lt;div&gt;</span>Welcome to the beta!<span class="t-tag">&lt;/div&gt;</span>
-  <span class="t-tag">&lt;/vibe-flag-boolean&gt;</span>
+<span class="t-tag">&lt;vibe-flag-boolean</span> <span class="t-attr">name</span>=<span class="t-str">"beta"</span> <span class="t-attr">description</span>=<span class="t-str">"Beta features"</span> <span class="t-attr">value</span>=<span class="t-str">"true"</span><span class="t-tag">&gt;</span>
+  <span class="t-tag">&lt;div&gt;</span>Welcome to the beta!<span class="t-tag">&lt;/div&gt;</span>
+<span class="t-tag">&lt;/vibe-flag-boolean&gt;</span>
 
-  <span class="t-tag">&lt;vibe-flag-select</span> <span class="t-attr">name</span>=<span class="t-str">"theme"</span> <span class="t-attr">description</span>=<span class="t-str">"Theme"</span><span class="t-tag">&gt;</span>
-    <span class="t-tag">&lt;vibe-flag-option</span> <span class="t-attr">value</span>=<span class="t-str">"light"</span><span class="t-tag">&gt;</span>...<span class="t-tag">&lt;/vibe-flag-option&gt;</span>
-    <span class="t-tag">&lt;vibe-flag-option</span> <span class="t-attr">value</span>=<span class="t-str">"dark"</span><span class="t-tag">&gt;</span>...<span class="t-tag">&lt;/vibe-flag-option&gt;</span>
-  <span class="t-tag">&lt;/vibe-flag-select&gt;</span>
+<span class="t-tag">&lt;vibe-flag-select</span> <span class="t-attr">name</span>=<span class="t-str">"theme"</span> <span class="t-attr">description</span>=<span class="t-str">"Theme"</span><span class="t-tag">&gt;</span>
+  <span class="t-tag">&lt;vibe-flag-option</span> <span class="t-attr">value</span>=<span class="t-str">"light"</span><span class="t-tag">&gt;</span>...<span class="t-tag">&lt;/vibe-flag-option&gt;</span>
+  <span class="t-tag">&lt;vibe-flag-option</span> <span class="t-attr">value</span>=<span class="t-str">"dark"</span><span class="t-tag">&gt;</span>...<span class="t-tag">&lt;/vibe-flag-option&gt;</span>
+<span class="t-tag">&lt;/vibe-flag-select&gt;</span>
 
-  <span class="t-tag">&lt;vibe-toolbar&gt;&lt;/vibe-toolbar&gt;</span>
-<span class="t-tag">&lt;/vibe-flags&gt;</span></code></pre>
+<span class="t-tag">&lt;vibe-toolbar&gt;&lt;/vibe-toolbar&gt;</span></code></pre>
               </div>
               <div class="hero-actions hero-actions-center">
                 <a href="/guide/getting-started" class="btn btn-primary btn-glow">Get Started</a>
@@ -239,16 +235,15 @@ Add to the HTML &lt;head&gt;:
 
 ## Structure
 
-Wrap everything in &lt;vibe-flags&gt;. Use &lt;vibe-flag-select&gt; for multi-variant components, with each variant inside a &lt;vibe-flag-option&gt;:
+Use &lt;vibe-flag-select&gt; for multi-variant components, with each variant inside a &lt;vibe-flag-option&gt;:
 
 ```
-&lt;vibe-flags&gt;
-  &lt;vibe-flag-select name="hero" description="Hero variant"&gt;
-    &lt;vibe-flag-option value="v1"&gt;...&lt;/vibe-flag-option&gt;
-    &lt;vibe-flag-option value="v2"&gt;...&lt;/vibe-flag-option&gt;
-  &lt;/vibe-flag-select&gt;
-  &lt;vibe-toolbar&gt;&lt;/vibe-toolbar&gt;
-&lt;/vibe-flags&gt;
+&lt;vibe-flag-select name="hero" description="Hero variant"&gt;
+  &lt;vibe-flag-option value="v1"&gt;...&lt;/vibe-flag-option&gt;
+  &lt;vibe-flag-option value="v2"&gt;...&lt;/vibe-flag-option&gt;
+&lt;/vibe-flag-select&gt;
+
+&lt;vibe-toolbar&gt;&lt;/vibe-toolbar&gt;
 ```
 
 Use &lt;vibe-flag-boolean&gt; for on/off features:
@@ -272,7 +267,6 @@ Use &lt;vibe-flag-boolean&gt; for on/off features:
       </section>
 
       <vibe-toolbar></vibe-toolbar>
-    </vibe-flags>
   </div>
 </template>
 
