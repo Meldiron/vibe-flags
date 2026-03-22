@@ -21,12 +21,11 @@
   <rect x="88" y="215" width="200" height="200" rx="40" fill="#6366f1"/>
   <!--
     Flag icon: visual size 16×19, center (12, 12.5)
-    Target: flag height = 70% of 200px = 140px → scale = 140/19 ≈ 7.37
-    Centered at (188, 315):
-      tx = 188 - 12*7.37 = 188 - 88.44 = 99.56
-      ty = 315 - 12.5*7.37 = 315 - 92.125 = 222.875
+    Scale = 1.7 * (200/64) = 5.3125, centered at (188, 315):
+      tx = 188 - 12*5.3125 = 124.25
+      ty = 315 - 12.5*5.3125 = 248.59
   -->
-  <g transform="translate(99.56, 222.875) scale(7.37)" stroke="#ffffff" stroke-width="0.68" stroke-linecap="round" stroke-linejoin="round" fill="none">
+  <g transform="translate(124.25, 248.59) scale(5.3125)" stroke="#ffffff" stroke-width="0.9" stroke-linecap="round" stroke-linejoin="round" fill="none">
     <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/>
     <line x1="4" y1="22" x2="4" y2="15"/>
   </g>
