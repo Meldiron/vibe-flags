@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <!-- Rounded square background -->
+  <rect width="64" height="64" rx="14" fill="#6366f1"/>
+  <!-- Flag icon (Lucide flag, scaled and centered: original 24x24 -> 28x28, offset 18,18) -->
+  <g transform="translate(18, 10) scale(1.1667)" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/>
+    <line x1="4" y1="22" x2="4" y2="15"/>
+  </g>
+</svg>
