@@ -1,0 +1,447 @@
+# VibeFlags — Full Documentation
+
+> Offline-first feature flag toolkit that lives in your HTML. No servers. No config files. No build step. Made for agents and LLMs.
+
+VibeFlags is a set of web components for managing feature flags entirely in the browser. Add one CDN script tag, write HTML, and toggle features with a floating toolbar. State persists in localStorage.
+
+---
+
+## Getting Started
+
+Add one script tag, write some HTML. That's it.
+
+### Quick Start
+
+```html
+<script type="module" src="https://cdn.jsdelivr.net/npm/@vibe-flags/core/dist/vibe-flags.cdn.mjs"></script>
+
+<vibe-flag-boolean name="showBanner" description="Welcome banner" value="true">
+  <div style="padding: 16px; background: #dbeafe; border-radius: 8px;">
+    Welcome to the beta! This banner is controlled by a feature flag.
+  </div>
+</vibe-flag-boolean>
+
+<vibe-flag-boolean name="darkMode" description="Dark mode" value="true">
+  <style>body { background: #1a1a1a; color: #fafafa; }</style>
+</vibe-flag-boolean>
+
+<vibe-toolbar></vibe-toolbar>
+```
+
+A toggle button appears on the right edge of your page. Click it to open the toolbar, flip some flags, and watch the page react. Values persist across refreshes.
+
+No JavaScript. No config objects. No build step.
+
+### How It Works
+
+1. Each flag component self-registers when it connects to the DOM
+2. `<vibe-toolbar>` discovers all registered flags and renders controls
+3. Toggling a flag updates `localStorage` and re-evaluates every flag
+4. Children stay hidden until JS confirms they should be visible — no flash of content
+
+### Installation
+
+CDN (recommended):
+```html
+<script type="module" src="https://cdn.jsdelivr.net/npm/@vibe-flags/core/dist/vibe-flags.cdn.mjs"></script>
+```
+
+npm:
+```bash
+npm install @vibe-flags/core
+```
+
+Then import in your code:
+```ts
+import '@vibe-flags/core';
+```
+
+---
+
+## Flag Types
+
+### Boolean Flags
+
+`<vibe-flag-boolean>` is a simple on/off toggle. Starts as `false`.
+
+```html
+<vibe-flag-boolean name="darkMode" description="Dark mode" value="true">
+  <div>Dark mode is active!</div>
+</vibe-flag-boolean>
+```
+
+| Attribute | Required | Default | Description |
+|-----------|----------|---------|-------------|
+| `name` | Yes | — | Unique identifier for the flag |
+| `description` | No | `""` | Label shown in the toolbar (falls back to `name`) |
+| `value` | No | `""` | Expected value to show children. If omitted, children are always shown. |
+
+#### Showing content for both states
+
+Use two elements with `value="true"` and `value="false"`:
+
+```html
+<vibe-flag-boolean name="newNavbar" description="New Navbar" value="true">
+  <NewNavbar />
+</vibe-flag-boolean>
+
+<vibe-flag-boolean name="newNavbar" value="false">
+  <OldNavbar />
+</vibe-flag-boolean>
+```
+
+### Select Flags
+
+`<vibe-flag-select>` lets users pick from a list. Starts as the first option. Each choice is a `<vibe-flag-option>`.
+
+```html
+<vibe-flag-select name="theme" description="Theme variant">
+  <vibe-flag-option value="light">
+    <div>Light theme</div>
+  </vibe-flag-option>
+  <vibe-flag-option value="dark">
+    <div>Dark theme</div>
+  </vibe-flag-option>
+  <vibe-flag-option value="auto">
+    <div>Auto theme</div>
+  </vibe-flag-option>
+</vibe-flag-select>
+```
+
+| Attribute | Required | Default | Description |
+|-----------|----------|---------|-------------|
+| `name` | Yes | — | Unique identifier for the flag |
+| `description` | No | `""` | Label shown in the toolbar (falls back to `name`) |
+
+#### `<vibe-flag-option>`
+
+| Attribute | Required | Description |
+|-----------|----------|-------------|
+| `value` | Yes | The option value. Children are shown only when this option is active. |
+
+---
+
+## API Reference — Components
+
+### `<vibe-flag-boolean>`
+
+Declares a boolean flag and conditionally renders its children. Self-registers with the store on connect. Starts as `false`.
+
+#### Attributes
+
+| Attribute | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `name` | `string` | `''` | Unique flag identifier |
+| `description` | `string` | `''` | Label shown in the toolbar (falls back to `name`) |
+| `value` | `string` | `''` | Expected value to show children. If omitted, children are always shown. |
+
+#### Example
+
+```html
+<!-- Minimal: registers the flag, always shows children -->
+<vibe-flag-boolean name="darkMode">
+  <div>Always visible</div>
+</vibe-flag-boolean>
+
+<!-- Show only when flag is true -->
+<vibe-flag-boolean name="darkMode" description="Dark theme" value="true">
+  <div>Dark mode active</div>
+</vibe-flag-boolean>
+
+<!-- Show only when flag is false -->
+<vibe-flag-boolean name="darkMode" value="false">
+  <div>Light mode active</div>
+</vibe-flag-boolean>
+```
+
+### `<vibe-flag-select>`
+
+Declares a select flag. Options are defined as `<vibe-flag-option>` children — only the active option's children are rendered. Starts as the first option.
+
+#### Attributes
+
+| Attribute | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `name` | `string` | `''` | Unique flag identifier |
+| `description` | `string` | `''` | Label shown in the toolbar (falls back to `name`) |
+
+#### Example
+
+```html
+<vibe-flag-select name="hero" description="Hero section">
+  <vibe-flag-option value="hero1"><h1>Welcome to V1</h1></vibe-flag-option>
+  <vibe-flag-option value="hero2"><h1>Welcome to V2</h1></vibe-flag-option>
+</vibe-flag-select>
+```
+
+### `<vibe-flag-option>`
+
+A single option inside `<vibe-flag-select>`. Its children are shown only when this option is the active selection.
+
+#### Attributes
+
+| Attribute | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `value` | `string` | `''` | The option value |
+
+### `<vibe-toolbar>`
+
+Floating toggle button + slide-out sidebar. Automatically discovers all registered flags and renders controls (toggle switches for booleans, dropdowns for selects).
+
+#### Example
+
+```html
+<vibe-flag-boolean name="beta" description="Beta features" value="true">
+  <p>Beta content</p>
+</vibe-flag-boolean>
+<vibe-toolbar></vibe-toolbar>
+```
+
+---
+
+## API Reference — Store
+
+The `flagStore` provides an imperative API for managing flags programmatically.
+
+```ts
+import { flagStore } from 'vibe-flags';
+```
+
+### `register(config: FlagConfig)`
+
+Register a single flag. Reads existing value from `localStorage`, falling back to `false` for booleans or the first option for selects. This is called automatically by `<vibe-flag-boolean>` and `<vibe-flag-select>` elements.
+
+```ts
+flagStore.register({ key: 'beta', type: 'boolean', label: 'Beta Mode' });
+flagStore.register({ key: 'theme', type: 'select', options: ['light', 'dark'], label: 'Theme' });
+```
+
+### `unregister(key: string)`
+
+Remove a flag from the store.
+
+```ts
+flagStore.unregister('beta');
+```
+
+### `get(key: string): FlagValue | undefined`
+
+Get the current value of a flag.
+
+```ts
+flagStore.get('beta');  // false
+flagStore.get('theme'); // 'light'
+```
+
+### `set(key: string, value: FlagValue): void`
+
+Set a flag value. Validates the value against the flag's type and options. Persists to `localStorage` and dispatches a change event.
+
+```ts
+flagStore.set('beta', true);
+flagStore.set('theme', 'dark');
+
+// Invalid values are silently ignored:
+flagStore.set('beta', 'yes');     // ignored (not a boolean)
+flagStore.set('theme', 'neon');   // ignored (not in options)
+```
+
+### `getAll(): FlagState`
+
+Get all current flag values as a plain object.
+
+```ts
+flagStore.getAll();
+// { beta: false, theme: 'light' }
+```
+
+### `getConfig(): FlagConfig[]`
+
+Get all registered flag configurations.
+
+### `getConfigForKey(key: string): FlagConfig | undefined`
+
+Get the configuration for a specific flag.
+
+### `reset(): void`
+
+Reset all flags to their initial values (`false` for booleans, first option for selects) and clear `localStorage`.
+
+```ts
+flagStore.reset();
+```
+
+### Events
+
+#### `vibe-flags-changed`
+
+Dispatched on `window` whenever a flag value changes.
+
+```ts
+window.addEventListener('vibe-flags-changed', (e) => {
+  const { key, state } = e.detail;
+  console.log(`Flag "${key}" changed`);
+  console.log('All flags:', state);
+});
+```
+
+| Property | Type | Description |
+|----------|------|-------------|
+| `detail.key` | `string \| undefined` | The flag that changed, or `undefined` for bulk changes (reset) |
+| `detail.state` | `FlagState` | Snapshot of all current flag values |
+
+---
+
+## API Reference — Types
+
+All types are exported from the package:
+
+```ts
+import type {
+  FlagConfig,
+  FlagConfigBoolean,
+  FlagConfigSelect,
+  FlagValue,
+  FlagState,
+} from 'vibe-flags';
+```
+
+### `FlagConfigBoolean`
+
+```ts
+interface FlagConfigBoolean {
+  key: string;
+  type: 'boolean';
+  label?: string;
+}
+```
+
+### `FlagConfigSelect`
+
+```ts
+interface FlagConfigSelect {
+  key: string;
+  type: 'select';
+  options: string[];
+  label?: string;
+}
+```
+
+### `FlagConfig`
+
+```ts
+type FlagConfig = FlagConfigBoolean | FlagConfigSelect;
+```
+
+### `FlagValue`
+
+```ts
+type FlagValue = boolean | string;
+```
+
+### `FlagState`
+
+```ts
+interface FlagState {
+  [key: string]: FlagValue;
+}
+```
+
+---
+
+## Examples
+
+### Basic Usage
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+  <title>VibeFlags Demo</title>
+  <script type="module" src="https://cdn.jsdelivr.net/npm/@vibe-flags/core/dist/vibe-flags.cdn.mjs"></script>
+</head>
+<body>
+  <h1>My App</h1>
+
+  <vibe-flag-boolean name="showBanner" description="Show welcome banner" value="true">
+    <div style="padding: 16px; background: #dbeafe; border-radius: 8px;">
+      Welcome to the beta! This banner is controlled by a feature flag.
+    </div>
+  </vibe-flag-boolean>
+
+  <vibe-toolbar></vibe-toolbar>
+</body>
+</html>
+```
+
+### Multiple Boolean Flags
+
+```html
+<script type="module" src="https://cdn.jsdelivr.net/npm/@vibe-flags/core/dist/vibe-flags.cdn.mjs"></script>
+
+<vibe-flag-boolean name="darkMode" description="Dark Mode" value="true">
+  <style>body { background: #1a1a1a; color: white; }</style>
+</vibe-flag-boolean>
+
+<vibe-flag-boolean name="showDebug" description="Debug Panel" value="true">
+  <pre style="background: #fef3c7; padding: 12px; border-radius: 6px;">
+    Debug info appears here
+  </pre>
+</vibe-flag-boolean>
+
+<vibe-flag-boolean name="newNavbar" description="New Navbar" value="true">
+  <nav style="background: #6366f1; color: white; padding: 12px;">
+    New Navigation Bar
+  </nav>
+</vibe-flag-boolean>
+
+<vibe-flag-boolean name="newNavbar" value="false">
+  <nav style="background: gray; padding: 12px;">
+    Old Navigation Bar
+  </nav>
+</vibe-flag-boolean>
+
+<vibe-toolbar></vibe-toolbar>
+```
+
+### Select Flags — Layout Selector
+
+```html
+<script type="module" src="https://cdn.jsdelivr.net/npm/@vibe-flags/core/dist/vibe-flags.cdn.mjs"></script>
+
+<vibe-flag-select name="layout" description="Layout mode">
+  <vibe-flag-option value="grid">
+    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px;">
+      <div style="background: #f3f4f6; padding: 20px;">Card 1</div>
+      <div style="background: #f3f4f6; padding: 20px;">Card 2</div>
+      <div style="background: #f3f4f6; padding: 20px;">Card 3</div>
+    </div>
+  </vibe-flag-option>
+
+  <vibe-flag-option value="list">
+    <div style="display: flex; flex-direction: column; gap: 8px;">
+      <div style="background: #f3f4f6; padding: 12px;">Item 1</div>
+      <div style="background: #f3f4f6; padding: 12px;">Item 2</div>
+      <div style="background: #f3f4f6; padding: 12px;">Item 3</div>
+    </div>
+  </vibe-flag-option>
+
+  <vibe-flag-option value="table">
+    <table style="width: 100%; border-collapse: collapse;">
+      <tr><td style="border: 1px solid #e5e7eb; padding: 8px;">Row 1</td></tr>
+      <tr><td style="border: 1px solid #e5e7eb; padding: 8px;">Row 2</td></tr>
+      <tr><td style="border: 1px solid #e5e7eb; padding: 8px;">Row 3</td></tr>
+    </table>
+  </vibe-flag-option>
+</vibe-flag-select>
+
+<vibe-toolbar></vibe-toolbar>
+```
+
+---
+
+## Source
+
+- GitHub: https://github.com/Meldiron/vibe-flags
+- npm: https://www.npmjs.com/package/@vibe-flags/core
+- License: MIT

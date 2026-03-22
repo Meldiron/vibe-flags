@@ -1,0 +1,63 @@
+# VibeFlags
+
+> Offline-first feature flag toolkit that lives in your HTML. No servers. No config files. No build step. Made for agents and LLMs.
+
+VibeFlags is a set of web components for managing feature flags entirely in the browser. Add one CDN script tag, write HTML, and toggle features with a floating toolbar. State persists in localStorage.
+
+## Quick Start
+
+```html
+<script type="module" src="https://cdn.jsdelivr.net/npm/@vibe-flags/core/dist/vibe-flags.cdn.mjs"></script>
+
+<vibe-flag-boolean name="showBanner" description="Welcome banner" value="true">
+  <div>Welcome to the beta!</div>
+</vibe-flag-boolean>
+
+<vibe-toolbar></vibe-toolbar>
+```
+
+## Core Concepts
+
+- **Boolean flags** (`<vibe-flag-boolean>`): On/off toggles, start as `false`
+- **Select flags** (`<vibe-flag-select>` + `<vibe-flag-option>`): Multi-option picker, starts as first option
+- **Toolbar** (`<vibe-toolbar>`): Floating sidebar that auto-discovers all registered flags
+- **Store API** (`flagStore`): Imperative JS API for programmatic flag management
+
+## Key Features
+
+- No backend, no login, no config files
+- ~11KB gzipped
+- Framework-agnostic (React, Vue, Svelte, plain HTML)
+- Persistent state via localStorage
+- Reactive event system (`vibe-flags-changed` event)
+- Full TypeScript support
+
+## Installation
+
+CDN (recommended):
+```html
+<script type="module" src="https://cdn.jsdelivr.net/npm/@vibe-flags/core/dist/vibe-flags.cdn.mjs"></script>
+```
+
+npm:
+```bash
+npm install @vibe-flags/core
+```
+
+## Documentation
+
+- [Getting Started](/docs/getting-started)
+- [Flag Types](/docs/configuration)
+- [Components API](/api/components)
+- [Store API](/api/store)
+- [Types](/api/types)
+- [Basic Example](/examples/basic)
+- [Boolean Flags Example](/examples/boolean-flags)
+- [Select Flags Example](/examples/select-flags)
+- [Full documentation for LLMs](/llms-full.txt)
+
+## Source
+
+- GitHub: https://github.com/Meldiron/vibe-flags
+- npm: https://www.npmjs.com/package/@vibe-flags/core
+- License: MIT
