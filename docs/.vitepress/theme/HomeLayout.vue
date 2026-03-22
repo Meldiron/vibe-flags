@@ -2,6 +2,16 @@
 import { ref, onMounted, onUnmounted } from 'vue';
 
 const activeTab = ref('human');
+const copiedBox = ref<string | null>(null);
+
+const SCRIPT_TAG = '<script type="module"\n  src="https://unpkg.com/@vibe-flags/core@0.1.8">\n<\/script>';
+
+function copyScript(box: string) {
+  navigator.clipboard.writeText(SCRIPT_TAG).then(() => {
+    copiedBox.value = box;
+    setTimeout(() => { copiedBox.value = null; }, 2000);
+  });
+}
 
 function onFlagsChanged(e: Event) {
   const detail = (e as CustomEvent).detail;
@@ -47,8 +57,15 @@ onUnmounted(() => {
               <a href="/docs/getting-started" class="btn btn-primary">Get Started</a>
               <a href="/api/components" class="btn btn-outline">API Reference</a>
             </div>
-            <div class="install-box">
-              <code class="install-cmd">&lt;script type="module"<br class="install-br" /> src="https://unpkg.com/@vibe-flags/core@0.1.8"&gt;&lt;/script&gt;</code>
+            <div class="snippet-box">
+              <pre class="snippet-pre"><span class="c-tag">&lt;script</span>
+  <span class="c-attr">type</span>=<span class="c-str">"module"</span>
+  <span class="c-attr">src</span>=<span class="c-str">"https://unpkg.com/@vibe-flags/core@0.1.8"</span><span class="c-tag">&gt;
+&lt;/script&gt;</span></pre>
+              <button class="copy-btn" @click="copyScript('hero')">
+                <span v-if="copiedBox === 'hero'" class="copy-label">Copied!</span>
+                <svg v-else xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+              </button>
             </div>
           </div>
         </section>
@@ -348,8 +365,15 @@ Use &lt;vibe-flag-boolean&gt; for on/off features:
             Drop in one script tag and get feature flags, variant switching, and a<br class="cta-br" />
             polished toolbar — no backend, no account, no config.
           </p>
-          <div class="cta-install">
-            <code class="install-cmd">&lt;script type="module" src="https://unpkg.com/@vibe-flags/core@0.1.8"&gt;&lt;/script&gt;</code>
+          <div class="snippet-box">
+            <pre class="snippet-pre"><span class="c-tag">&lt;script</span>
+  <span class="c-attr">type</span>=<span class="c-str">"module"</span>
+  <span class="c-attr">src</span>=<span class="c-str">"https://unpkg.com/@vibe-flags/core@0.1.8"</span><span class="c-tag">&gt;
+&lt;/script&gt;</span></pre>
+            <button class="copy-btn" @click="copyScript('cta')">
+              <span v-if="copiedBox === 'cta'" class="copy-label">Copied!</span>
+              <svg v-else xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            </button>
           </div>
           <div class="cta-actions">
             <a href="/docs/getting-started" class="btn btn-cta-primary">Get Started</a>
@@ -612,32 +636,52 @@ Use &lt;vibe-flag-boolean&gt; for on/off features:
   color: var(--vp-c-text-2);
   margin-bottom: 28px;
 }
-.install-box {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
+/* ─── Snippet box (shared by hero + CTA) ─── */
+.snippet-box {
+  position: relative;
+  display: inline-block;
   margin-top: 36px;
-  padding: 12px 22px;
-  background: var(--vp-c-bg-soft);
-  border: 1px solid var(--vp-c-divider);
-  border-radius: 8px;
+  background: var(--cb-bg);
+  border: 1px solid var(--cb-border);
+  border-radius: 10px;
+  padding: 18px 60px 18px 22px;
+  text-align: left;
   max-width: 100%;
-  overflow-x: auto;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
 }
-.install-br {
-  display: none;
-}
-.install-prompt {
+.snippet-pre {
+  margin: 0;
   font-family: var(--vp-font-family-mono);
-  font-size: 14px;
-  color: var(--vp-c-text-3);
-  user-select: none;
+  font-size: 13px;
+  line-height: 1.85;
+  color: var(--cb-text);
+  white-space: pre;
 }
-.install-cmd {
-  font-family: var(--vp-font-family-mono);
-  font-size: 14px;
+.copy-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: var(--cb-header);
+  border: 1px solid var(--cb-border);
+  border-radius: 6px;
+  padding: 5px 9px;
+  cursor: pointer;
+  color: var(--cb-comment);
+  font-size: 12px;
+  font-family: var(--vp-font-family-base);
   font-weight: 500;
-  color: var(--vp-c-text-1);
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+  white-space: nowrap;
+}
+.copy-btn:hover {
+  background: var(--cb-border);
+  color: var(--cb-text);
+}
+.copy-label {
+  color: #22c55e;
 }
 
 /* ═══════════════════════════════════════════════════════════════
@@ -874,14 +918,8 @@ Use &lt;vibe-flag-boolean&gt; for on/off features:
     display: inline;
   }
 }
-.cta-install {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  padding: 11px 22px;
-  background: var(--vp-c-bg);
-  border: 1px solid var(--vp-c-divider);
-  border-radius: 8px;
+.cta-inner .snippet-box {
+  margin-top: 0;
   margin-bottom: 28px;
 }
 .cta-actions {
