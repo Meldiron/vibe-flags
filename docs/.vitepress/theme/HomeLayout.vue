@@ -27,8 +27,54 @@ onUnmounted(() => {
 
       <!-- Hero Select Flag -->
       <vibe-flag-select name="heroVariant" description="Hero variant">
+      
+              <!-- HERO 1: Terminal / Developer -->
+        <vibe-flag-option value="terminal">
+          <section class="hero hero-terminal">
+            <div class="hero-content">
+              <h1 class="hero-title hero-title-mono">
+                <span class="mono-muted">&lt;</span>vibe-flag<span class="mono-muted"> /&gt;</span>
+              </h1>
+              <p class="hero-subtitle hero-subtitle-light">
+                Feature flag toolkit that lives in your HTML.<br />
+                No servers. No config files. No build step.<br />
+                Made for agents and LLMs.
+              </p>
+              <div class="terminal-window">
+                <div class="terminal-header">
+                  <div class="code-dots">
+                    <span class="dot dot-red"></span>
+                    <span class="dot dot-yellow"></span>
+                    <span class="dot dot-green"></span>
+                  </div>
+                  <span class="terminal-title">index.html</span>
+                </div>
+                <pre class="terminal-body"><code><span class="t-tag">&lt;script</span>
+    <span class="t-attr">type</span>=<span class="t-str">"module"</span>
+    <span class="t-attr">src</span>=<span class="t-str">"https://cdn.jsdelivr.net/npm/@vibe-flags/core/dist/vibe-flags.cdn.mjs"</span>
+<span class="t-tag">&gt;&lt;/script&gt;</span>
 
-        <!-- HERO 1: Gradient & Bold -->
+<span class="t-tag">&lt;vibe-flag-boolean</span> <span class="t-attr">name</span>=<span class="t-str">"debug"</span> <span class="t-attr">description</span>=<span class="t-str">"Show debug information"</span><span class="t-tag">&gt;</span>
+  <span class="t-tag">&lt;DebugComponent /&gt;</span>
+<span class="t-tag">&lt;/vibe-flag-boolean&gt;</span>
+
+<span class="t-tag">&lt;vibe-flag-select</span> <span class="t-attr">name</span>=<span class="t-str">"header"</span> <span class="t-attr">description</span>=<span class="t-str">"Header layout style"</span><span class="t-tag">&gt;</span>
+  <span class="t-tag">&lt;vibe-flag-option</span> <span class="t-attr">value</span>=<span class="t-str">"terminal"</span><span class="t-tag">&gt;&lt;TerminalHeaderLayout /&gt;</span><span class="t-tag">&lt;/vibe-flag-option&gt;</span>
+  <span class="t-tag">&lt;vibe-flag-option</span> <span class="t-attr">value</span>=<span class="t-str">"with-picture"</span><span class="t-tag">&gt;&lt;VisualHeaderLayout /&gt;</span><span class="t-tag">&lt;/vibe-flag-option&gt;</span>
+  <span class="t-tag">&lt;vibe-flag-option</span> <span class="t-attr">value</span>=<span class="t-str">"minimal"</span><span class="t-tag">&gt;&lt;MinimalHeaderLayout /&gt;</span><span class="t-tag">&lt;/vibe-flag-option&gt;</span>
+<span class="t-tag">&lt;/vibe-flag-select&gt;</span>
+
+<span class="t-tag">&lt;vibe-toolbar&gt;&lt;/vibe-toolbar&gt;</span></code></pre>
+              </div>
+              <div class="hero-actions hero-actions-center">
+                <a href="/docs/getting-started" class="btn btn-primary btn-glow">Get Started</a>
+                <a href="/examples/basic" class="btn btn-outline">Examples</a>
+              </div>
+            </div>
+          </section>
+        </vibe-flag-option>
+
+        <!-- HERO 2: Gradient & Bold -->
         <vibe-flag-option value="gradient">
           <section class="hero hero-gradient">
             <div class="hero-content">
@@ -41,7 +87,7 @@ onUnmounted(() => {
                 Just HTML — no JavaScript required.
               </p>
               <div class="hero-actions">
-                <a href="/guide/getting-started" class="btn btn-primary">Get Started</a>
+                <a href="/docs/getting-started" class="btn btn-primary">Get Started</a>
                 <a href="/examples/basic" class="btn btn-secondary">See Examples</a>
               </div>
               <div class="hero-code">
@@ -62,7 +108,7 @@ onUnmounted(() => {
           </section>
         </vibe-flag-option>
 
-        <!-- HERO 2: Split with Visual -->
+        <!-- HERO 3: Split with Visual -->
         <vibe-flag-option value="split">
           <section class="hero hero-split">
             <div class="hero-split-grid">
@@ -75,7 +121,7 @@ onUnmounted(() => {
                   No backend. No login. Everything stays in your browser.
                 </p>
                 <div class="hero-actions">
-                  <a href="/guide/getting-started" class="btn btn-primary">Get Started</a>
+                  <a href="/docs/getting-started" class="btn btn-primary">Get Started</a>
                   <a href="/api/components" class="btn btn-ghost">API Reference</a>
                 </div>
               </div>
@@ -103,47 +149,6 @@ onUnmounted(() => {
                     <p>Under 11KB gzipped. Zero impact on performance.</p>
                   </div>
                 </div>
-              </div>
-            </div>
-          </section>
-        </vibe-flag-option>
-
-        <!-- HERO 3: Terminal / Developer -->
-        <vibe-flag-option value="terminal">
-          <section class="hero hero-terminal">
-            <div class="hero-content">
-              <h1 class="hero-title hero-title-mono">
-                <span class="mono-muted">&lt;</span>vibe-flags<span class="mono-muted"> /&gt;</span>
-              </h1>
-              <p class="hero-subtitle hero-subtitle-light">
-                Feature flag toolkit that lives in your HTML.<br />
-                No servers. No config files. No build step.
-              </p>
-              <div class="terminal-window">
-                <div class="terminal-header">
-                  <div class="code-dots">
-                    <span class="dot dot-red"></span>
-                    <span class="dot dot-yellow"></span>
-                    <span class="dot dot-green"></span>
-                  </div>
-                  <span class="terminal-title">index.html</span>
-                </div>
-                <pre class="terminal-body"><code><span class="t-tag">&lt;script</span> <span class="t-attr">type</span>=<span class="t-str">"module"</span> <span class="t-attr">src</span>=<span class="t-str">"https://cdn.jsdelivr.net/npm/@vibe-flags/core/dist/vibe-flags.cdn.mjs"</span><span class="t-tag">&gt;&lt;/script&gt;</span>
-
-<span class="t-tag">&lt;vibe-flag-boolean</span> <span class="t-attr">name</span>=<span class="t-str">"beta"</span> <span class="t-attr">description</span>=<span class="t-str">"Beta features"</span> <span class="t-attr">value</span>=<span class="t-str">"true"</span><span class="t-tag">&gt;</span>
-  <span class="t-tag">&lt;div&gt;</span>Welcome to the beta!<span class="t-tag">&lt;/div&gt;</span>
-<span class="t-tag">&lt;/vibe-flag-boolean&gt;</span>
-
-<span class="t-tag">&lt;vibe-flag-select</span> <span class="t-attr">name</span>=<span class="t-str">"theme"</span> <span class="t-attr">description</span>=<span class="t-str">"Theme"</span><span class="t-tag">&gt;</span>
-  <span class="t-tag">&lt;vibe-flag-option</span> <span class="t-attr">value</span>=<span class="t-str">"light"</span><span class="t-tag">&gt;</span>...<span class="t-tag">&lt;/vibe-flag-option&gt;</span>
-  <span class="t-tag">&lt;vibe-flag-option</span> <span class="t-attr">value</span>=<span class="t-str">"dark"</span><span class="t-tag">&gt;</span>...<span class="t-tag">&lt;/vibe-flag-option&gt;</span>
-<span class="t-tag">&lt;/vibe-flag-select&gt;</span>
-
-<span class="t-tag">&lt;vibe-toolbar&gt;&lt;/vibe-toolbar&gt;</span></code></pre>
-              </div>
-              <div class="hero-actions hero-actions-center">
-                <a href="/guide/getting-started" class="btn btn-primary btn-glow">Get Started</a>
-                <a href="/examples/basic" class="btn btn-outline">Examples</a>
               </div>
             </div>
           </section>

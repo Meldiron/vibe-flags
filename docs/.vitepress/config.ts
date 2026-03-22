@@ -17,17 +17,17 @@ export default defineConfig({
   appearance: false,
   themeConfig: {
     nav: [
-      { text: 'Guide', link: '/guide/getting-started' },
+      { text: 'Docs', link: '/docs/getting-started' },
       { text: 'API', link: '/api/components' },
       { text: 'Examples', link: '/examples/basic' },
     ],
     sidebar: {
-      '/guide/': [
+      '/docs/': [
         {
           text: 'Introduction',
           items: [
-            { text: 'Getting Started', link: '/guide/getting-started' },
-            { text: 'Flag Types', link: '/guide/configuration' },
+            { text: 'Getting Started', link: '/docs/getting-started' },
+            { text: 'Flag Types', link: '/docs/configuration' },
           ],
         },
       ],
