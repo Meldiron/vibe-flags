@@ -4,12 +4,11 @@
   <!--
     Flag icon from vibe-toolbar.ts (Lucide flag, 24x24):
       Visual bounds: x[4..20], y[3..22] → visual size 16×19, center (12, 12.5)
-    Target: flag height = 70% of 64px = 44.8px → scale = 44.8/19 ≈ 2.35
-    Centered at (32,32):
-      tx = 32 - 12*2.35 = 3.8
-      ty = 32 - 12.5*2.35 = 2.625
+    Scale = 1.7, centered at (32,32):
+      tx = 32 - 12*1.7 = 11.6
+      ty = 32 - 12.5*1.7 = 10.75
   -->
-  <g transform="translate(3.8, 2.625) scale(2.35)" stroke="#ffffff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" fill="none">
+  <g transform="translate(11.6, 10.75) scale(1.7)" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none">
     <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/>
     <line x1="4" y1="22" x2="4" y2="15"/>
   </g>
