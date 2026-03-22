@@ -15,7 +15,7 @@ export default defineConfig({
       },
     },
   },
-  appearance: false,
+  appearance: 'force-dark',
   themeConfig: {
     nav: [
       { text: 'Docs', link: '/docs/getting-started' },

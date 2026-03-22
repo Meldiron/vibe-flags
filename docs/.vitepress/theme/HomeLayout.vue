@@ -286,7 +286,7 @@ Use &lt;vibe-flag-boolean&gt; for on/off features:
   --h-bg-card: var(--vp-c-bg-soft);
   --h-border: var(--vp-c-divider);
   --h-border-hover: var(--vp-c-border);
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-family: var(--vp-font-family-base);
   color: var(--h-text);
   line-height: 1.6;
 }
@@ -429,7 +429,7 @@ Use &lt;vibe-flag-boolean&gt; for on/off features:
   overflow-x: auto;
 }
 .code-window code {
-  font-family: 'SF Mono', 'Fira Code', Menlo, Consolas, monospace;
+  font-family: var(--vp-font-family-mono);
   font-size: 13px;
   line-height: 1.7;
   color: #d4d4d4;
@@ -520,7 +520,7 @@ Use &lt;vibe-flag-boolean&gt; for on/off features:
   max-width: 800px;
 }
 .hero-title-mono {
-  font-family: 'SF Mono', 'Fira Code', Menlo, Consolas, monospace;
+  font-family: var(--vp-font-family-mono);
   color: var(--h-text);
   font-size: clamp(32px, 5vw, 56px);
   font-weight: 700;
@@ -553,7 +553,7 @@ Use &lt;vibe-flag-boolean&gt; for on/off features:
 .terminal-title {
   font-size: 12px;
   color: #737373;
-  font-family: 'SF Mono', 'Fira Code', Menlo, Consolas, monospace;
+  font-family: var(--vp-font-family-mono);
 }
 .terminal-body {
   padding: 20px;
@@ -561,7 +561,7 @@ Use &lt;vibe-flag-boolean&gt; for on/off features:
   overflow-x: auto;
 }
 .terminal-body code {
-  font-family: 'SF Mono', 'Fira Code', Menlo, Consolas, monospace;
+  font-family: var(--vp-font-family-mono);
   font-size: 13px;
   line-height: 1.8;
   color: #d4d4d4;
@@ -700,7 +700,7 @@ Use &lt;vibe-flag-boolean&gt; for on/off features:
 }
 .ai-prompt {
   margin: 0;
-  font-family: 'SF Mono', 'Fira Code', Menlo, Consolas, monospace;
+  font-family: var(--vp-font-family-mono);
   font-size: 13px;
   line-height: 1.8;
   color: #d4d4d4;
