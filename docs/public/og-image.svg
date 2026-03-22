@@ -17,10 +17,16 @@
   <line x1="0" y1="315" x2="1200" y2="315" stroke="#1a1a2e" stroke-width="1"/>
   <line x1="600" y1="0" x2="600" y2="630" stroke="#1a1a2e" stroke-width="1"/>
 
-  <!-- Logo icon — rounded square -->
+  <!-- Logo icon — rounded square (200x200, center at 188,315) -->
   <rect x="88" y="215" width="200" height="200" rx="40" fill="#6366f1"/>
-  <!-- Flag icon inside logo -->
-  <g transform="translate(120, 235) scale(5.2)" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" fill="none">
+  <!--
+    Flag icon from vibe-toolbar.ts (Lucide flag, 24x24):
+      Visual bounds: x[4..20], y[3..22] → center (12, 12.5)
+    Scaled to s=7.5, centered at (188, 315):
+      tx = 188 - 12*7.5 = 98
+      ty = 315 - 12.5*7.5 = 221.25
+  -->
+  <g transform="translate(98, 221.25) scale(7.5)" stroke="#ffffff" stroke-width="0.65" stroke-linecap="round" stroke-linejoin="round" fill="none">
     <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/>
     <line x1="4" y1="22" x2="4" y2="15"/>
   </g>
