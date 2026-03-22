@@ -4,7 +4,7 @@ import { ref, onMounted, onUnmounted } from 'vue';
 const activeTab = ref('human');
 const copiedBox = ref<string | null>(null);
 
-const SCRIPT_TAG = '<script type="module"\n  src="https://unpkg.com/@vibe-flags/core@0.1.8">\n<\/script>';
+const SCRIPT_TAG = '<script type="module"\n  src="https://unpkg.com/@vibe-flags/core">\n<\/script>';
 
 function copyScript(box: string) {
   navigator.clipboard.writeText(SCRIPT_TAG).then(() => {
@@ -319,7 +319,7 @@ Section to redesign: [EXPLAIN YOUR SECTION HERE]</pre>
 
 Add to the HTML &lt;head&gt;:
 ```
-&lt;script type="module" src="https://unpkg.com/@vibe-flags/core@0.1.8"&gt;&lt;/script&gt;
+&lt;script type="module" src="https://unpkg.com/@vibe-flags/core"&gt;&lt;/script&gt;
 ```
 
 ## Structure
@@ -368,7 +368,7 @@ Use &lt;vibe-flag-boolean&gt; for on/off features:
           <div class="snippet-box">
             <pre class="snippet-pre"><span class="c-tag">&lt;script</span>
   <span class="c-attr">type</span>=<span class="c-str">"module"</span>
-  <span class="c-attr">src</span>=<span class="c-str">"https://unpkg.com/@vibe-flags/core@0.1.8"</span><span class="c-tag">&gt;
+  <span class="c-attr">src</span>=<span class="c-str">"https://unpkg.com/@vibe-flags/core"</span><span class="c-tag">&gt;
 &lt;/script&gt;</span></pre>
             <button class="copy-btn" @click="copyScript('cta')">
               <span v-if="copiedBox === 'cta'" class="copy-label">Copied!</span>
