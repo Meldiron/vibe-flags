@@ -227,6 +227,7 @@ export class VibeToolbar extends LitElement {
 
       .toggle input:checked ~ .toggle-thumb {
         transform: translateX(16px);
+        background: var(--vf-primary-fg);
       }
 
       /* Select dropdown */
