@@ -48,7 +48,7 @@ onUnmounted(() => {
               <a href="/api/components" class="btn btn-outline">API Reference</a>
             </div>
             <div class="install-box">
-              <code class="install-cmd">&lt;script type="module"<br class="install-br" /> src="https://unpkg.com/@vibe-flags/core@0.1.8"&gt;&lt;/script&gt;</code>
+              <code class="install-cmd">&lt;script type="module"<br class="install-br" /> src="https://unpkg.com/@vibe-flags/core"&gt;&lt;/script&gt;</code>
             </div>
           </div>
         </section>
@@ -80,7 +80,7 @@ onUnmounted(() => {
               </div>
               <pre class="cb-body"><code><span class="c-tag">&lt;script</span>
     <span class="c-attr">type</span>=<span class="c-str">"module"</span>
-    <span class="c-attr">src</span>=<span class="c-str">"https://unpkg.com/@vibe-flags/core@0.1.8"</span>
+    <span class="c-attr">src</span>=<span class="c-str">"https://unpkg.com/@vibe-flags/core"</span>
 <span class="c-tag">&gt;&lt;/script&gt;</span>
 
 <span class="c-comment">&lt;!-- Boolean flag: shows content when enabled --&gt;</span>
