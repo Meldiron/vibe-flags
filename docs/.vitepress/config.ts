@@ -58,6 +58,7 @@ export default defineConfig({
     ],
     footer: {
       message: 'Released under the MIT License.',
+      copyright: 'Developed and maintained by an AI company built with <a href="https://paperclip.ing/" target="_blank" rel="noopener">Paperclip</a>',
     },
   },
 });
