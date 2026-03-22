@@ -5,7 +5,7 @@
 <html>
 <head>
   <title>VibeFlags Demo</title>
-  <script type="module" src="https://cdn.jsdelivr.net/npm/@vibe-flags/core@0.1.7/dist/vibe-flags.cdn.mjs"></script>
+  <script type="module" src="https://unpkg.com/@vibe-flags/core@0.1.8"></script>
 </head>
 <body>
   <h1>My App</h1>

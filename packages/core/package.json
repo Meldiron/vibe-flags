@@ -1,6 +1,6 @@
 {
   "name": "@vibe-flags/core",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "type": "module",
   "main": "./dist/vibe-flags.js",
   "module": "./dist/vibe-flags.js",
@@ -13,8 +13,8 @@
     "./cdn": "./dist/vibe-flags.cdn.mjs",
     "./cdn/iife": "./dist/vibe-flags.cdn.js"
   },
-  "unpkg": "./dist/vibe-flags.cdn.js",
-  "jsdelivr": "./dist/vibe-flags.cdn.js",
+  "unpkg": "./dist/vibe-flags.cdn.mjs",
+  "jsdelivr": "./dist/vibe-flags.cdn.mjs",
   "files": [
     "dist"
   ],
