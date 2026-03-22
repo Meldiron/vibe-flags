@@ -29,6 +29,32 @@ onUnmounted(() => {
     <!-- Hero Select Flag — live demo of the library -->
     <vibe-flag-select name="heroVariant" description="Hero variant">
 
+  <!-- ─────────────────────────────────────────────────────────
+           HERO 2: Minimal
+           ───────────────────────────────────────────────────────── -->
+      <vibe-flag-option value="minimal">
+        <section class="hero hero-minimal">
+          <div class="hero-inner hero-inner--center">
+            <div class="badge">Open Source · Zero Config · MIT License</div>
+            <h1 class="hero-title">
+              Feature flags<br />without the backend.
+            </h1>
+            <p class="hero-subtitle">
+              Drop-in web components that persist to localStorage.<br />
+              Works in any framework. No servers, no accounts, no SDK.
+            </p>
+            <div class="hero-actions">
+              <a href="/docs/getting-started" class="btn btn-primary">Get Started</a>
+              <a href="/api/components" class="btn btn-outline">API Reference</a>
+            </div>
+            <div class="install-box">
+              <span class="install-prompt">$</span>
+              <code class="install-cmd">npm i @vibe-flags/core</code>
+            </div>
+          </div>
+        </section>
+      </vibe-flag-option>
+      
       <!-- ─────────────────────────────────────────────────────────
            HERO 1: Terminal (default)
            ───────────────────────────────────────────────────────── -->
@@ -81,31 +107,7 @@ onUnmounted(() => {
         </section>
       </vibe-flag-option>
 
-      <!-- ─────────────────────────────────────────────────────────
-           HERO 2: Minimal
-           ───────────────────────────────────────────────────────── -->
-      <vibe-flag-option value="minimal">
-        <section class="hero hero-minimal">
-          <div class="hero-inner hero-inner--center">
-            <div class="badge">Open Source · Zero Config · MIT License</div>
-            <h1 class="hero-title">
-              Feature flags<br />without the backend.
-            </h1>
-            <p class="hero-subtitle">
-              Drop-in web components that persist to localStorage.<br />
-              Works in any framework. No servers, no accounts, no SDK.
-            </p>
-            <div class="hero-actions">
-              <a href="/docs/getting-started" class="btn btn-primary">Get Started</a>
-              <a href="/api/components" class="btn btn-outline">API Reference</a>
-            </div>
-            <div class="install-box">
-              <span class="install-prompt">$</span>
-              <code class="install-cmd">npm i @vibe-flags/core</code>
-            </div>
-          </div>
-        </section>
-      </vibe-flag-option>
+    
 
       <!-- ─────────────────────────────────────────────────────────
            HERO 3: Bold / Split
