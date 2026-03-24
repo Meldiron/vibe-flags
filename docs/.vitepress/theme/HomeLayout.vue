@@ -294,7 +294,7 @@ onUnmounted(() => {
             <span class="cb-filename">Prompt</span>
             <span class="cb-hint">Copy and paste into your AI assistant</span>
           </div>
-          <pre class="cb-body ai-prompt">Design 5 distinctly unique and visually different variations of a section of my website. Use your best designer skills to make each variant professional, modern, and creative — vary the layout, typography, colors, spacing, and visual style across all 5. Use @vibe-flags/core library to let me switch between variants in its toolbar, so I can pick the one I like best.
+          <pre class="cb-body ai-prompt">Design 5 distinctly unique and visually different variations of a section of my website. Use your best designer skills to make each variant professional, modern, and creative — vary the layout, typography, colors, spacing, and visual style across all 5. Use [Vibe Flags](https://vibe-flags.appwrite.network/llms.txt) library to let me switch between variants in its toolbar, so I can pick the one I like most.
 
 Section to redesign: [EXPLAIN YOUR SECTION HERE]</pre>
         </div>
@@ -310,42 +310,7 @@ Section to redesign: [EXPLAIN YOUR SECTION HERE]</pre>
             <span class="cb-filename">AI Instructions</span>
             <span class="cb-hint">Add to your system prompt, CLAUDE.md, or agent instructions</span>
           </div>
-          <pre class="cb-body ai-prompt">When designing UI components, generate multiple distinct variants and use @vibe-flags/core to let the user switch between them in the browser.
-
-## Setup
-
-Add to the HTML &lt;head&gt;:
-```
-&lt;script type="module" src="https://unpkg.com/@vibe-flags/core"&gt;&lt;/script&gt;
-```
-
-## Structure
-
-Use &lt;vibe-flag-select&gt; for multi-variant components, with each variant inside a &lt;vibe-flag-option&gt;:
-
-```
-&lt;vibe-flag-select name="hero" description="Hero variant"&gt;
-  &lt;vibe-flag-option value="v1"&gt;...&lt;/vibe-flag-option&gt;
-  &lt;vibe-flag-option value="v2"&gt;...&lt;/vibe-flag-option&gt;
-&lt;/vibe-flag-select&gt;
-
-&lt;vibe-toolbar&gt;&lt;/vibe-toolbar&gt;
-```
-
-Use &lt;vibe-flag-boolean&gt; for on/off features:
-```
-&lt;vibe-flag-boolean name="banner" description="Show banner" value="true"&gt;
-  ...content shown when flag is on...
-&lt;/vibe-flag-boolean&gt;
-```
-
-## Rules
-
-- Always include &lt;vibe-toolbar&gt; so the user can toggle flags from a sidebar UI
-- Make each variant visually distinct — vary layout, typography, colors, and style
-- The first &lt;vibe-flag-option&gt; is shown by default
-- Boolean flags default to false
-- All state persists in localStorage automatically</pre>
+          <pre class="cb-body ai-prompt">When designing UI components, generate multiple distinct variants and use [Vibe Flags](https://vibe-flags.appwrite.network/llms.txt) to let the user switch between them in the browser.</pre>
         </div>
 
       </div>
