@@ -260,7 +260,7 @@ onUnmounted(() => {
     <section class="ai-section">
       <div class="section-inner">
         <div class="section-header">
-          <h2 class="section-title">Built for AI agents</h2>
+          <h2 class="section-title">Built for humans, AI agents</h2>
           <p class="section-subtitle">
             Let AI generate UI variants and switch between them instantly.
           </p>
@@ -359,8 +359,7 @@ Use &lt;vibe-flag-boolean&gt; for on/off features:
         <div class="section-inner cta-inner">
           <h2 class="cta-title">Start shipping faster.</h2>
           <p class="cta-subtitle">
-            Drop in one script tag and get feature flags, variant switching, and a<br class="cta-br" />
-            polished toolbar — no backend, no account, no config.
+            Drop in one script tag and get feature flags, variant switching, and a polished toolbar — no backend, no account, no config.
           </p>
           <div class="snippet-box">
             <pre class="snippet-pre"><span class="c-tag">&lt;script</span>
