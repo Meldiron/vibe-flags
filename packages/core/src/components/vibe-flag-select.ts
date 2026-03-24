@@ -11,6 +11,9 @@ export class VibeFlagSelect extends LitElement {
   @property({ type: String })
   description = '';
 
+  @property({ type: String })
+  default = '';
+
   connectedCallback(): void {
     super.connectedCallback();
     window.addEventListener('vibe-flags-changed', this.onFlagChange);
@@ -28,7 +31,7 @@ export class VibeFlagSelect extends LitElement {
   }
 
   protected willUpdate(changed: Map<string, unknown>): void {
-    if (changed.has('name') || changed.has('description')) {
+    if (changed.has('name') || changed.has('description') || changed.has('default')) {
       this.registerFlag();
     }
   }
@@ -49,6 +52,7 @@ export class VibeFlagSelect extends LitElement {
         type: 'select',
         options,
         label: this.description || undefined,
+        default: this.default || undefined,
       });
     }
     this.syncOptions();

@@ -70,6 +70,35 @@ describe('FlagStore', () => {
     expect(localStorage.getItem('vibe-flags:darkMode')).toBeNull();
   });
 
+  it('uses default value for select flag when set', () => {
+    flagStore.register({ key: 'size', type: 'select', options: ['sm', 'md', 'lg'], default: 'md' });
+    expect(flagStore.get('size')).toBe('md');
+  });
+
+  it('falls back to first option when select default is not in options', () => {
+    flagStore.register({ key: 'color', type: 'select', options: ['red', 'blue'], default: 'green' });
+    expect(flagStore.get('color')).toBe('red');
+  });
+
+  it('resets select flag to configured default', () => {
+    flagStore.register({ key: 'layout', type: 'select', options: ['grid', 'list', 'table'], default: 'list' });
+    flagStore.set('layout', 'table');
+    flagStore.reset();
+    expect(flagStore.get('layout')).toBe('list');
+  });
+
+  it('uses boolean default=true when set', () => {
+    flagStore.register({ key: 'featureOn', type: 'boolean', default: true });
+    expect(flagStore.get('featureOn')).toBe(true);
+  });
+
+  it('resets boolean flag to configured default=true', () => {
+    flagStore.register({ key: 'showPanel', type: 'boolean', default: true });
+    flagStore.set('showPanel', false);
+    flagStore.reset();
+    expect(flagStore.get('showPanel')).toBe(true);
+  });
+
   it('dispatches change events on window', () => {
     const handler = vi.fn();
     window.addEventListener('vibe-flags-changed', handler);

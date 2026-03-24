@@ -83,4 +83,75 @@ describe('<vibe-flag-select>', () => {
       expect(config.options).toEqual(['sm', 'md', 'lg']);
     }
   });
+
+  it('respects default attribute when set to a valid option', async () => {
+    await fixture(html`
+      <vibe-flag-select name="variant" default="dark">
+        <vibe-flag-option value="light"><span>Light</span></vibe-flag-option>
+        <vibe-flag-option value="dark"><span>Dark</span></vibe-flag-option>
+        <vibe-flag-option value="auto"><span>Auto</span></vibe-flag-option>
+      </vibe-flag-select>
+    `);
+    await new Promise((r) => setTimeout(r, 10));
+
+    expect(flagStore.get('variant')).toBe('dark');
+    const config = flagStore.getConfigForKey('variant');
+    if (config?.type === 'select') {
+      expect(config.default).toBe('dark');
+    }
+  });
+
+  it('shows the default option as active when default is set', async () => {
+    const el = await fixture(html`
+      <vibe-flag-select name="mode" default="list">
+        <vibe-flag-option value="grid"><div id="grid">Grid</div></vibe-flag-option>
+        <vibe-flag-option value="list"><div id="list">List</div></vibe-flag-option>
+      </vibe-flag-select>
+    `);
+    await new Promise((r) => setTimeout(r, 10));
+
+    const options = el.querySelectorAll('vibe-flag-option');
+    await options[0].updateComplete;
+    await options[1].updateComplete;
+
+    expect(options[0].shadowRoot!.querySelector('slot')).toBeNull();
+    expect(options[1].shadowRoot!.querySelector('slot')).not.toBeNull();
+  });
+
+  it('resets to default option on store reset', async () => {
+    const el = await fixture(html`
+      <vibe-flag-select name="panel" default="list">
+        <vibe-flag-option value="grid"><div>Grid</div></vibe-flag-option>
+        <vibe-flag-option value="list"><div>List</div></vibe-flag-option>
+      </vibe-flag-select>
+    `);
+    await new Promise((r) => setTimeout(r, 10));
+
+    flagStore.set('panel', 'grid');
+    await new Promise((r) => setTimeout(r, 10));
+
+    const options = el.querySelectorAll('vibe-flag-option');
+    await options[0].updateComplete;
+    expect(options[0].shadowRoot!.querySelector('slot')).not.toBeNull();
+
+    flagStore.reset();
+    await new Promise((r) => setTimeout(r, 10));
+    await options[0].updateComplete;
+    await options[1].updateComplete;
+
+    expect(options[0].shadowRoot!.querySelector('slot')).toBeNull();
+    expect(options[1].shadowRoot!.querySelector('slot')).not.toBeNull();
+  });
+
+  it('falls back to first option when default attribute is not in options', async () => {
+    await fixture(html`
+      <vibe-flag-select name="color" default="purple">
+        <vibe-flag-option value="red"><span>Red</span></vibe-flag-option>
+        <vibe-flag-option value="blue"><span>Blue</span></vibe-flag-option>
+      </vibe-flag-select>
+    `);
+    await new Promise((r) => setTimeout(r, 10));
+
+    expect(flagStore.get('color')).toBe('red');
+  });
 });

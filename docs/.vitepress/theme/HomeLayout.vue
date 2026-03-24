@@ -72,7 +72,7 @@ onUnmounted(() => {
   <span class="c-tag">&lt;button&gt;</span>Show debug logs<span class="c-tag">&lt;/button&gt;</span>
 <span class="c-tag">&lt;/vibe-flag-boolean&gt;</span>
 
-<span class="c-tag">&lt;vibe-flag-select</span> <span class="c-attr">name</span>=<span class="c-str">"header"</span> <span class="c-attr">description</span>=<span class="c-str">"Header layout"</span><span class="c-tag">&gt;</span>
+<span class="c-tag">&lt;vibe-flag-select</span> <span class="c-attr">name</span>=<span class="c-str">"header"</span> <span class="c-attr">description</span>=<span class="c-str">"Header layout"</span> <span class="c-attr">default</span>=<span class="c-str">"visual"</span><span class="c-tag">&gt;</span>
   <span class="c-tag">&lt;vibe-flag-option</span> <span class="c-attr">value</span>=<span class="c-str">"minimal"</span><span class="c-tag">&gt;&lt;h1&gt;</span>Minimal header<span class="c-tag">&lt;/h1&gt;&lt;/vibe-flag-option&gt;</span>
   <span class="c-tag">&lt;vibe-flag-option</span> <span class="c-attr">value</span>=<span class="c-str">"visual"</span><span class="c-tag">&gt;&lt;h3&gt;</span>Visual header<span class="c-tag">&lt;/h3&gt;&lt;/vibe-flag-option&gt;</span>
 <span class="c-tag">&lt;/vibe-flag-select&gt;</span>
@@ -354,7 +354,7 @@ Use &lt;vibe-flag-boolean&gt; for on/off features:
     <!-- ─────────────────────────────────────────────────────────
          CTA Section (toggleable)
          ───────────────────────────────────────────────────────── -->
-    <vibe-flag-boolean name="showCta" description="Show CTA section" :default="true" value="true">
+    <vibe-flag-boolean name="showCta" description="Show CTA section" default value="true">
       <section class="cta-section">
         <div class="section-inner cta-inner">
           <h2 class="cta-title">Start shipping faster.</h2>

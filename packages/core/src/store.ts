@@ -4,6 +4,7 @@ const NAMESPACE = 'vibe-flags:';
 
 function getInitialValue(config: FlagConfig): FlagValue {
   if (config.type === 'boolean') return config.default ?? false;
+  if (config.default && config.options.includes(config.default)) return config.default;
   return config.options[0] || '';
 }
 
