@@ -1,8 +1,8 @@
-# VibeFlags — Full Documentation
+# Vibe Flags — Full Documentation
 
 > Offline-first feature flag toolkit that lives in your HTML. No servers. No config files. No build step. Made for agents and LLMs.
 
-VibeFlags is a set of web components for managing feature flags entirely in the browser. Add one CDN script tag, write HTML, and toggle features with a floating toolbar. State persists in localStorage.
+Vibe Flags is a set of web components for managing feature flags entirely in the browser. Add one CDN script tag, write HTML, and toggle features with a floating toolbar. State persists in localStorage.
 
 ---
 
@@ -357,7 +357,7 @@ interface FlagState {
 <!DOCTYPE html>
 <html>
 <head>
-  <title>VibeFlags Demo</title>
+  <title>Vibe Flags Demo</title>
   <script type="module" src="https://cdn.jsdelivr.net/npm/@vibe-flags/core/dist/vibe-flags.cdn.mjs"></script>
 </head>
 <body>

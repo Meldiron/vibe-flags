@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>VibeFlags Demo</title>
+  <title>Vibe Flags Demo</title>
   <script type="module" src="https://unpkg.com/@vibe-flags/core"></script>
 </head>
 <body>

@@ -109,7 +109,7 @@ const tree = div(
               lineHeight: 1,
               fontFamily: 'Sans',
             },
-            children: 'VibeFlags',
+            children: 'Vibe Flags',
           },
         },
       ]),

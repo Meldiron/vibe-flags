@@ -133,7 +133,7 @@ onUnmounted(() => {
                 Ship features<br />with confidence.
               </h1>
               <p class="hero-subtitle hero-subtitle--left">
-                VibeFlags is a drop-in web component toolkit for managing feature flags.
+                Vibe Flags is a drop-in web component toolkit for managing feature flags.
                 No backend. No login. Everything stays in your browser.
               </p>
               <div class="hero-actions hero-actions--left">
