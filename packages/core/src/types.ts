@@ -10,6 +10,7 @@ export interface FlagConfigSelect {
   type: 'select';
   options: string[];
   label?: string;
+  default?: string;
 }
 
 export type FlagConfig = FlagConfigBoolean | FlagConfigSelect;
