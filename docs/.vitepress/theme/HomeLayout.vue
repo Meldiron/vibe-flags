@@ -294,7 +294,7 @@ onUnmounted(() => {
             <span class="cb-filename">Prompt</span>
             <span class="cb-hint">Copy and paste into your AI assistant</span>
           </div>
-          <pre class="cb-body ai-prompt">Design 5 distinctly unique and visually different variations of a section of my website. Use your best designer skills to make each variant professional, modern, and creative — vary the layout, typography, colors, spacing, and visual style across all 5. Use [Vibe Flags](https://vibe-flags.appwrite.network/llms.txt) library to let me switch between variants in its toolbar, so I can pick the one I like most.
+          <pre class="cb-body ai-prompt">Design 5 distinctly unique and visually different variations of a section of my website. Use your best designer skills to make each variant professional, modern, and creative — vary the layout, typography, colors, spacing, and visual style across all 5. Use [Vibe Flags](https://vibe-flags.appwrite.network/llms-full.txt) library to let me switch between variants in its toolbar, so I can pick the one I like most.
 
 Section to redesign: [EXPLAIN YOUR SECTION HERE]</pre>
         </div>
@@ -310,7 +310,7 @@ Section to redesign: [EXPLAIN YOUR SECTION HERE]</pre>
             <span class="cb-filename">AI Instructions</span>
             <span class="cb-hint">Add to your system prompt, CLAUDE.md, or agent instructions</span>
           </div>
-          <pre class="cb-body ai-prompt">When designing UI components, generate multiple distinct variants and use [Vibe Flags](https://vibe-flags.appwrite.network/llms.txt) to let the user switch between them in the browser.</pre>
+          <pre class="cb-body ai-prompt">When designing UI components, generate multiple distinct variants and use [Vibe Flags](https://vibe-flags.appwrite.network/llms-full.txt) to let the user switch between them in the browser.</pre>
         </div>
 
       </div>

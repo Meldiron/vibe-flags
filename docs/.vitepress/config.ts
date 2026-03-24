@@ -6,6 +6,7 @@ export default defineConfig({
   head: [
     ['link', { rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' }],
     ['link', { rel: 'author', type: 'text/plain', href: '/llms.txt' }],
+    ['link', { rel: 'author', type: 'text/plain', href: '/llms-full.txt' }],
     ['script', { type: 'module', src: 'https://unpkg.com/@vibe-flags/core' }],
     // SEO / canonical
     ['link', { rel: 'canonical', href: 'https://vibe-flags.appwrite.network/' }],

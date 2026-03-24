@@ -7,7 +7,7 @@ Vibe Flags is a set of web components for managing feature flags entirely in the
 ## Quick Start
 
 ```html
-<script type="module" src="https://cdn.jsdelivr.net/npm/@vibe-flags/core/dist/vibe-flags.cdn.mjs"></script>
+<script type="module" src="https://unpkg.com/@vibe-flags/core"></script>
 
 <vibe-flag-boolean name="showBanner" description="Welcome banner" value="true">
   <div>Welcome to the beta!</div>
@@ -36,7 +36,7 @@ Vibe Flags is a set of web components for managing feature flags entirely in the
 
 CDN (recommended):
 ```html
-<script type="module" src="https://cdn.jsdelivr.net/npm/@vibe-flags/core/dist/vibe-flags.cdn.mjs"></script>
+<script type="module" src="https://unpkg.com/@vibe-flags/core"></script>
 ```
 
 npm:
