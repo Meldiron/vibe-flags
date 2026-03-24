@@ -236,6 +236,25 @@
   border-bottom: 1px solid #e5e5e5;
 }
 
+/* ===== Scrollbar (light) ===== */
+:root:not(.dark) ::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+:root:not(.dark) ::-webkit-scrollbar-track {
+  background: #f7f7f7;
+}
+
+:root:not(.dark) ::-webkit-scrollbar-thumb {
+  background: #d4d4d4;
+  border-radius: 3px;
+}
+
+:root:not(.dark) ::-webkit-scrollbar-thumb:hover {
+  background: #a3a3a3;
+}
+
 /* ===== Light mode: clean whites ===== */
 :root:not(.dark) {
   --vp-c-bg: #ffffff;
