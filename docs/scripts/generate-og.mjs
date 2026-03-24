@@ -152,7 +152,7 @@ const tree = div(
             fontFamily: 'Sans',
             fontWeight: 400,
           },
-          children: 'vibeflags.dev',
+          children: 'vibe-flags.appwrite.network',
         },
       },
     ]),
