@@ -5,7 +5,7 @@
     "build": "pnpm --filter @vibe-flags/core build",
     "test": "pnpm --filter @vibe-flags/core test",
     "dev:docs": "pnpm --filter docs dev",
-    "human:login": "npm login",
+    "human:login": "npm login 2",
     "human:build": "pnpm --filter @vibe-flags/core build && echo '\n✅ Build complete. Run: pnpm human:publish'",
     "human:publish": "pnpm human:build && pnpm --filter @vibe-flags/core exec npm publish --access public"
   },
