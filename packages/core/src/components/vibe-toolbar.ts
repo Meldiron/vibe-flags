@@ -469,7 +469,7 @@ export class VibeToolbar extends LitElement {
         <div class="header">
           <h2>
             ${this.renderFlagIcon()}
-            VibeFlags
+            Vibe Flags
             <span class="badge">${this.configs.length}</span>
           </h2>
           <div class="header-actions">
