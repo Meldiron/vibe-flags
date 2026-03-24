@@ -193,12 +193,12 @@ onUnmounted(() => {
           </p>
         </div>
         <div class="video-wrapper">
-          <iframe
-            src="https://www.youtube-nocookie.com/embed/wDhkImIkia4"
-            title="Vibe Flags demo"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            allowfullscreen
-          ></iframe>
+          <video
+            src="https://fra.cloud.appwrite.io/v1/storage/buckets/assets/files/demo/view?project=69bfb4140019dbfc50ec"
+            controls
+            playsinline
+            preload="metadata"
+          ></video>
         </div>
       </div>
     </section>
@@ -755,7 +755,7 @@ Section to redesign: [EXPLAIN YOUR SECTION HERE]</pre>
   box-shadow: 0 8px 40px rgba(0, 0, 0, 0.18);
   border: 1px solid var(--vp-c-divider);
 }
-.video-wrapper iframe {
+.video-wrapper video {
   position: absolute;
   inset: 0;
   width: 100%;
