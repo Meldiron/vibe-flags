@@ -1,7 +1,7 @@
 import { defineConfig } from 'vitepress';
 
 export default defineConfig({
-  title: 'VibeFlags',
+  title: 'Vibe Flags',
   description: 'Offline-first feature flag toolbar for any web app',
   head: [
     ['link', { rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' }],
@@ -11,14 +11,14 @@ export default defineConfig({
     ['link', { rel: 'canonical', href: 'https://vibe-flags.appwrite.network/' }],
     // Open Graph
     ['meta', { property: 'og:type', content: 'website' }],
-    ['meta', { property: 'og:site_name', content: 'VibeFlags' }],
+    ['meta', { property: 'og:site_name', content: 'Vibe Flags' }],
     ['meta', { property: 'og:url', content: 'https://vibe-flags.appwrite.network/' }],
-    ['meta', { property: 'og:title', content: 'VibeFlags — Offline-first feature flags for vibe coding' }],
+    ['meta', { property: 'og:title', content: 'Vibe Flags — Offline-first feature flags for vibe coding' }],
     ['meta', { property: 'og:description', content: 'Zero-config, offline-first feature flag toolbar for any web app. No backend, no auth, no setup. Drop in a script tag and start flagging.' }],
     ['meta', { property: 'og:image', content: 'https://vibe-flags.appwrite.network/og-image.png' }],
     // Twitter / X Card
     ['meta', { name: 'twitter:card', content: 'summary_large_image' }],
-    ['meta', { name: 'twitter:title', content: 'VibeFlags — Offline-first feature flags for vibe coding' }],
+    ['meta', { name: 'twitter:title', content: 'Vibe Flags — Offline-first feature flags for vibe coding' }],
     ['meta', { name: 'twitter:description', content: 'Zero-config, offline-first feature flag toolbar for any web app. No backend, no auth, no setup.' }],
     ['meta', { name: 'twitter:image', content: 'https://vibe-flags.appwrite.network/og-image.png' }],
   ],

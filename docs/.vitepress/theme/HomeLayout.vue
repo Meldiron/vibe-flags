@@ -40,6 +40,55 @@ onUnmounted(() => {
     <vibe-flag-select name="heroVariant" description="Hero variant">
 
   <!-- ─────────────────────────────────────────────────────────
+           HERO 1: Terminal (default)
+           ───────────────────────────────────────────────────────── -->
+      <vibe-flag-option value="terminal">
+        <section class="hero hero-terminal">
+          <div class="hero-inner hero-inner--center">
+            <h1 class="brand-mono">
+              <span class="t-tag">&lt;</span>vibe-flags<span class="t-tag"> /&gt;</span>
+            </h1>
+            <p class="hero-subtitle">
+              Feature flag toolkit for HTML.<br />
+              No servers. No config. No build step.<br />
+              Built for AI agents.
+            </p>
+
+            <div class="code-block code-block--lg">
+              <div class="cb-header">
+                <div class="cb-dots">
+                  <span class="dot dot-red"></span>
+                  <span class="dot dot-yellow"></span>
+                  <span class="dot dot-green"></span>
+                </div>
+                <span class="cb-filename">index.html</span>
+              </div>
+              <pre class="cb-body"><code><span class="c-tag">&lt;script</span>
+    <span class="c-attr">type</span>=<span class="c-str">"module"</span>
+    <span class="c-attr">src</span>=<span class="c-str">"https://unpkg.com/@vibe-flags/core"</span>
+<span class="c-tag">&gt;&lt;/script&gt;</span>
+
+<span class="c-tag">&lt;vibe-flag-boolean</span> <span class="c-attr">name</span>=<span class="c-str">"debug"</span> <span class="c-attr">description</span>=<span class="c-str">"Show debug info"</span><span class="c-tag">&gt;</span>
+  <span class="c-tag">&lt;button&gt;</span>Show debug logs<span class="c-tag">&lt;/button&gt;</span>
+<span class="c-tag">&lt;/vibe-flag-boolean&gt;</span>
+
+<span class="c-tag">&lt;vibe-flag-select</span> <span class="c-attr">name</span>=<span class="c-str">"header"</span> <span class="c-attr">description</span>=<span class="c-str">"Header layout"</span><span class="c-tag">&gt;</span>
+  <span class="c-tag">&lt;vibe-flag-option</span> <span class="c-attr">value</span>=<span class="c-str">"minimal"</span><span class="c-tag">&gt;&lt;h1&gt;</span>Minimal header<span class="c-tag">&lt;/h1&gt;&lt;/vibe-flag-option&gt;</span>
+  <span class="c-tag">&lt;vibe-flag-option</span> <span class="c-attr">value</span>=<span class="c-str">"visual"</span><span class="c-tag">&gt;&lt;h3&gt;</span>Visual header<span class="c-tag">&lt;/h3&gt;&lt;/vibe-flag-option&gt;</span>
+<span class="c-tag">&lt;/vibe-flag-select&gt;</span>
+
+<span class="c-tag">&lt;vibe-toolbar&gt;&lt;/vibe-toolbar&gt;</span></code></pre>
+            </div>
+
+            <div class="hero-actions">
+              <a href="/docs/getting-started" class="btn btn-primary">Get Started</a>
+              <a href="/examples/basic" class="btn btn-outline">Examples</a>
+            </div>
+          </div>
+        </section>
+      </vibe-flag-option>
+
+      <!-- ─────────────────────────────────────────────────────────
            HERO 2: Minimal
            ───────────────────────────────────────────────────────── -->
       <vibe-flag-option value="minimal">
@@ -70,58 +119,6 @@ onUnmounted(() => {
           </div>
         </section>
       </vibe-flag-option>
-      
-      <!-- ─────────────────────────────────────────────────────────
-           HERO 1: Terminal (default)
-           ───────────────────────────────────────────────────────── -->
-      <vibe-flag-option value="terminal">
-        <section class="hero hero-terminal">
-          <div class="hero-inner hero-inner--center">
-            <h1 class="brand-mono">
-              <span class="t-tag">&lt;</span>vibe-flags<span class="t-tag"> /&gt;</span>
-            </h1>
-            <p class="hero-subtitle">
-              Feature flag toolkit for HTML.<br />
-              No servers. No config. No build step.<br />
-              Built for AI agents.
-            </p>
-
-            <div class="code-block code-block--lg">
-              <div class="cb-header">
-                <div class="cb-dots">
-                  <span class="dot dot-red"></span>
-                  <span class="dot dot-yellow"></span>
-                  <span class="dot dot-green"></span>
-                </div>
-                <span class="cb-filename">index.html</span>
-              </div>
-              <pre class="cb-body"><code><span class="c-tag">&lt;script</span>
-    <span class="c-attr">type</span>=<span class="c-str">"module"</span>
-    <span class="c-attr">src</span>=<span class="c-str">"https://unpkg.com/@vibe-flags/core"</span>
-<span class="c-tag">&gt;&lt;/script&gt;</span>
-
-<span class="c-comment">&lt;!-- Boolean flag: shows content when enabled --&gt;</span>
-<span class="c-tag">&lt;vibe-flag-boolean</span> <span class="c-attr">name</span>=<span class="c-str">"debug"</span> <span class="c-attr">description</span>=<span class="c-str">"Show debug info"</span><span class="c-tag">&gt;</span>
-  <span class="c-tag">&lt;DebugPanel /&gt;</span>
-<span class="c-tag">&lt;/vibe-flag-boolean&gt;</span>
-
-<span class="c-comment">&lt;!-- Select flag: switch between variants --&gt;</span>
-<span class="c-tag">&lt;vibe-flag-select</span> <span class="c-attr">name</span>=<span class="c-str">"header"</span> <span class="c-attr">description</span>=<span class="c-str">"Header layout"</span><span class="c-tag">&gt;</span>
-  <span class="c-tag">&lt;vibe-flag-option</span> <span class="c-attr">value</span>=<span class="c-str">"minimal"</span><span class="c-tag">&gt;&lt;MinimalHeader /&gt;&lt;/vibe-flag-option&gt;</span>
-  <span class="c-tag">&lt;vibe-flag-option</span> <span class="c-attr">value</span>=<span class="c-str">"visual"</span><span class="c-tag">&gt;&lt;VisualHeader /&gt;&lt;/vibe-flag-option&gt;</span>
-<span class="c-tag">&lt;/vibe-flag-select&gt;</span>
-
-<span class="c-comment">&lt;!-- Floating toolbar to toggle all flags --&gt;</span>
-<span class="c-tag">&lt;vibe-toolbar&gt;&lt;/vibe-toolbar&gt;</span></code></pre>
-            </div>
-
-            <div class="hero-actions">
-              <a href="/docs/getting-started" class="btn btn-primary">Get Started</a>
-              <a href="/examples/basic" class="btn btn-outline">Examples</a>
-            </div>
-          </div>
-        </section>
-      </vibe-flag-option>
 
     
 
@@ -136,7 +133,7 @@ onUnmounted(() => {
                 Ship features<br />with confidence.
               </h1>
               <p class="hero-subtitle hero-subtitle--left">
-                VibeFlags is a drop-in web component toolkit for managing feature flags.
+                Vibe Flags is a drop-in web component toolkit for managing feature flags.
                 No backend. No login. Everything stays in your browser.
               </p>
               <div class="hero-actions hero-actions--left">
