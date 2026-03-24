@@ -182,6 +182,28 @@ onUnmounted(() => {
     </vibe-flag-select>
 
     <!-- ─────────────────────────────────────────────────────────
+         Video Section
+         ───────────────────────────────────────────────────────── -->
+    <section class="video-section">
+      <div class="section-inner">
+        <div class="section-header">
+          <h2 class="section-title">See it in action</h2>
+          <p class="section-subtitle">
+            Watch how Vibe Flags lets you toggle UI variations without redeploying — live, in the browser.
+          </p>
+        </div>
+        <div class="video-wrapper">
+          <iframe
+            src="https://www.youtube-nocookie.com/embed/wDhkImIkia4"
+            title="Vibe Flags demo"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen
+          ></iframe>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─────────────────────────────────────────────────────────
          Features Section
          ───────────────────────────────────────────────────────── -->
     <div class="section-divider">
@@ -716,6 +738,29 @@ Section to redesign: [EXPLAIN YOUR SECTION HERE]</pre>
   color: var(--vp-c-text-3);
   margin: 0;
   line-height: 1.5;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Video Section
+   ═══════════════════════════════════════════════════════════════ */
+.video-section {
+  background: var(--vp-c-bg);
+}
+.video-wrapper {
+  position: relative;
+  width: 100%;
+  padding-bottom: 56.25%; /* 16:9 */
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.18);
+  border: 1px solid var(--vp-c-divider);
+}
+.video-wrapper iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
 }
 
 /* ═══════════════════════════════════════════════════════════════
