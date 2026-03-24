@@ -40,38 +40,6 @@ onUnmounted(() => {
     <vibe-flag-select name="heroVariant" description="Hero variant">
 
   <!-- ─────────────────────────────────────────────────────────
-           HERO 2: Minimal
-           ───────────────────────────────────────────────────────── -->
-      <vibe-flag-option value="minimal">
-        <section class="hero hero-minimal">
-          <div class="hero-inner hero-inner--center">
-            <div class="badge">Open Source · Zero Config · MIT License</div>
-            <h1 class="hero-title">
-              Feature flags<br />without the backend.
-            </h1>
-            <p class="hero-subtitle">
-              Drop-in web components that persist to localStorage.<br />
-              Works in any framework. No servers, no accounts, no SDK.
-            </p>
-            <div class="hero-actions">
-              <a href="/docs/getting-started" class="btn btn-primary">Get Started</a>
-              <a href="/api/components" class="btn btn-outline">API Reference</a>
-            </div>
-            <div class="snippet-box">
-              <pre class="snippet-pre"><span class="c-tag">&lt;script</span>
-  <span class="c-attr">type</span>=<span class="c-str">"module"</span>
-  <span class="c-attr">src</span>=<span class="c-str">"https://unpkg.com/@vibe-flags/core"</span><span class="c-tag">&gt;
-&lt;/script&gt;</span></pre>
-              <button class="copy-btn" @click="copyScript('hero')">
-                <span v-if="copiedBox === 'hero'" class="copy-label">Copied!</span>
-                <svg v-else xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-              </button>
-            </div>
-          </div>
-        </section>
-      </vibe-flag-option>
-      
-      <!-- ─────────────────────────────────────────────────────────
            HERO 1: Terminal (default)
            ───────────────────────────────────────────────────────── -->
       <vibe-flag-option value="terminal">
@@ -100,24 +68,53 @@ onUnmounted(() => {
     <span class="c-attr">src</span>=<span class="c-str">"https://unpkg.com/@vibe-flags/core"</span>
 <span class="c-tag">&gt;&lt;/script&gt;</span>
 
-<span class="c-comment">&lt;!-- Boolean flag: shows content when enabled --&gt;</span>
 <span class="c-tag">&lt;vibe-flag-boolean</span> <span class="c-attr">name</span>=<span class="c-str">"debug"</span> <span class="c-attr">description</span>=<span class="c-str">"Show debug info"</span><span class="c-tag">&gt;</span>
-  <span class="c-tag">&lt;DebugPanel /&gt;</span>
+  <span class="c-tag">&lt;button&gt;</span>Show debug logs<span class="c-tag">&lt;/button&gt;</span>
 <span class="c-tag">&lt;/vibe-flag-boolean&gt;</span>
 
-<span class="c-comment">&lt;!-- Select flag: switch between variants --&gt;</span>
 <span class="c-tag">&lt;vibe-flag-select</span> <span class="c-attr">name</span>=<span class="c-str">"header"</span> <span class="c-attr">description</span>=<span class="c-str">"Header layout"</span><span class="c-tag">&gt;</span>
-  <span class="c-tag">&lt;vibe-flag-option</span> <span class="c-attr">value</span>=<span class="c-str">"minimal"</span><span class="c-tag">&gt;&lt;MinimalHeader /&gt;&lt;/vibe-flag-option&gt;</span>
-  <span class="c-tag">&lt;vibe-flag-option</span> <span class="c-attr">value</span>=<span class="c-str">"visual"</span><span class="c-tag">&gt;&lt;VisualHeader /&gt;&lt;/vibe-flag-option&gt;</span>
+  <span class="c-tag">&lt;vibe-flag-option</span> <span class="c-attr">value</span>=<span class="c-str">"minimal"</span><span class="c-tag">&gt;&lt;h1&gt;</span>Minimal header<span class="c-tag">&lt;/h1&gt;&lt;/vibe-flag-option&gt;</span>
+  <span class="c-tag">&lt;vibe-flag-option</span> <span class="c-attr">value</span>=<span class="c-str">"visual"</span><span class="c-tag">&gt;&lt;h3&gt;</span>Visual header<span class="c-tag">&lt;/h3&gt;&lt;/vibe-flag-option&gt;</span>
 <span class="c-tag">&lt;/vibe-flag-select&gt;</span>
 
-<span class="c-comment">&lt;!-- Floating toolbar to toggle all flags --&gt;</span>
 <span class="c-tag">&lt;vibe-toolbar&gt;&lt;/vibe-toolbar&gt;</span></code></pre>
             </div>
 
             <div class="hero-actions">
               <a href="/docs/getting-started" class="btn btn-primary">Get Started</a>
               <a href="/examples/basic" class="btn btn-outline">Examples</a>
+            </div>
+          </div>
+        </section>
+      </vibe-flag-option>
+
+      <!-- ─────────────────────────────────────────────────────────
+           HERO 2: Minimal
+           ───────────────────────────────────────────────────────── -->
+      <vibe-flag-option value="minimal">
+        <section class="hero hero-minimal">
+          <div class="hero-inner hero-inner--center">
+            <div class="badge">Open Source · Zero Config · MIT License</div>
+            <h1 class="hero-title">
+              Feature flags<br />without the backend.
+            </h1>
+            <p class="hero-subtitle">
+              Drop-in web components that persist to localStorage.<br />
+              Works in any framework. No servers, no accounts, no SDK.
+            </p>
+            <div class="hero-actions">
+              <a href="/docs/getting-started" class="btn btn-primary">Get Started</a>
+              <a href="/api/components" class="btn btn-outline">API Reference</a>
+            </div>
+            <div class="snippet-box">
+              <pre class="snippet-pre"><span class="c-tag">&lt;script</span>
+  <span class="c-attr">type</span>=<span class="c-str">"module"</span>
+  <span class="c-attr">src</span>=<span class="c-str">"https://unpkg.com/@vibe-flags/core"</span><span class="c-tag">&gt;
+&lt;/script&gt;</span></pre>
+              <button class="copy-btn" @click="copyScript('hero')">
+                <span v-if="copiedBox === 'hero'" class="copy-label">Copied!</span>
+                <svg v-else xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+              </button>
             </div>
           </div>
         </section>
