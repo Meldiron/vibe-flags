@@ -74,7 +74,7 @@ export class VibeFlagBoolean extends LitElement {
     if (current === undefined) {
       this.isMatch = false;
     } else if (this.value === '') {
-      this.isMatch = true;
+      this.isMatch = Boolean(current);
     } else {
       this.isMatch = String(current) === this.value;
     }

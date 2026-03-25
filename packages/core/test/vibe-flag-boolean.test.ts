@@ -18,14 +18,41 @@ describe('<vibe-flag-boolean>', () => {
     expect(flagStore.getConfigForKey('showBanner')?.type).toBe('boolean');
   });
 
-  it('always shows children when value is omitted', async () => {
+  it('hides children when value is omitted and flag is false (default)', async () => {
     const el = await fixture(html`
       <vibe-flag-boolean name="anything">
-        <div id="child">Always visible</div>
+        <div id="child">Conditionally visible</div>
+      </vibe-flag-boolean>
+    `);
+    await el.updateComplete;
+    expect(el.shadowRoot!.querySelector('slot')).toBeNull();
+  });
+
+  it('shows children when value is omitted and flag is true', async () => {
+    const el = await fixture(html`
+      <vibe-flag-boolean name="withDefault" .default=${true}>
+        <div id="child">Visible when on</div>
       </vibe-flag-boolean>
     `);
     await el.updateComplete;
     expect(el.shadowRoot!.querySelector('slot')).not.toBeNull();
+  });
+
+  it('toggles visibility when no value attribute — reacts to store changes', async () => {
+    const el = await fixture(html`
+      <vibe-flag-boolean name="debugFlag">
+        <button>Show debug logs</button>
+      </vibe-flag-boolean>
+    `);
+    await el.updateComplete;
+    // Off by default
+    expect(el.shadowRoot!.querySelector('slot')).toBeNull();
+
+    flagStore.set('debugFlag', true);
+    await waitUntil(() => el.shadowRoot!.querySelector('slot') !== null, 'shown after toggled on');
+
+    flagStore.set('debugFlag', false);
+    await waitUntil(() => el.shadowRoot!.querySelector('slot') === null, 'hidden after toggled off');
   });
 
   it('defaults description to empty and type to boolean', async () => {
