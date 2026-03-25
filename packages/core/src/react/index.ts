@@ -57,18 +57,18 @@ export function useFlag(keyOrConfig: string | FlagConfig): FlagValue | undefined
  * Place it once, anywhere in your component tree:
  *
  * ```tsx
- * import { VibeToolbar } from '@vibe-flags/core/react';
+ * import { VibeFlagsToolbar } from '@vibe-flags/core/react';
  *
  * export default function App() {
  *   return (
  *     <>
  *       <MyApp />
- *       <VibeToolbar />
+ *       <VibeFlagsToolbar />
  *     </>
  *   );
  * }
  * ```
  */
-export function VibeToolbar(): ReactElement {
+export function VibeFlagsToolbar(): ReactElement {
   return createElement('vibe-toolbar');
 }

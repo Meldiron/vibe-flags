@@ -248,19 +248,19 @@ function App() {
 
 Pass a `FlagConfig` to auto-register the flag on mount, or pass a `key` string to subscribe to an already-registered flag.
 
-### `VibeToolbar`
+### `VibeFlagsToolbar`
 
 A React component that renders the floating toolbar. No props required.
 
 ```tsx
-import { useFlag, VibeToolbar } from '@vibe-flags/core/react';
+import { useFlag, VibeFlagsToolbar } from '@vibe-flags/core/react';
 
 function App() {
   const showBanner = useFlag({ key: 'showBanner', type: 'boolean', default: true });
   return (
     <>
       {showBanner && <div className="banner">Welcome to the beta!</div>}
-      <VibeToolbar />
+      <VibeFlagsToolbar />
     </>
   );
 }
