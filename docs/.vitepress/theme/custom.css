@@ -231,9 +231,17 @@
   border-top-color: #1c1c1c;
 }
 
+/* ===== Nav: fixed on all viewports (VitePress only fixes at ≥960px by default) ===== */
+.VPNav {
+  position: fixed !important;
+}
+
 /* ===== Light mode: Nav header border ===== */
 :root:not(.dark) .VPNav {
   border-bottom: 1px solid #e5e5e5;
+  background-color: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 }
 
 /* ===== Scrollbar (light) ===== */
