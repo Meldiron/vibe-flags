@@ -6,8 +6,8 @@ import type { FlagConfig, FlagState } from '../types.js';
 
 const THEME_KEY = 'vibeFlagsTheme';
 
-@customElement('vibe-toolbar')
-export class VibeToolbar extends LitElement {
+@customElement('vibe-flags-toolbar')
+export class VibeFlagsToolbar extends LitElement {
   static styles = [
     css`
       * {
@@ -352,7 +352,7 @@ export class VibeToolbar extends LitElement {
     const sheet = new CSSStyleSheet();
     sheet.replaceSync(tokens.cssText);
     this.shadowRoot!.adoptedStyleSheets = [
-      ...VibeToolbar.elementStyles.map((s) => (s as CSSResult).styleSheet!),
+      ...VibeFlagsToolbar.elementStyles.map((s) => (s as CSSResult).styleSheet!),
       sheet,
     ];
   }
@@ -504,6 +504,6 @@ export class VibeToolbar extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'vibe-toolbar': VibeToolbar;
+    'vibe-flags-toolbar': VibeFlagsToolbar;
   }
 }

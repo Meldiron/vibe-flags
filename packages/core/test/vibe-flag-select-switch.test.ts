@@ -5,7 +5,7 @@ import '../src/components/vibe-flag-option.js';
 import '../src/components/vibe-toolbar.js';
 import { flagStore } from '../src/store.js';
 
-describe('<vibe-flag-select> switching via toolbar', () => {
+describe('<vibe-flags-select> switching via toolbar', () => {
   beforeEach(() => {
     localStorage.clear();
     flagStore.reset();
@@ -14,21 +14,21 @@ describe('<vibe-flag-select> switching via toolbar', () => {
   it('option visibility changes when toolbar dropdown is used', async () => {
     const el = await fixture(html`
       <div>
-        <vibe-flag-select name="hero" description="Hero">
-          <vibe-flag-option value="v1"><div id="v1">V1</div></vibe-flag-option>
-          <vibe-flag-option value="v2"><div id="v2">V2</div></vibe-flag-option>
-          <vibe-flag-option value="v3"><div id="v3">V3</div></vibe-flag-option>
-        </vibe-flag-select>
-        <vibe-toolbar></vibe-toolbar>
+        <vibe-flags-select name="hero" description="Hero">
+          <vibe-flags-option value="v1"><div id="v1">V1</div></vibe-flags-option>
+          <vibe-flags-option value="v2"><div id="v2">V2</div></vibe-flags-option>
+          <vibe-flags-option value="v3"><div id="v3">V3</div></vibe-flags-option>
+        </vibe-flags-select>
+        <vibe-flags-toolbar></vibe-flags-toolbar>
       </div>
     `);
 
     await new Promise((r) => setTimeout(r, 50));
 
-    const toolbar = el.querySelector('vibe-toolbar')!;
+    const toolbar = el.querySelector('vibe-flags-toolbar')!;
     await toolbar.updateComplete;
 
-    const options = el.querySelectorAll('vibe-flag-option');
+    const options = el.querySelectorAll('vibe-flags-option');
 
     // Initial: v1 active
     expect(options[0].active).toBe(true);

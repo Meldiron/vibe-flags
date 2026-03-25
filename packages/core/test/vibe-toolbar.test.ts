@@ -6,7 +6,7 @@ import '../src/components/vibe-flag-option.js';
 import '../src/components/vibe-toolbar.js';
 import { flagStore } from '../src/store.js';
 
-describe('<vibe-toolbar>', () => {
+describe('<vibe-flags-toolbar>', () => {
   beforeEach(() => {
     localStorage.clear();
     flagStore.reset();
@@ -15,13 +15,13 @@ describe('<vibe-toolbar>', () => {
   });
 
   it('renders the FAB button', async () => {
-    const el = await fixture(html`<vibe-toolbar></vibe-toolbar>`);
+    const el = await fixture(html`<vibe-flags-toolbar></vibe-flags-toolbar>`);
     await el.updateComplete;
     expect(el.shadowRoot!.querySelector('.fab')).not.toBeNull();
   });
 
   it('opens card on FAB click', async () => {
-    const el = await fixture(html`<vibe-toolbar></vibe-toolbar>`);
+    const el = await fixture(html`<vibe-flags-toolbar></vibe-flags-toolbar>`);
     await el.updateComplete;
 
     (el.shadowRoot!.querySelector('.fab') as HTMLElement).click();
@@ -31,13 +31,13 @@ describe('<vibe-toolbar>', () => {
   });
 
   it('lists all configured flags', async () => {
-    const el = await fixture(html`<vibe-toolbar></vibe-toolbar>`);
+    const el = await fixture(html`<vibe-flags-toolbar></vibe-flags-toolbar>`);
     await el.updateComplete;
     expect(el.shadowRoot!.querySelectorAll('.flag-item').length).toBe(2);
   });
 
   it('toggles boolean flag via switch', async () => {
-    const el = await fixture(html`<vibe-toolbar></vibe-toolbar>`);
+    const el = await fixture(html`<vibe-flags-toolbar></vibe-flags-toolbar>`);
     await el.updateComplete;
 
     (el.shadowRoot!.querySelector('.toggle input') as HTMLInputElement).click();
@@ -46,7 +46,7 @@ describe('<vibe-toolbar>', () => {
   });
 
   it('changes select flag via dropdown', async () => {
-    const el = await fixture(html`<vibe-toolbar></vibe-toolbar>`);
+    const el = await fixture(html`<vibe-flags-toolbar></vibe-flags-toolbar>`);
     await el.updateComplete;
 
     const select = el.shadowRoot!.querySelector('.select') as HTMLSelectElement;
@@ -60,7 +60,7 @@ describe('<vibe-toolbar>', () => {
     flagStore.set('darkMode', true);
     flagStore.set('theme', 'dark');
 
-    const el = await fixture(html`<vibe-toolbar></vibe-toolbar>`);
+    const el = await fixture(html`<vibe-flags-toolbar></vibe-flags-toolbar>`);
     await el.updateComplete;
 
     (el.shadowRoot!.querySelector('.reset-btn') as HTMLElement).click();
@@ -70,7 +70,7 @@ describe('<vibe-toolbar>', () => {
   });
 
   it('closes card on second FAB click', async () => {
-    const el = await fixture(html`<vibe-toolbar></vibe-toolbar>`);
+    const el = await fixture(html`<vibe-flags-toolbar></vibe-flags-toolbar>`);
     await el.updateComplete;
 
     const fab = el.shadowRoot!.querySelector('.fab') as HTMLElement;
@@ -92,13 +92,13 @@ describe('<vibe-toolbar>', () => {
 
     const el = await fixture(html`
       <div>
-        <vibe-flag-boolean name="myFlag" description="My Flag" value="true">
+        <vibe-flags-boolean name="myFlag" description="My Flag" value="true">
           <p>Content</p>
-        </vibe-flag-boolean>
-        <vibe-toolbar></vibe-toolbar>
+        </vibe-flags-boolean>
+        <vibe-flags-toolbar></vibe-flags-toolbar>
       </div>
     `);
-    const toolbar = el.querySelector('vibe-toolbar')!;
+    const toolbar = el.querySelector('vibe-flags-toolbar')!;
     await toolbar.updateComplete;
 
     expect(toolbar.shadowRoot!.querySelectorAll('.flag-item').length).toBe(1);

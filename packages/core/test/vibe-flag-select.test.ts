@@ -4,7 +4,7 @@ import '../src/components/vibe-flag-select.js';
 import '../src/components/vibe-flag-option.js';
 import { flagStore } from '../src/store.js';
 
-describe('<vibe-flag-select>', () => {
+describe('<vibe-flags-select>', () => {
   beforeEach(() => {
     localStorage.clear();
     flagStore.reset();
@@ -12,10 +12,10 @@ describe('<vibe-flag-select>', () => {
 
   it('registers a select flag from child options', async () => {
     await fixture(html`
-      <vibe-flag-select name="theme" description="Theme">
-        <vibe-flag-option value="light"><p>Light</p></vibe-flag-option>
-        <vibe-flag-option value="dark"><p>Dark</p></vibe-flag-option>
-      </vibe-flag-select>
+      <vibe-flags-select name="theme" description="Theme">
+        <vibe-flags-option value="light"><p>Light</p></vibe-flags-option>
+        <vibe-flags-option value="dark"><p>Dark</p></vibe-flags-option>
+      </vibe-flags-select>
     `);
     // Wait for microtask registration
     await new Promise((r) => setTimeout(r, 10));
@@ -31,14 +31,14 @@ describe('<vibe-flag-select>', () => {
 
   it('shows only the active option', async () => {
     const el = await fixture(html`
-      <vibe-flag-select name="layout" description="Layout">
-        <vibe-flag-option value="grid"><div id="grid">Grid</div></vibe-flag-option>
-        <vibe-flag-option value="list"><div id="list">List</div></vibe-flag-option>
-      </vibe-flag-select>
+      <vibe-flags-select name="layout" description="Layout">
+        <vibe-flags-option value="grid"><div id="grid">Grid</div></vibe-flags-option>
+        <vibe-flags-option value="list"><div id="list">List</div></vibe-flags-option>
+      </vibe-flags-select>
     `);
     await new Promise((r) => setTimeout(r, 10));
 
-    const options = el.querySelectorAll('vibe-flag-option');
+    const options = el.querySelectorAll('vibe-flags-option');
     await options[0].updateComplete;
     await options[1].updateComplete;
 
@@ -49,14 +49,14 @@ describe('<vibe-flag-select>', () => {
 
   it('switches active option when store changes', async () => {
     const el = await fixture(html`
-      <vibe-flag-select name="layout" description="Layout">
-        <vibe-flag-option value="grid"><div>Grid</div></vibe-flag-option>
-        <vibe-flag-option value="list"><div>List</div></vibe-flag-option>
-      </vibe-flag-select>
+      <vibe-flags-select name="layout" description="Layout">
+        <vibe-flags-option value="grid"><div>Grid</div></vibe-flags-option>
+        <vibe-flags-option value="list"><div>List</div></vibe-flags-option>
+      </vibe-flags-select>
     `);
     await new Promise((r) => setTimeout(r, 10));
 
-    const options = el.querySelectorAll('vibe-flag-option');
+    const options = el.querySelectorAll('vibe-flags-option');
 
     flagStore.set('layout', 'list');
     await new Promise((r) => setTimeout(r, 10));
@@ -69,11 +69,11 @@ describe('<vibe-flag-select>', () => {
 
   it('works with three options', async () => {
     await fixture(html`
-      <vibe-flag-select name="size">
-        <vibe-flag-option value="sm"><span>Small</span></vibe-flag-option>
-        <vibe-flag-option value="md"><span>Medium</span></vibe-flag-option>
-        <vibe-flag-option value="lg"><span>Large</span></vibe-flag-option>
-      </vibe-flag-select>
+      <vibe-flags-select name="size">
+        <vibe-flags-option value="sm"><span>Small</span></vibe-flags-option>
+        <vibe-flags-option value="md"><span>Medium</span></vibe-flags-option>
+        <vibe-flags-option value="lg"><span>Large</span></vibe-flags-option>
+      </vibe-flags-select>
     `);
     await new Promise((r) => setTimeout(r, 10));
 
@@ -86,11 +86,11 @@ describe('<vibe-flag-select>', () => {
 
   it('respects default attribute when set to a valid option', async () => {
     await fixture(html`
-      <vibe-flag-select name="variant" default="dark">
-        <vibe-flag-option value="light"><span>Light</span></vibe-flag-option>
-        <vibe-flag-option value="dark"><span>Dark</span></vibe-flag-option>
-        <vibe-flag-option value="auto"><span>Auto</span></vibe-flag-option>
-      </vibe-flag-select>
+      <vibe-flags-select name="variant" default="dark">
+        <vibe-flags-option value="light"><span>Light</span></vibe-flags-option>
+        <vibe-flags-option value="dark"><span>Dark</span></vibe-flags-option>
+        <vibe-flags-option value="auto"><span>Auto</span></vibe-flags-option>
+      </vibe-flags-select>
     `);
     await new Promise((r) => setTimeout(r, 10));
 
@@ -103,14 +103,14 @@ describe('<vibe-flag-select>', () => {
 
   it('shows the default option as active when default is set', async () => {
     const el = await fixture(html`
-      <vibe-flag-select name="mode" default="list">
-        <vibe-flag-option value="grid"><div id="grid">Grid</div></vibe-flag-option>
-        <vibe-flag-option value="list"><div id="list">List</div></vibe-flag-option>
-      </vibe-flag-select>
+      <vibe-flags-select name="mode" default="list">
+        <vibe-flags-option value="grid"><div id="grid">Grid</div></vibe-flags-option>
+        <vibe-flags-option value="list"><div id="list">List</div></vibe-flags-option>
+      </vibe-flags-select>
     `);
     await new Promise((r) => setTimeout(r, 10));
 
-    const options = el.querySelectorAll('vibe-flag-option');
+    const options = el.querySelectorAll('vibe-flags-option');
     await options[0].updateComplete;
     await options[1].updateComplete;
 
@@ -120,17 +120,17 @@ describe('<vibe-flag-select>', () => {
 
   it('resets to default option on store reset', async () => {
     const el = await fixture(html`
-      <vibe-flag-select name="panel" default="list">
-        <vibe-flag-option value="grid"><div>Grid</div></vibe-flag-option>
-        <vibe-flag-option value="list"><div>List</div></vibe-flag-option>
-      </vibe-flag-select>
+      <vibe-flags-select name="panel" default="list">
+        <vibe-flags-option value="grid"><div>Grid</div></vibe-flags-option>
+        <vibe-flags-option value="list"><div>List</div></vibe-flags-option>
+      </vibe-flags-select>
     `);
     await new Promise((r) => setTimeout(r, 10));
 
     flagStore.set('panel', 'grid');
     await new Promise((r) => setTimeout(r, 10));
 
-    const options = el.querySelectorAll('vibe-flag-option');
+    const options = el.querySelectorAll('vibe-flags-option');
     await options[0].updateComplete;
     expect(options[0].shadowRoot!.querySelector('slot')).not.toBeNull();
 
@@ -145,10 +145,10 @@ describe('<vibe-flag-select>', () => {
 
   it('falls back to first option when default attribute is not in options', async () => {
     await fixture(html`
-      <vibe-flag-select name="color" default="purple">
-        <vibe-flag-option value="red"><span>Red</span></vibe-flag-option>
-        <vibe-flag-option value="blue"><span>Blue</span></vibe-flag-option>
-      </vibe-flag-select>
+      <vibe-flags-select name="color" default="purple">
+        <vibe-flags-option value="red"><span>Red</span></vibe-flags-option>
+        <vibe-flags-option value="blue"><span>Blue</span></vibe-flags-option>
+      </vibe-flags-select>
     `);
     await new Promise((r) => setTimeout(r, 10));
 

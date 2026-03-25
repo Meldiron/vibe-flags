@@ -10,7 +10,7 @@ import { flagStore } from 'vibe-flags';
 
 ### `register(config: FlagConfig)`
 
-Register a single flag. Reads existing value from `localStorage`, falling back to `false` for booleans or the first option for selects. This is called automatically by `<vibe-flag-boolean>` and `<vibe-flag-select>` elements.
+Register a single flag. Reads existing value from `localStorage`, falling back to `false` for booleans or the first option for selects. This is called automatically by `<vibe-flags-boolean>` and `<vibe-flags-select>` elements.
 
 ```ts
 flagStore.register({ key: 'beta', type: 'boolean', label: 'Beta Mode' });

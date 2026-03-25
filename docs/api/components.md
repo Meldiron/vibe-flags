@@ -1,6 +1,6 @@
 # Components
 
-## `<vibe-flag-boolean>`
+## `<vibe-flags-boolean>`
 
 Declares a boolean flag and conditionally renders its children. Self-registers with the store on connect. Starts as `false` unless `default` is set.
 
@@ -17,26 +17,26 @@ Declares a boolean flag and conditionally renders its children. Self-registers w
 
 ```html
 <!-- Minimal: registers the flag, always shows children -->
-<vibe-flag-boolean name="darkMode">
+<vibe-flags-boolean name="darkMode">
   <div>Always visible</div>
-</vibe-flag-boolean>
+</vibe-flags-boolean>
 
 <!-- Show only when flag is true, default on -->
-<vibe-flag-boolean name="showCta" description="Show CTA" default value="true">
+<vibe-flags-boolean name="showCta" description="Show CTA" default value="true">
   <section>Call to action</section>
-</vibe-flag-boolean>
+</vibe-flags-boolean>
 
 <!-- Show only when flag is false -->
-<vibe-flag-boolean name="darkMode" value="false">
+<vibe-flags-boolean name="darkMode" value="false">
   <div>Light mode active</div>
-</vibe-flag-boolean>
+</vibe-flags-boolean>
 ```
 
 ---
 
-## `<vibe-flag-select>`
+## `<vibe-flags-select>`
 
-Declares a select flag. Options are defined as `<vibe-flag-option>` children — only the active option's children are rendered. Starts as the `default` option if set, otherwise the first option.
+Declares a select flag. Options are defined as `<vibe-flags-option>` children — only the active option's children are rendered. Starts as the `default` option if set, otherwise the first option.
 
 ### Attributes
 
@@ -44,30 +44,30 @@ Declares a select flag. Options are defined as `<vibe-flag-option>` children —
 |-----------|------|---------|-------------|
 | `name` | `string` | `''` | Unique flag identifier |
 | `description` | `string` | `''` | Label shown in the toolbar (falls back to `name`) |
-| `default` | `string` | `''` | The option value to use as the initial default. Must match a child `<vibe-flag-option value>`. Falls back to first option if omitted or invalid. Also used by "Reset all to defaults". |
+| `default` | `string` | `''` | The option value to use as the initial default. Must match a child `<vibe-flags-option value>`. Falls back to first option if omitted or invalid. Also used by "Reset all to defaults". |
 
 ### Example
 
 ```html
 <!-- Without default: starts at first option ("minimal") -->
-<vibe-flag-select name="hero" description="Hero section">
-  <vibe-flag-option value="minimal"><h1>Minimal</h1></vibe-flag-option>
-  <vibe-flag-option value="visual"><h1>Visual</h1></vibe-flag-option>
-</vibe-flag-select>
+<vibe-flags-select name="hero" description="Hero section">
+  <vibe-flags-option value="minimal"><h1>Minimal</h1></vibe-flags-option>
+  <vibe-flags-option value="visual"><h1>Visual</h1></vibe-flags-option>
+</vibe-flags-select>
 
 <!-- With default: starts at "dark" -->
-<vibe-flag-select name="theme" description="Theme" default="dark">
-  <vibe-flag-option value="light"><p>Light theme</p></vibe-flag-option>
-  <vibe-flag-option value="dark"><p>Dark theme</p></vibe-flag-option>
-  <vibe-flag-option value="auto"><p>System theme</p></vibe-flag-option>
-</vibe-flag-select>
+<vibe-flags-select name="theme" description="Theme" default="dark">
+  <vibe-flags-option value="light"><p>Light theme</p></vibe-flags-option>
+  <vibe-flags-option value="dark"><p>Dark theme</p></vibe-flags-option>
+  <vibe-flags-option value="auto"><p>System theme</p></vibe-flags-option>
+</vibe-flags-select>
 ```
 
 ---
 
-## `<vibe-flag-option>`
+## `<vibe-flags-option>`
 
-A single option inside `<vibe-flag-select>`. Its children are shown only when this option is the active selection.
+A single option inside `<vibe-flags-select>`. Its children are shown only when this option is the active selection.
 
 ### Attributes
 
@@ -77,15 +77,15 @@ A single option inside `<vibe-flag-select>`. Its children are shown only when th
 
 ---
 
-## `<vibe-toolbar>`
+## `<vibe-flags-toolbar>`
 
 Floating toggle button + slide-out sidebar. Automatically discovers all registered flags and renders controls (toggle switches for booleans, dropdowns for selects).
 
 ### Example
 
 ```html
-<vibe-flag-boolean name="beta" description="Beta features" value="true">
+<vibe-flags-boolean name="beta" description="Beta features" value="true">
   <p>Beta content</p>
-</vibe-flag-boolean>
-<vibe-toolbar></vibe-toolbar>
+</vibe-flags-boolean>
+<vibe-flags-toolbar></vibe-flags-toolbar>
 ```

@@ -30,7 +30,7 @@ useFlag(config: FlagConfig): FlagValue
 import { useFlag } from '@vibe-flags/core/react';
 import { flagStore } from '@vibe-flags/core';
 
-// Register once (e.g. at app startup, or via <vibe-flag-boolean>)
+// Register once (e.g. at app startup, or via <vibe-flags-boolean>)
 flagStore.register({ key: 'darkMode', type: 'boolean', default: false });
 
 function App() {
@@ -65,7 +65,7 @@ function ThemePicker() {
 
 ## `VibeFlagsToolbar`
 
-`VibeFlagsToolbar` is a React component that renders the Vibe Flags floating toolbar. It wraps the `<vibe-toolbar>` custom element and handles registration automatically.
+`VibeFlagsToolbar` is a React component that renders the Vibe Flags floating toolbar. It wraps the `<vibe-flags-toolbar>` custom element and handles registration automatically.
 
 Place it once, anywhere in your component tree:
 
@@ -89,6 +89,69 @@ The toolbar automatically discovers all registered flags and provides:
 - Dropdown selectors for select flags
 
 No props are required.
+
+## `VibeFlagsBoolean`
+
+React wrapper for `<vibe-flags-boolean>`. Self-registers the flag and renders children when the flag value matches `value`. If `value` is omitted, children are shown whenever the flag is truthy.
+
+```tsx
+import { VibeFlagsBoolean } from '@vibe-flags/core/react';
+
+function App() {
+  return (
+    <>
+      <VibeFlagsBoolean name="darkMode" description="Dark Mode" value="true">
+        <style>{`body { background: #1a1a1a; color: #fff; }`}</style>
+      </VibeFlagsBoolean>
+      <VibeFlagsBoolean name="darkMode" value="false">
+        <style>{`body { background: #fff; color: #111; }`}</style>
+      </VibeFlagsBoolean>
+    </>
+  );
+}
+```
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `name` | `string` | required | Unique flag key |
+| `description` | `string` | `""` | Label shown in toolbar |
+| `value` | `string` | `""` | Expected value to show children |
+| `default` | `boolean` | `false` | Initial value |
+
+## `VibeFlagsSelect` and `VibeFlagsOption`
+
+React wrappers for `<vibe-flags-select>` and `<vibe-flags-option>`. Only the active option's children are rendered.
+
+```tsx
+import { VibeFlagsSelect, VibeFlagsOption } from '@vibe-flags/core/react';
+
+function App() {
+  return (
+    <VibeFlagsSelect name="theme" description="Color theme" default="light">
+      <VibeFlagsOption value="light">
+        <style>{`:root { --bg: #fff; --text: #111; }`}</style>
+      </VibeFlagsOption>
+      <VibeFlagsOption value="dark">
+        <style>{`:root { --bg: #111; --text: #fff; }`}</style>
+      </VibeFlagsOption>
+    </VibeFlagsSelect>
+  );
+}
+```
+
+**`VibeFlagsSelect` props:**
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `name` | `string` | required | Unique flag key |
+| `description` | `string` | `""` | Label shown in toolbar |
+| `default` | `string` | first option | Default selection |
+
+**`VibeFlagsOption` props:**
+
+| Prop | Type | Description |
+|------|------|-------------|
+| `value` | `string` | Option identifier — children shown when this is active |
 
 ## TypeScript
 

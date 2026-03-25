@@ -7,15 +7,15 @@ Drop one script tag in. Toggle flags from a floating toolbar. Flags persist acro
 ```html
 <script type="module" src="https://unpkg.com/@vibe-flags/core"></script>
 
-<vibe-flag-boolean name="new-hero" description="New hero section" value="true">
+<vibe-flags-boolean name="new-hero" description="New hero section" value="true">
   <section>✨ New hero</section>
-</vibe-flag-boolean>
+</vibe-flags-boolean>
 
-<vibe-flag-boolean name="new-hero" value="false">
+<vibe-flags-boolean name="new-hero" value="false">
   <section>Old hero</section>
-</vibe-flag-boolean>
+</vibe-flags-boolean>
 
-<vibe-toolbar></vibe-toolbar>
+<vibe-flags-toolbar></vibe-flags-toolbar>
 ```
 
 A flag button appears in the bottom-right corner. Click it to open the sidebar and toggle your flags. That's it.
@@ -54,27 +54,27 @@ npm install @vibe-flags/core
 ```ts
 import '@vibe-flags/core';
 // or import specific components:
-import { VibeFlagBoolean, VibeFlagSelect, VibeToolbar } from '@vibe-flags/core';
+import { VibeFlagsBoolean, VibeFlagsSelect, VibeFlagsToolbar } from '@vibe-flags/core';
 ```
 
 ---
 
 ## Components
 
-### `<vibe-flag-boolean>`
+### `<vibe-flags-boolean>`
 
 On/off feature flag. Renders its children only when the flag matches `value`.
 
 ```html
 <!-- Show content when flag is ON -->
-<vibe-flag-boolean name="dark-mode" description="Dark Mode" value="true">
+<vibe-flags-boolean name="dark-mode" description="Dark Mode" value="true">
   <style>body { background: #111; color: #fff; }</style>
-</vibe-flag-boolean>
+</vibe-flags-boolean>
 
 <!-- Show content when flag is OFF -->
-<vibe-flag-boolean name="dark-mode" value="false">
+<vibe-flags-boolean name="dark-mode" value="false">
   <style>body { background: #fff; color: #111; }</style>
-</vibe-flag-boolean>
+</vibe-flags-boolean>
 ```
 
 **Attributes**
@@ -88,22 +88,22 @@ On/off feature flag. Renders its children only when the flag matches `value`.
 
 ---
 
-### `<vibe-flag-select>`
+### `<vibe-flags-select>`
 
-Multi-option flag. Only the matching `<vibe-flag-option>` renders its children.
+Multi-option flag. Only the matching `<vibe-flags-option>` renders its children.
 
 ```html
-<vibe-flag-select name="theme" description="Color theme" default="dark">
-  <vibe-flag-option value="light">
+<vibe-flags-select name="theme" description="Color theme" default="dark">
+  <vibe-flags-option value="light">
     <style>:root { --bg: #fff; --text: #111; }</style>
-  </vibe-flag-option>
-  <vibe-flag-option value="dark">
+  </vibe-flags-option>
+  <vibe-flags-option value="dark">
     <style>:root { --bg: #111; --text: #fff; }</style>
-  </vibe-flag-option>
-  <vibe-flag-option value="auto">
+  </vibe-flags-option>
+  <vibe-flags-option value="auto">
     <style>:root { color-scheme: light dark; }</style>
-  </vibe-flag-option>
-</vibe-flag-select>
+  </vibe-flags-option>
+</vibe-flags-select>
 ```
 
 **Attributes**
@@ -116,9 +116,9 @@ Multi-option flag. Only the matching `<vibe-flag-option>` renders its children.
 
 ---
 
-### `<vibe-flag-option>`
+### `<vibe-flags-option>`
 
-A single branch inside `<vibe-flag-select>`. Children render only when this option is active.
+A single branch inside `<vibe-flags-select>`. Children render only when this option is active.
 
 | Attribute | Type | Description |
 |-----------|------|-------------|
@@ -126,13 +126,13 @@ A single branch inside `<vibe-flag-select>`. Children render only when this opti
 
 ---
 
-### `<vibe-toolbar>`
+### `<vibe-flags-toolbar>`
 
 Floating button + slide-out sidebar. Automatically lists all registered flags with live controls.
 
 ```html
 <!-- Place once, anywhere in the page -->
-<vibe-toolbar></vibe-toolbar>
+<vibe-flags-toolbar></vibe-flags-toolbar>
 ```
 
 No attributes required. The toolbar discovers all flags on the page automatically.
@@ -181,31 +181,31 @@ window.addEventListener('vibe-flags-changed', (e) => {
 ### A/B test two designs
 
 ```html
-<vibe-flag-select name="hero" description="Hero variant">
-  <vibe-flag-option value="a">
+<vibe-flags-select name="hero" description="Hero variant">
+  <vibe-flags-option value="a">
     <h1>Control: Simple headline</h1>
-  </vibe-flag-option>
-  <vibe-flag-option value="b">
+  </vibe-flags-option>
+  <vibe-flags-option value="b">
     <h1>Variant: Bold, punchy headline with emoji 🚀</h1>
-  </vibe-flag-option>
-</vibe-flag-select>
+  </vibe-flags-option>
+</vibe-flags-select>
 
-<vibe-toolbar></vibe-toolbar>
+<vibe-flags-toolbar></vibe-flags-toolbar>
 ```
 
 ### Progressive rollout with defaults
 
 ```html
 <!-- Default off — enable in toolbar to preview -->
-<vibe-flag-boolean name="checkout-v2" description="New checkout flow" value="true">
+<vibe-flags-boolean name="checkout-v2" description="New checkout flow" value="true">
   <section id="checkout-new">...</section>
-</vibe-flag-boolean>
+</vibe-flags-boolean>
 
-<vibe-flag-boolean name="checkout-v2" value="false">
+<vibe-flags-boolean name="checkout-v2" value="false">
   <section id="checkout-old">...</section>
-</vibe-flag-boolean>
+</vibe-flags-boolean>
 
-<vibe-toolbar></vibe-toolbar>
+<vibe-flags-toolbar></vibe-flags-toolbar>
 ```
 
 ### Use with AI agents
@@ -216,15 +216,15 @@ Vibe Flags is designed to be easy for LLMs to use. The HTML-first API is intuiti
 <!-- An LLM can generate this correctly on first try -->
 <script type="module" src="https://unpkg.com/@vibe-flags/core"></script>
 
-<vibe-flag-boolean name="feature-x" description="Feature X" value="true">
+<vibe-flags-boolean name="feature-x" description="Feature X" value="true">
   <!-- new content -->
-</vibe-flag-boolean>
+</vibe-flags-boolean>
 
-<vibe-flag-boolean name="feature-x" value="false">
+<vibe-flags-boolean name="feature-x" value="false">
   <!-- old content -->
-</vibe-flag-boolean>
+</vibe-flags-boolean>
 
-<vibe-toolbar></vibe-toolbar>
+<vibe-flags-toolbar></vibe-flags-toolbar>
 ```
 
 ---
@@ -253,13 +253,43 @@ Pass a `FlagConfig` to auto-register the flag on mount, or pass a `key` string t
 A React component that renders the floating toolbar. No props required.
 
 ```tsx
-import { useFlag, VibeFlagsToolbar } from '@vibe-flags/core/react';
+import { VibeFlagsToolbar } from '@vibe-flags/core/react';
 
 function App() {
-  const showBanner = useFlag({ key: 'showBanner', type: 'boolean', default: true });
+  return <VibeFlagsToolbar />;
+}
+```
+
+### `VibeFlagsBoolean`
+
+React wrapper for `<vibe-flags-boolean>`. Renders children when the flag value matches `value`.
+
+```tsx
+import { VibeFlagsBoolean } from '@vibe-flags/core/react';
+
+<VibeFlagsBoolean name="darkMode" description="Dark Mode" value="true">
+  <style>{`body { background: #1a1a1a; color: #fff; }`}</style>
+</VibeFlagsBoolean>
+```
+
+### `VibeFlagsSelect` and `VibeFlagsOption`
+
+React wrappers for the multi-option flag. Only the active option renders its children.
+
+```tsx
+import { VibeFlagsSelect, VibeFlagsOption, VibeFlagsToolbar } from '@vibe-flags/core/react';
+
+function App() {
   return (
     <>
-      {showBanner && <div className="banner">Welcome to the beta!</div>}
+      <VibeFlagsSelect name="theme" description="Color theme" default="light">
+        <VibeFlagsOption value="light">
+          <style>{`:root { --bg: #fff; --text: #111; }`}</style>
+        </VibeFlagsOption>
+        <VibeFlagsOption value="dark">
+          <style>{`:root { --bg: #111; --text: #fff; }`}</style>
+        </VibeFlagsOption>
+      </VibeFlagsSelect>
       <VibeFlagsToolbar />
     </>
   );

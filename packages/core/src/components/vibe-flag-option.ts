@@ -1,8 +1,8 @@
 import { LitElement, html, nothing } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 
-@customElement('vibe-flag-option')
-export class VibeFlagOption extends LitElement {
+@customElement('vibe-flags-option')
+export class VibeFlagsOption extends LitElement {
   @property({ type: String })
   value = '';
 
@@ -20,6 +20,6 @@ export class VibeFlagOption extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'vibe-flag-option': VibeFlagOption;
+    'vibe-flags-option': VibeFlagsOption;
   }
 }

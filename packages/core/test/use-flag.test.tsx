@@ -1,6 +1,7 @@
 import { describe, it, expect, beforeEach, vi, afterEach } from 'vitest';
 import { renderHook, render, act } from '@testing-library/react';
-import { useFlag, VibeFlagsToolbar } from '../src/react/index.js';
+import { useFlag, VibeFlagsToolbar, VibeFlagsBoolean, VibeFlagsSelect, VibeFlagsOption } from '../src/react/index.js';
+import { createElement } from 'react';
 import { flagStore } from '../src/store.js';
 
 describe('useFlag', () => {
@@ -124,18 +125,115 @@ describe('VibeFlagsToolbar', () => {
     expect(() => render(VibeFlagsToolbar({}))).not.toThrow();
   });
 
-  it('mounts a vibe-toolbar element in the DOM', () => {
+  it('mounts a vibe-flags-toolbar element in the DOM', () => {
     const { container } = render(VibeFlagsToolbar({}));
-    expect(container.querySelector('vibe-toolbar')).not.toBeNull();
+    expect(container.querySelector('vibe-flags-toolbar')).not.toBeNull();
   });
 
-  it('registers the vibe-toolbar custom element', () => {
+  it('registers the vibe-flags-toolbar custom element', () => {
     render(VibeFlagsToolbar({}));
-    expect(customElements.get('vibe-toolbar')).toBeDefined();
+    expect(customElements.get('vibe-flags-toolbar')).toBeDefined();
   });
 
   it('unmounts cleanly without errors', () => {
     const { unmount } = render(VibeFlagsToolbar({}));
     expect(() => unmount()).not.toThrow();
+  });
+});
+
+describe('VibeFlagsBoolean', () => {
+  it('renders without throwing', () => {
+    expect(() => render(VibeFlagsBoolean({ name: 'myFlag' }))).not.toThrow();
+  });
+
+  it('mounts a vibe-flags-boolean element in the DOM', () => {
+    const { container } = render(VibeFlagsBoolean({ name: 'myFlag' }));
+    expect(container.querySelector('vibe-flags-boolean')).not.toBeNull();
+  });
+
+  it('passes name, description, and value attributes', () => {
+    const { container } = render(
+      VibeFlagsBoolean({ name: 'bannerFlag', description: 'Show Banner', value: 'true' }),
+    );
+    const el = container.querySelector('vibe-flags-boolean')!;
+    expect(el.getAttribute('name')).toBe('bannerFlag');
+    expect(el.getAttribute('description')).toBe('Show Banner');
+    expect(el.getAttribute('value')).toBe('true');
+  });
+
+  it('renders children inside the element', () => {
+    const { container } = render(
+      VibeFlagsBoolean({ name: 'myFlag', children: createElement('span', { id: 'child' }, 'content') }),
+    );
+    expect(container.querySelector('#child')).not.toBeNull();
+  });
+
+  it('registers the vibe-flags-boolean custom element', () => {
+    render(VibeFlagsBoolean({ name: 'myFlag' }));
+    expect(customElements.get('vibe-flags-boolean')).toBeDefined();
+  });
+});
+
+describe('VibeFlagsSelect', () => {
+  it('renders without throwing', () => {
+    expect(() => render(VibeFlagsSelect({ name: 'mySelect' }))).not.toThrow();
+  });
+
+  it('mounts a vibe-flags-select element in the DOM', () => {
+    const { container } = render(VibeFlagsSelect({ name: 'mySelect' }));
+    expect(container.querySelector('vibe-flags-select')).not.toBeNull();
+  });
+
+  it('passes name and description attributes', () => {
+    const { container } = render(
+      VibeFlagsSelect({ name: 'theme', description: 'Theme', default: 'light' }),
+    );
+    const el = container.querySelector('vibe-flags-select')!;
+    expect(el.getAttribute('name')).toBe('theme');
+    expect(el.getAttribute('description')).toBe('Theme');
+  });
+
+  it('renders children inside the element', () => {
+    const { container } = render(
+      VibeFlagsSelect({
+        name: 'theme',
+        children: VibeFlagsOption({ value: 'light', children: createElement('span', { id: 'light-child' }) }),
+      }),
+    );
+    expect(container.querySelector('vibe-flags-option')).not.toBeNull();
+    expect(container.querySelector('#light-child')).not.toBeNull();
+  });
+
+  it('registers the vibe-flags-select custom element', () => {
+    render(VibeFlagsSelect({ name: 'mySelect' }));
+    expect(customElements.get('vibe-flags-select')).toBeDefined();
+  });
+});
+
+describe('VibeFlagsOption', () => {
+  it('renders without throwing', () => {
+    expect(() => render(VibeFlagsOption({ value: 'light' }))).not.toThrow();
+  });
+
+  it('mounts a vibe-flags-option element in the DOM', () => {
+    const { container } = render(VibeFlagsOption({ value: 'dark' }));
+    expect(container.querySelector('vibe-flags-option')).not.toBeNull();
+  });
+
+  it('passes value attribute', () => {
+    const { container } = render(VibeFlagsOption({ value: 'auto' }));
+    expect(container.querySelector('vibe-flags-option')!.getAttribute('value')).toBe('auto');
+  });
+
+  it('renders children inside the element', () => {
+    const { container } = render(
+      VibeFlagsOption({ value: 'dark', children: createElement('div', { id: 'dark-content' }) }),
+    );
+    expect(container.querySelector('#dark-content')).not.toBeNull();
+  });
+
+  it('registers the vibe-flags-option custom element', () => {
+    render(VibeFlagsOption({ value: 'x' }));
+    expect(customElements.get('vibe-flags-option')).toBeDefined();
   });
 });
