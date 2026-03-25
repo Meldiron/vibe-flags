@@ -2,21 +2,21 @@ import { describe, it, expect, beforeEach, vi, afterEach } from 'vitest';
 import { renderHook, render, act } from '@testing-library/react';
 import { useFlag, VibeFlagsToolbar, VibeFlagsBoolean, VibeFlagsSelect, VibeFlagsOption } from '../src/react/index.js';
 import { createElement } from 'react';
-import { flagStore } from '../src/store.js';
+import { vibeFlagsStore } from '../src/store.js';
 
 describe('useFlag', () => {
   beforeEach(() => {
     localStorage.clear();
-    flagStore.reset();
+    vibeFlagsStore.reset();
     // Unregister lingering flags between tests
-    for (const config of flagStore.getConfig()) {
-      flagStore.unregister(config.key);
+    for (const config of vibeFlagsStore.getConfig()) {
+      vibeFlagsStore.unregister(config.key);
     }
   });
 
   afterEach(() => {
-    for (const config of flagStore.getConfig()) {
-      flagStore.unregister(config.key);
+    for (const config of vibeFlagsStore.getConfig()) {
+      vibeFlagsStore.unregister(config.key);
     }
   });
 
@@ -26,13 +26,13 @@ describe('useFlag', () => {
   });
 
   it('returns the current value for a pre-registered boolean flag', () => {
-    flagStore.register({ key: 'darkMode', type: 'boolean', default: false });
+    vibeFlagsStore.register({ key: 'darkMode', type: 'boolean', default: false });
     const { result } = renderHook(() => useFlag('darkMode'));
     expect(result.current).toBe(false);
   });
 
   it('returns the current value for a pre-registered select flag', () => {
-    flagStore.register({ key: 'theme', type: 'select', options: ['light', 'dark'], default: 'light' });
+    vibeFlagsStore.register({ key: 'theme', type: 'select', options: ['light', 'dark'], default: 'light' });
     const { result } = renderHook(() => useFlag('theme'));
     expect(result.current).toBe('light');
   });
@@ -51,61 +51,61 @@ describe('useFlag', () => {
     expect(result.current).toBe('md');
   });
 
-  it('updates when flagStore.set is called', () => {
-    flagStore.register({ key: 'darkMode', type: 'boolean', default: false });
+  it('updates when vibeFlagsStore.set is called', () => {
+    vibeFlagsStore.register({ key: 'darkMode', type: 'boolean', default: false });
     const { result } = renderHook(() => useFlag('darkMode'));
 
     act(() => {
-      flagStore.set('darkMode', true);
+      vibeFlagsStore.set('darkMode', true);
     });
 
     expect(result.current).toBe(true);
   });
 
   it('updates when a select flag value changes', () => {
-    flagStore.register({ key: 'theme', type: 'select', options: ['light', 'dark', 'auto'], default: 'light' });
+    vibeFlagsStore.register({ key: 'theme', type: 'select', options: ['light', 'dark', 'auto'], default: 'light' });
     const { result } = renderHook(() => useFlag('theme'));
 
     act(() => {
-      flagStore.set('theme', 'dark');
+      vibeFlagsStore.set('theme', 'dark');
     });
 
     expect(result.current).toBe('dark');
   });
 
-  it('reflects flagStore.reset()', () => {
-    flagStore.register({ key: 'darkMode', type: 'boolean', default: false });
-    flagStore.set('darkMode', true);
+  it('reflects vibeFlagsStore.reset()', () => {
+    vibeFlagsStore.register({ key: 'darkMode', type: 'boolean', default: false });
+    vibeFlagsStore.set('darkMode', true);
     const { result } = renderHook(() => useFlag('darkMode'));
     expect(result.current).toBe(true);
 
     act(() => {
-      flagStore.reset();
+      vibeFlagsStore.reset();
     });
 
     expect(result.current).toBe(false);
   });
 
   it('stops updating after unmount', () => {
-    flagStore.register({ key: 'darkMode', type: 'boolean', default: false });
+    vibeFlagsStore.register({ key: 'darkMode', type: 'boolean', default: false });
     const { result, unmount } = renderHook(() => useFlag('darkMode'));
     unmount();
 
     // Calling set after unmount should not throw
     expect(() => {
       act(() => {
-        flagStore.set('darkMode', true);
+        vibeFlagsStore.set('darkMode', true);
       });
     }).not.toThrow();
   });
 
   it('reacts to vibe-flags-changed window event directly', () => {
-    flagStore.register({ key: 'featureY', type: 'boolean', default: false });
+    vibeFlagsStore.register({ key: 'featureY', type: 'boolean', default: false });
     const { result } = renderHook(() => useFlag('featureY'));
     expect(result.current).toBe(false);
 
     act(() => {
-      flagStore.set('featureY', true);
+      vibeFlagsStore.set('featureY', true);
     });
 
     expect(result.current).toBe(true);

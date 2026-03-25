@@ -3,12 +3,12 @@ import { fixture, html } from '@open-wc/testing';
 import '../src/components/vibe-flag-select.js';
 import '../src/components/vibe-flag-option.js';
 import '../src/components/vibe-toolbar.js';
-import { flagStore } from '../src/store.js';
+import { vibeFlagsStore } from '../src/store.js';
 
 describe('<vibe-flags-select> switching via toolbar', () => {
   beforeEach(() => {
     localStorage.clear();
-    flagStore.reset();
+    vibeFlagsStore.reset();
   });
 
   it('option visibility changes when toolbar dropdown is used', async () => {
@@ -46,7 +46,7 @@ describe('<vibe-flags-select> switching via toolbar', () => {
     await options[0].updateComplete;
     await options[1].updateComplete;
 
-    expect(flagStore.get('hero')).toBe('v2');
+    expect(vibeFlagsStore.get('hero')).toBe('v2');
     expect(options[0].active).toBe(false);
     expect(options[1].active).toBe(true);
     expect(options[0].shadowRoot!.querySelector('slot')).toBeNull();

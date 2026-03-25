@@ -141,28 +141,28 @@ No attributes required. The toolbar discovers all flags on the page automaticall
 
 ## JavaScript API
 
-For programmatic access, use `flagStore`:
+For programmatic access, use `vibeFlagsStore`:
 
 ```ts
-import { flagStore } from '@vibe-flags/core';
+import { vibeFlagsStore } from '@vibe-flags/core';
 
 // Register a flag manually
-flagStore.register({ key: 'beta', type: 'boolean', default: false });
-flagStore.register({ key: 'layout', type: 'select', options: ['grid', 'list'] });
+vibeFlagsStore.register({ key: 'beta', type: 'boolean', default: false });
+vibeFlagsStore.register({ key: 'layout', type: 'select', options: ['grid', 'list'] });
 
 // Read a value
-flagStore.get('beta');    // false
-flagStore.get('layout');  // 'grid'
+vibeFlagsStore.get('beta');    // false
+vibeFlagsStore.get('layout');  // 'grid'
 
 // Set a value (validates, persists, fires change event)
-flagStore.set('beta', true);
-flagStore.set('layout', 'list');
+vibeFlagsStore.set('beta', true);
+vibeFlagsStore.set('layout', 'list');
 
 // Get everything
-flagStore.getAll(); // { beta: true, layout: 'list' }
+vibeFlagsStore.getAll(); // { beta: true, layout: 'list' }
 
 // Reset all to defaults
-flagStore.reset();
+vibeFlagsStore.reset();
 ```
 
 ### Listening for changes
@@ -246,7 +246,7 @@ function App() {
 }
 ```
 
-Pass a `FlagConfig` to auto-register the flag on mount, or pass a `key` string to subscribe to an already-registered flag.
+Pass a `VibeFlagsConfig` to auto-register the flag on mount, or pass a `key` string to subscribe to an already-registered flag.
 
 ### `VibeFlagsToolbar`
 

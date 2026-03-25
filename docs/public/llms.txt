@@ -21,7 +21,7 @@ Vibe Flags is a set of web components for managing feature flags entirely in the
 - **Boolean flags** (`<vibe-flags-boolean>`): On/off toggles, start as `false`
 - **Select flags** (`<vibe-flags-select>` + `<vibe-flags-option>`): Multi-option picker, starts as first option
 - **Toolbar** (`<vibe-flags-toolbar>`): Floating sidebar that auto-discovers all registered flags
-- **Store API** (`flagStore`): Imperative JS API for programmatic flag management
+- **Store API** (`vibeFlagsStore`): Imperative JS API for programmatic flag management
 
 ## Key Features
 

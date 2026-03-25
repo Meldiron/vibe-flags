@@ -2,12 +2,12 @@ import { describe, it, expect, beforeEach } from 'vitest';
 import { fixture, html, waitUntil } from '@open-wc/testing';
 import '../src/components/vibe-flag-select.js';
 import '../src/components/vibe-flag-option.js';
-import { flagStore } from '../src/store.js';
+import { vibeFlagsStore } from '../src/store.js';
 
 describe('<vibe-flags-select>', () => {
   beforeEach(() => {
     localStorage.clear();
-    flagStore.reset();
+    vibeFlagsStore.reset();
   });
 
   it('registers a select flag from child options', async () => {
@@ -20,8 +20,8 @@ describe('<vibe-flags-select>', () => {
     // Wait for microtask registration
     await new Promise((r) => setTimeout(r, 10));
 
-    expect(flagStore.get('theme')).toBe('light');
-    const config = flagStore.getConfigForKey('theme');
+    expect(vibeFlagsStore.get('theme')).toBe('light');
+    const config = vibeFlagsStore.getConfigForKey('theme');
     expect(config?.type).toBe('select');
     if (config?.type === 'select') {
       expect(config.options).toEqual(['light', 'dark']);
@@ -58,7 +58,7 @@ describe('<vibe-flags-select>', () => {
 
     const options = el.querySelectorAll('vibe-flags-option');
 
-    flagStore.set('layout', 'list');
+    vibeFlagsStore.set('layout', 'list');
     await new Promise((r) => setTimeout(r, 10));
     await options[0].updateComplete;
     await options[1].updateComplete;
@@ -77,8 +77,8 @@ describe('<vibe-flags-select>', () => {
     `);
     await new Promise((r) => setTimeout(r, 10));
 
-    expect(flagStore.get('size')).toBe('sm');
-    const config = flagStore.getConfigForKey('size');
+    expect(vibeFlagsStore.get('size')).toBe('sm');
+    const config = vibeFlagsStore.getConfigForKey('size');
     if (config?.type === 'select') {
       expect(config.options).toEqual(['sm', 'md', 'lg']);
     }
@@ -94,8 +94,8 @@ describe('<vibe-flags-select>', () => {
     `);
     await new Promise((r) => setTimeout(r, 10));
 
-    expect(flagStore.get('variant')).toBe('dark');
-    const config = flagStore.getConfigForKey('variant');
+    expect(vibeFlagsStore.get('variant')).toBe('dark');
+    const config = vibeFlagsStore.getConfigForKey('variant');
     if (config?.type === 'select') {
       expect(config.default).toBe('dark');
     }
@@ -127,14 +127,14 @@ describe('<vibe-flags-select>', () => {
     `);
     await new Promise((r) => setTimeout(r, 10));
 
-    flagStore.set('panel', 'grid');
+    vibeFlagsStore.set('panel', 'grid');
     await new Promise((r) => setTimeout(r, 10));
 
     const options = el.querySelectorAll('vibe-flags-option');
     await options[0].updateComplete;
     expect(options[0].shadowRoot!.querySelector('slot')).not.toBeNull();
 
-    flagStore.reset();
+    vibeFlagsStore.reset();
     await new Promise((r) => setTimeout(r, 10));
     await options[0].updateComplete;
     await options[1].updateComplete;
@@ -152,6 +152,6 @@ describe('<vibe-flags-select>', () => {
     `);
     await new Promise((r) => setTimeout(r, 10));
 
-    expect(flagStore.get('color')).toBe('red');
+    expect(vibeFlagsStore.get('color')).toBe('red');
   });
 });

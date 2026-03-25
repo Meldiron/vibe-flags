@@ -5,13 +5,13 @@ export { VibeFlagsOption } from './components/vibe-flag-option.js';
 export { VibeFlagsToolbar } from './components/vibe-toolbar.js';
 
 // Store (imperative API)
-export { flagStore } from './store.js';
+export { vibeFlagsStore } from './store.js';
 
 // Types
 export type {
-  FlagConfig,
-  FlagConfigBoolean,
-  FlagConfigSelect,
-  FlagValue,
-  FlagState,
+  VibeFlagsConfig,
+  VibeFlagsConfigBoolean,
+  VibeFlagsConfigSelect,
+  VibeFlagsValue,
+  VibeFlagsState,
 } from './types.js';

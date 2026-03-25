@@ -1,6 +1,6 @@
 import { LitElement, html } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
-import { flagStore } from '../store.js';
+import { vibeFlagsStore } from '../store.js';
 import type { VibeFlagsOption } from './vibe-flag-option.js';
 
 @customElement('vibe-flags-select')
@@ -46,8 +46,8 @@ export class VibeFlagsSelect extends LitElement {
     const options = this.getOptions().map((el) => el.value).filter(Boolean);
     if (options.length === 0) return;
 
-    if (!flagStore.getConfigForKey(this.name)) {
-      flagStore.register({
+    if (!vibeFlagsStore.getConfigForKey(this.name)) {
+      vibeFlagsStore.register({
         key: this.name,
         type: 'select',
         options,
@@ -63,7 +63,7 @@ export class VibeFlagsSelect extends LitElement {
   };
 
   private syncOptions(): void {
-    const current = flagStore.get(this.name);
+    const current = vibeFlagsStore.get(this.name);
     for (const option of this.getOptions()) {
       option.active = option.value === current;
     }

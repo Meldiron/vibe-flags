@@ -18,20 +18,20 @@ React 18 or 19 is required as a peer dependency.
 
 ```ts
 // Subscribe to an already-registered flag by key
-useFlag(key: string): FlagValue | undefined
+useFlag(key: string): VibeFlagsValue | undefined
 
 // Register a flag from config and subscribe
-useFlag(config: FlagConfig): FlagValue
+useFlag(config: VibeFlagsConfig): VibeFlagsValue
 ```
 
 ### Boolean flag
 
 ```tsx
 import { useFlag } from '@vibe-flags/core/react';
-import { flagStore } from '@vibe-flags/core';
+import { vibeFlagsStore } from '@vibe-flags/core';
 
 // Register once (e.g. at app startup, or via <vibe-flags-boolean>)
-flagStore.register({ key: 'darkMode', type: 'boolean', default: false });
+vibeFlagsStore.register({ key: 'darkMode', type: 'boolean', default: false });
 
 function App() {
   const darkMode = useFlag('darkMode');
@@ -46,7 +46,7 @@ function App() {
 
 ### Register from config
 
-Pass a `FlagConfig` object directly to `useFlag` — the flag will be registered automatically on mount:
+Pass a `VibeFlagsConfig` object directly to `useFlag` — the flag will be registered automatically on mount:
 
 ```tsx
 import { useFlag } from '@vibe-flags/core/react';
@@ -158,5 +158,5 @@ function App() {
 All types are exported from `@vibe-flags/core`:
 
 ```ts
-import type { FlagConfig, FlagValue } from '@vibe-flags/core';
+import type { VibeFlagsConfig, VibeFlagsValue } from '@vibe-flags/core';
 ```

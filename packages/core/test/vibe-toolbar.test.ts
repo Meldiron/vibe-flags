@@ -4,14 +4,14 @@ import '../src/components/vibe-flag-boolean.js';
 import '../src/components/vibe-flag-select.js';
 import '../src/components/vibe-flag-option.js';
 import '../src/components/vibe-toolbar.js';
-import { flagStore } from '../src/store.js';
+import { vibeFlagsStore } from '../src/store.js';
 
 describe('<vibe-flags-toolbar>', () => {
   beforeEach(() => {
     localStorage.clear();
-    flagStore.reset();
-    flagStore.register({ key: 'darkMode', type: 'boolean', label: 'Dark Mode' });
-    flagStore.register({ key: 'theme', type: 'select', options: ['light', 'dark', 'auto'], label: 'Theme' });
+    vibeFlagsStore.reset();
+    vibeFlagsStore.register({ key: 'darkMode', type: 'boolean', label: 'Dark Mode' });
+    vibeFlagsStore.register({ key: 'theme', type: 'select', options: ['light', 'dark', 'auto'], label: 'Theme' });
   });
 
   it('renders the FAB button', async () => {
@@ -42,7 +42,7 @@ describe('<vibe-flags-toolbar>', () => {
 
     (el.shadowRoot!.querySelector('.toggle input') as HTMLInputElement).click();
     await el.updateComplete;
-    expect(flagStore.get('darkMode')).toBe(true);
+    expect(vibeFlagsStore.get('darkMode')).toBe(true);
   });
 
   it('changes select flag via dropdown', async () => {
@@ -53,20 +53,20 @@ describe('<vibe-flags-toolbar>', () => {
     select.value = 'dark';
     select.dispatchEvent(new Event('change'));
     await el.updateComplete;
-    expect(flagStore.get('theme')).toBe('dark');
+    expect(vibeFlagsStore.get('theme')).toBe('dark');
   });
 
   it('resets all flags via reset button', async () => {
-    flagStore.set('darkMode', true);
-    flagStore.set('theme', 'dark');
+    vibeFlagsStore.set('darkMode', true);
+    vibeFlagsStore.set('theme', 'dark');
 
     const el = await fixture(html`<vibe-flags-toolbar></vibe-flags-toolbar>`);
     await el.updateComplete;
 
     (el.shadowRoot!.querySelector('.reset-btn') as HTMLElement).click();
     await el.updateComplete;
-    expect(flagStore.get('darkMode')).toBe(false);
-    expect(flagStore.get('theme')).toBe('light');
+    expect(vibeFlagsStore.get('darkMode')).toBe(false);
+    expect(vibeFlagsStore.get('theme')).toBe('light');
   });
 
   it('closes card on second FAB click', async () => {
@@ -87,8 +87,8 @@ describe('<vibe-flags-toolbar>', () => {
   });
 
   it('picks up flags registered by child components', async () => {
-    flagStore.unregister('darkMode');
-    flagStore.unregister('theme');
+    vibeFlagsStore.unregister('darkMode');
+    vibeFlagsStore.unregister('theme');
 
     const el = await fixture(html`
       <div>

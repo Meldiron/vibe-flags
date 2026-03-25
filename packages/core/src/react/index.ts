@@ -1,7 +1,7 @@
 import { useState, useEffect, createElement } from 'react';
 import type { ReactElement, ReactNode } from 'react';
-import { flagStore } from '../store.js';
-import type { FlagConfig, FlagValue, FlagState } from '../types.js';
+import { vibeFlagsStore } from '../store.js';
+import type { VibeFlagsConfig, VibeFlagsValue, VibeFlagsState } from '../types.js';
 
 // Ensure all custom elements are registered when this module loads
 import '../components/vibe-flag-boolean.js';
@@ -12,31 +12,31 @@ import '../components/vibe-toolbar.js';
 /**
  * React hook to read and reactively subscribe to a feature flag value.
  *
- * @overload useFlag(key: string): FlagValue | undefined
+ * @overload useFlag(key: string): VibeFlagsValue | undefined
  *   Subscribe to an already-registered flag by key.
  *
- * @overload useFlag(config: FlagConfig): FlagValue
+ * @overload useFlag(config: VibeFlagsConfig): VibeFlagsValue
  *   Register (or re-use) a flag from config and subscribe.
  */
-export function useFlag(key: string): FlagValue | undefined;
-export function useFlag(config: FlagConfig): FlagValue;
-export function useFlag(keyOrConfig: string | FlagConfig): FlagValue | undefined {
+export function useFlag(key: string): VibeFlagsValue | undefined;
+export function useFlag(config: VibeFlagsConfig): VibeFlagsValue;
+export function useFlag(keyOrConfig: string | VibeFlagsConfig): VibeFlagsValue | undefined {
   const key = typeof keyOrConfig === 'string' ? keyOrConfig : keyOrConfig.key;
 
-  const [value, setValue] = useState<FlagValue | undefined>(() => flagStore.get(key));
+  const [value, setValue] = useState<VibeFlagsValue | undefined>(() => vibeFlagsStore.get(key));
 
   useEffect(() => {
     if (typeof keyOrConfig !== 'string') {
-      flagStore.register(keyOrConfig);
+      vibeFlagsStore.register(keyOrConfig);
     }
 
     // Sync with current state after any registration
-    setValue(flagStore.get(key));
+    setValue(vibeFlagsStore.get(key));
 
     const handler = (e: Event) => {
-      const ev = e as CustomEvent<{ key?: string; state: FlagState }>;
+      const ev = e as CustomEvent<{ key?: string; state: VibeFlagsState }>;
       if (!ev.detail.key || ev.detail.key === key) {
-        setValue(flagStore.get(key));
+        setValue(vibeFlagsStore.get(key));
       }
     };
 

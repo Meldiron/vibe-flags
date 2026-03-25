@@ -1,8 +1,8 @@
 import { LitElement, html, css, nothing, type CSSResult } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
 import { tokensDark, tokensLight } from '../styles/tokens.js';
-import { flagStore } from '../store.js';
-import type { FlagConfig, FlagState } from '../types.js';
+import { vibeFlagsStore } from '../store.js';
+import type { VibeFlagsConfig, VibeFlagsState } from '../types.js';
 
 const THEME_KEY = 'vibeFlagsTheme';
 
@@ -314,10 +314,10 @@ export class VibeFlagsToolbar extends LitElement {
   private open = false;
 
   @state()
-  private flags: FlagState = {};
+  private flags: VibeFlagsState = {};
 
   @state()
-  private configs: FlagConfig[] = [];
+  private configs: VibeFlagsConfig[] = [];
 
   @state()
   private darkMode = true;
@@ -362,8 +362,8 @@ export class VibeFlagsToolbar extends LitElement {
   };
 
   private syncFromStore(): void {
-    this.configs = flagStore.getConfig();
-    this.flags = flagStore.getAll();
+    this.configs = vibeFlagsStore.getConfig();
+    this.flags = vibeFlagsStore.getAll();
   }
 
   private toggle(): void {
@@ -372,16 +372,16 @@ export class VibeFlagsToolbar extends LitElement {
 
   private onToggle(key: string): void {
     const current = this.flags[key];
-    flagStore.set(key, !current);
+    vibeFlagsStore.set(key, !current);
   }
 
   private onSelect(key: string, e: Event): void {
     const target = e.target as HTMLSelectElement;
-    flagStore.set(key, target.value);
+    vibeFlagsStore.set(key, target.value);
   }
 
   private onReset(): void {
-    flagStore.reset();
+    vibeFlagsStore.reset();
   }
 
   private renderFlagIcon() {
@@ -404,7 +404,7 @@ export class VibeFlagsToolbar extends LitElement {
     return html`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>`;
   }
 
-  private renderBooleanFlag(config: FlagConfig) {
+  private renderBooleanFlag(config: VibeFlagsConfig) {
     const checked = this.flags[config.key] === true;
     return html`
       <div class="flag-item">
@@ -427,7 +427,7 @@ export class VibeFlagsToolbar extends LitElement {
     `;
   }
 
-  private renderSelectFlag(config: FlagConfig) {
+  private renderSelectFlag(config: VibeFlagsConfig) {
     if (config.type !== 'select') return nothing;
     const current = this.flags[config.key] as string;
     return html`

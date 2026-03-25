@@ -1,6 +1,6 @@
 import { LitElement, html, nothing } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
-import { flagStore } from '../store.js';
+import { vibeFlagsStore } from '../store.js';
 
 // Hide children before JS evaluates — prevents flash of content
 if (typeof document !== 'undefined' && !document.getElementById('vibe-flags-fouc')) {
@@ -54,8 +54,8 @@ export class VibeFlagsBoolean extends LitElement {
 
   private registerFlag(): void {
     if (!this.name) return;
-    if (!flagStore.getConfigForKey(this.name)) {
-      flagStore.register({
+    if (!vibeFlagsStore.getConfigForKey(this.name)) {
+      vibeFlagsStore.register({
         key: this.name,
         type: 'boolean',
         label: this.description || undefined,
@@ -70,7 +70,7 @@ export class VibeFlagsBoolean extends LitElement {
   };
 
   private evaluate(): void {
-    const current = flagStore.get(this.name);
+    const current = vibeFlagsStore.get(this.name);
     if (current === undefined) {
       this.isMatch = false;
     } else if (this.value === '') {
