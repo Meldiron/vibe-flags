@@ -44,10 +44,24 @@ npm:
 npm install @vibe-flags/core
 ```
 
+## React Integration
+
+Import the `useFlag` hook from `@vibe-flags/core/react`:
+
+```tsx
+import { useFlag } from '@vibe-flags/core/react';
+
+function App() {
+  const darkMode = useFlag({ key: 'darkMode', type: 'boolean', default: false });
+  return <div>{darkMode ? 'Dark' : 'Light'}</div>;
+}
+```
+
 ## Documentation
 
 - [Getting Started](/docs/getting-started)
 - [Flag Types](/docs/configuration)
+- [React Integration](/docs/react)
 - [Components API](/api/components)
 - [Store API](/api/store)
 - [Types](/api/types)

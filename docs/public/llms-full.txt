@@ -440,6 +440,74 @@ interface FlagState {
 
 ---
 
+## React Integration
+
+`@vibe-flags/core` includes a `useFlag` React hook under the `@vibe-flags/core/react` sub-path. React 18 or 19 is required as a peer dependency.
+
+### `useFlag()`
+
+```ts
+// Subscribe to an already-registered flag by key
+useFlag(key: string): FlagValue | undefined
+
+// Register a flag from config and subscribe
+useFlag(config: FlagConfig): FlagValue
+```
+
+Reads the current value of a feature flag and re-renders the component whenever the flag changes (via the `vibe-flags-changed` window event).
+
+### Examples
+
+**Boolean flag (pre-registered):**
+
+```tsx
+import { useFlag } from '@vibe-flags/core/react';
+import { flagStore } from '@vibe-flags/core';
+
+flagStore.register({ key: 'darkMode', type: 'boolean', default: false });
+
+function App() {
+  const darkMode = useFlag('darkMode');
+  return <div style={{ background: darkMode ? '#1a1a1a' : '#fff' }}>Hello</div>;
+}
+```
+
+**Register from config:**
+
+```tsx
+import { useFlag } from '@vibe-flags/core/react';
+
+function ThemePicker() {
+  const theme = useFlag({
+    key: 'theme',
+    type: 'select',
+    options: ['light', 'dark', 'auto'],
+    default: 'light',
+  });
+  return <p>Current theme: {theme}</p>;
+}
+```
+
+**With `<vibe-toolbar>`:**
+
+```tsx
+import '@vibe-flags/core';
+import { useFlag } from '@vibe-flags/core/react';
+
+function App() {
+  const showBanner = useFlag({ key: 'showBanner', type: 'boolean', default: true });
+  return (
+    <>
+      {showBanner && <div className="banner">Welcome to the beta!</div>}
+      {/* @ts-expect-error — custom element */}
+      <vibe-toolbar />
+    </>
+  );
+}
+```
+
+---
+
 ## Source
 
 - GitHub: https://github.com/Meldiron/vibe-flags
