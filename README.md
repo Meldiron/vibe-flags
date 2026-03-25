@@ -233,15 +233,15 @@ Vibe Flags is designed to be easy for LLMs to use. The HTML-first API is intuiti
 
 `@vibe-flags/core` includes a React integration under the `@vibe-flags/core/react` sub-path.
 
-### `useFlag()`
+### `useVibeFlags()`
 
 Subscribe to a feature flag value. Re-renders automatically when the flag changes.
 
 ```tsx
-import { useFlag } from '@vibe-flags/core/react';
+import { useVibeFlags } from '@vibe-flags/core/react';
 
 function App() {
-  const darkMode = useFlag({ key: 'darkMode', type: 'boolean', default: false });
+  const darkMode = useVibeFlags({ key: 'darkMode', type: 'boolean', default: false });
   return <div style={{ background: darkMode ? '#1a1a1a' : '#fff' }}>Hello</div>;
 }
 ```

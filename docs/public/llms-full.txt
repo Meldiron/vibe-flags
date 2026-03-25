@@ -444,14 +444,14 @@ interface VibeFlagsState {
 
 `@vibe-flags/core` includes React utilities under the `@vibe-flags/core/react` sub-path. React 18 or 19 is required as a peer dependency.
 
-### `useFlag()`
+### `useVibeFlags()`
 
 ```ts
 // Subscribe to an already-registered flag by key
-useFlag(key: string): VibeFlagsValue | undefined
+useVibeFlags(key: string): VibeFlagsValue | undefined
 
 // Register a flag from config and subscribe
-useFlag(config: VibeFlagsConfig): VibeFlagsValue
+useVibeFlags(config: VibeFlagsConfig): VibeFlagsValue
 ```
 
 Reads the current value of a feature flag and re-renders the component whenever the flag changes (via the `vibe-flags-changed` window event).
@@ -478,13 +478,13 @@ function App() {
 **Boolean flag (pre-registered):**
 
 ```tsx
-import { useFlag } from '@vibe-flags/core/react';
+import { useVibeFlags } from '@vibe-flags/core/react';
 import { vibeFlagsStore } from '@vibe-flags/core';
 
 vibeFlagsStore.register({ key: 'darkMode', type: 'boolean', default: false });
 
 function App() {
-  const darkMode = useFlag('darkMode');
+  const darkMode = useVibeFlags('darkMode');
   return <div style={{ background: darkMode ? '#1a1a1a' : '#fff' }}>Hello</div>;
 }
 ```
@@ -492,10 +492,10 @@ function App() {
 **Register from config:**
 
 ```tsx
-import { useFlag } from '@vibe-flags/core/react';
+import { useVibeFlags } from '@vibe-flags/core/react';
 
 function ThemePicker() {
-  const theme = useFlag({
+  const theme = useVibeFlags({
     key: 'theme',
     type: 'select',
     options: ['light', 'dark', 'auto'],
@@ -508,10 +508,10 @@ function ThemePicker() {
 **Full example with `VibeFlagsToolbar`:**
 
 ```tsx
-import { useFlag, VibeFlagsToolbar } from '@vibe-flags/core/react';
+import { useVibeFlags, VibeFlagsToolbar } from '@vibe-flags/core/react';
 
 function App() {
-  const showBanner = useFlag({ key: 'showBanner', type: 'boolean', default: true });
+  const showBanner = useVibeFlags({ key: 'showBanner', type: 'boolean', default: true });
   return (
     <>
       {showBanner && <div className="banner">Welcome to the beta!</div>}

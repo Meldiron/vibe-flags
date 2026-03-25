@@ -12,15 +12,15 @@ import '../components/vibe-toolbar.js';
 /**
  * React hook to read and reactively subscribe to a feature flag value.
  *
- * @overload useFlag(key: string): VibeFlagsValue | undefined
+ * @overload useVibeFlags(key: string): VibeFlagsValue | undefined
  *   Subscribe to an already-registered flag by key.
  *
- * @overload useFlag(config: VibeFlagsConfig): VibeFlagsValue
+ * @overload useVibeFlags(config: VibeFlagsConfig): VibeFlagsValue
  *   Register (or re-use) a flag from config and subscribe.
  */
-export function useFlag(key: string): VibeFlagsValue | undefined;
-export function useFlag(config: VibeFlagsConfig): VibeFlagsValue;
-export function useFlag(keyOrConfig: string | VibeFlagsConfig): VibeFlagsValue | undefined {
+export function useVibeFlags(key: string): VibeFlagsValue | undefined;
+export function useVibeFlags(config: VibeFlagsConfig): VibeFlagsValue;
+export function useVibeFlags(keyOrConfig: string | VibeFlagsConfig): VibeFlagsValue | undefined {
   const key = typeof keyOrConfig === 'string' ? keyOrConfig : keyOrConfig.key;
 
   const [value, setValue] = useState<VibeFlagsValue | undefined>(() => vibeFlagsStore.get(key));

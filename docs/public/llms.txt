@@ -46,13 +46,13 @@ npm install @vibe-flags/core
 
 ## React Integration
 
-Import `useFlag` and `VibeFlagsToolbar` from `@vibe-flags/core/react` (React 18+ required):
+Import `useVibeFlags` and `VibeFlagsToolbar` from `@vibe-flags/core/react` (React 18+ required):
 
 ```tsx
-import { useFlag, VibeFlagsToolbar } from '@vibe-flags/core/react';
+import { useVibeFlags, VibeFlagsToolbar } from '@vibe-flags/core/react';
 
 function App() {
-  const darkMode = useFlag({ key: 'darkMode', type: 'boolean', default: false });
+  const darkMode = useVibeFlags({ key: 'darkMode', type: 'boolean', default: false });
   return (
     <>
       <div>{darkMode ? 'Dark' : 'Light'}</div>
@@ -62,8 +62,8 @@ function App() {
 }
 ```
 
-- **`useFlag(key)`** — subscribe to a pre-registered flag by key
-- **`useFlag(config)`** — register a flag from config and subscribe
+- **`useVibeFlags(key)`** — subscribe to a pre-registered flag by key
+- **`useVibeFlags(config)`** — register a flag from config and subscribe
 - **`VibeFlagsToolbar`** — renders the floating toolbar; no props required
 - **`VibeFlagsBoolean`** — wraps `<vibe-flags-boolean>`; props: `name`, `description`, `value`, `default`, `children`
 - **`VibeFlagsSelect`** — wraps `<vibe-flags-select>`; props: `name`, `description`, `default`, `children`

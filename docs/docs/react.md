@@ -10,31 +10,31 @@ npm install @vibe-flags/core
 
 React 18 or 19 is required as a peer dependency.
 
-## `useFlag()`
+## `useVibeFlags()`
 
-`useFlag` is a React hook that reads the current value of a feature flag and re-renders the component whenever the flag changes.
+`useVibeFlags` is a React hook that reads the current value of a feature flag and re-renders the component whenever the flag changes.
 
 ### Signature
 
 ```ts
 // Subscribe to an already-registered flag by key
-useFlag(key: string): VibeFlagsValue | undefined
+useVibeFlags(key: string): VibeFlagsValue | undefined
 
 // Register a flag from config and subscribe
-useFlag(config: VibeFlagsConfig): VibeFlagsValue
+useVibeFlags(config: VibeFlagsConfig): VibeFlagsValue
 ```
 
 ### Boolean flag
 
 ```tsx
-import { useFlag } from '@vibe-flags/core/react';
+import { useVibeFlags } from '@vibe-flags/core/react';
 import { vibeFlagsStore } from '@vibe-flags/core';
 
 // Register once (e.g. at app startup, or via <vibe-flags-boolean>)
 vibeFlagsStore.register({ key: 'darkMode', type: 'boolean', default: false });
 
 function App() {
-  const darkMode = useFlag('darkMode');
+  const darkMode = useVibeFlags('darkMode');
 
   return (
     <div style={{ background: darkMode ? '#1a1a1a' : '#fff' }}>
@@ -46,13 +46,13 @@ function App() {
 
 ### Register from config
 
-Pass a `VibeFlagsConfig` object directly to `useFlag` — the flag will be registered automatically on mount:
+Pass a `VibeFlagsConfig` object directly to `useVibeFlags` — the flag will be registered automatically on mount:
 
 ```tsx
-import { useFlag } from '@vibe-flags/core/react';
+import { useVibeFlags } from '@vibe-flags/core/react';
 
 function ThemePicker() {
-  const theme = useFlag({
+  const theme = useVibeFlags({
     key: 'theme',
     type: 'select',
     options: ['light', 'dark', 'auto'],
@@ -70,10 +70,10 @@ function ThemePicker() {
 Place it once, anywhere in your component tree:
 
 ```tsx
-import { useFlag, VibeFlagsToolbar } from '@vibe-flags/core/react';
+import { useVibeFlags, VibeFlagsToolbar } from '@vibe-flags/core/react';
 
 function App() {
-  const showBanner = useFlag({ key: 'showBanner', type: 'boolean', default: true });
+  const showBanner = useVibeFlags({ key: 'showBanner', type: 'boolean', default: true });
 
   return (
     <>
