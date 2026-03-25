@@ -1,4 +1,4 @@
-# Vibe Flags
+# Vibe Flags 10
 
 **Feature flags for the browser — zero config, no backend, no auth.**
 
