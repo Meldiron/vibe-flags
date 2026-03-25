@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach, vi, afterEach } from 'vitest';
-import { renderHook, act } from '@testing-library/react';
-import { useFlag } from '../src/react/index.js';
+import { renderHook, render, act } from '@testing-library/react';
+import { useFlag, VibeToolbar } from '../src/react/index.js';
 import { flagStore } from '../src/store.js';
 
 describe('useFlag', () => {
@@ -116,5 +116,26 @@ describe('useFlag', () => {
       useFlag({ key: 'cached', type: 'boolean', default: false }),
     );
     expect(result.current).toBe(true);
+  });
+});
+
+describe('VibeToolbar', () => {
+  it('renders without throwing', () => {
+    expect(() => render(VibeToolbar({}))).not.toThrow();
+  });
+
+  it('mounts a vibe-toolbar element in the DOM', () => {
+    const { container } = render(VibeToolbar({}));
+    expect(container.querySelector('vibe-toolbar')).not.toBeNull();
+  });
+
+  it('registers the vibe-toolbar custom element', () => {
+    render(VibeToolbar({}));
+    expect(customElements.get('vibe-toolbar')).toBeDefined();
+  });
+
+  it('unmounts cleanly without errors', () => {
+    const { unmount } = render(VibeToolbar({}));
+    expect(() => unmount()).not.toThrow();
   });
 });

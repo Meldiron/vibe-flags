@@ -229,6 +229,45 @@ Vibe Flags is designed to be easy for LLMs to use. The HTML-first API is intuiti
 
 ---
 
+## React
+
+`@vibe-flags/core` includes a React integration under the `@vibe-flags/core/react` sub-path.
+
+### `useFlag()`
+
+Subscribe to a feature flag value. Re-renders automatically when the flag changes.
+
+```tsx
+import { useFlag } from '@vibe-flags/core/react';
+
+function App() {
+  const darkMode = useFlag({ key: 'darkMode', type: 'boolean', default: false });
+  return <div style={{ background: darkMode ? '#1a1a1a' : '#fff' }}>Hello</div>;
+}
+```
+
+Pass a `FlagConfig` to auto-register the flag on mount, or pass a `key` string to subscribe to an already-registered flag.
+
+### `VibeToolbar`
+
+A React component that renders the floating toolbar. No props required.
+
+```tsx
+import { useFlag, VibeToolbar } from '@vibe-flags/core/react';
+
+function App() {
+  const showBanner = useFlag({ key: 'showBanner', type: 'boolean', default: true });
+  return (
+    <>
+      {showBanner && <div className="banner">Welcome to the beta!</div>}
+      <VibeToolbar />
+    </>
+  );
+}
+```
+
+---
+
 ## How persistence works
 
 Flag values are stored in `localStorage` under the key `vibe-flags:<name>`. Changes sync across browser tabs via the `storage` event. There is no server, no account, and no network request.

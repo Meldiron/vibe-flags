@@ -442,7 +442,7 @@ interface FlagState {
 
 ## React Integration
 
-`@vibe-flags/core` includes a `useFlag` React hook under the `@vibe-flags/core/react` sub-path. React 18 or 19 is required as a peer dependency.
+`@vibe-flags/core` includes React utilities under the `@vibe-flags/core/react` sub-path. React 18 or 19 is required as a peer dependency.
 
 ### `useFlag()`
 
@@ -455,6 +455,23 @@ useFlag(config: FlagConfig): FlagValue
 ```
 
 Reads the current value of a feature flag and re-renders the component whenever the flag changes (via the `vibe-flags-changed` window event).
+
+### `VibeToolbar`
+
+A React component that renders the Vibe Flags floating toolbar. No props required. Handles custom element registration automatically.
+
+```tsx
+import { VibeToolbar } from '@vibe-flags/core/react';
+
+function App() {
+  return (
+    <>
+      <MyContent />
+      <VibeToolbar />
+    </>
+  );
+}
+```
 
 ### Examples
 
@@ -488,19 +505,17 @@ function ThemePicker() {
 }
 ```
 
-**With `<vibe-toolbar>`:**
+**Full example with `VibeToolbar`:**
 
 ```tsx
-import '@vibe-flags/core';
-import { useFlag } from '@vibe-flags/core/react';
+import { useFlag, VibeToolbar } from '@vibe-flags/core/react';
 
 function App() {
   const showBanner = useFlag({ key: 'showBanner', type: 'boolean', default: true });
   return (
     <>
       {showBanner && <div className="banner">Welcome to the beta!</div>}
-      {/* @ts-expect-error — custom element */}
-      <vibe-toolbar />
+      <VibeToolbar />
     </>
   );
 }

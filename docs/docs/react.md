@@ -63,13 +63,14 @@ function ThemePicker() {
 }
 ```
 
-### With `<vibe-toolbar>`
+## `VibeToolbar`
 
-Use the web component toolbar alongside React hooks — they share the same `flagStore`, so toggling a flag in the toolbar updates any component subscribed with `useFlag`:
+`VibeToolbar` is a React component that renders the Vibe Flags floating toolbar. It wraps the `<vibe-toolbar>` custom element and handles registration automatically.
+
+Place it once, anywhere in your component tree:
 
 ```tsx
-import '@vibe-flags/core'; // registers <vibe-toolbar> and friends
-import { useFlag } from '@vibe-flags/core/react';
+import { useFlag, VibeToolbar } from '@vibe-flags/core/react';
 
 function App() {
   const showBanner = useFlag({ key: 'showBanner', type: 'boolean', default: true });
@@ -77,13 +78,17 @@ function App() {
   return (
     <>
       {showBanner && <div className="banner">Welcome to the beta!</div>}
-
-      {/* @ts-expect-error — custom element */}
-      <vibe-toolbar />
+      <VibeToolbar />
     </>
   );
 }
 ```
+
+The toolbar automatically discovers all registered flags and provides:
+- Toggle switches for boolean flags
+- Dropdown selectors for select flags
+
+No props are required.
 
 ## TypeScript
 

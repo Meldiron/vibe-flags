@@ -1,6 +1,10 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, createElement } from 'react';
+import type { ReactElement } from 'react';
 import { flagStore } from '../store.js';
 import type { FlagConfig, FlagValue, FlagState } from '../types.js';
+
+// Ensure the <vibe-toolbar> custom element is registered when this module loads
+import '../components/vibe-toolbar.js';
 
 /**
  * React hook to read and reactively subscribe to a feature flag value.
@@ -41,4 +45,30 @@ export function useFlag(keyOrConfig: string | FlagConfig): FlagValue | undefined
   }, [key]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return value;
+}
+
+/**
+ * React component that renders the Vibe Flags floating toolbar.
+ *
+ * Wraps the `<vibe-toolbar>` custom element. Automatically discovers all
+ * registered flags and provides live controls (toggle for booleans,
+ * dropdown for selects).
+ *
+ * Place it once, anywhere in your component tree:
+ *
+ * ```tsx
+ * import { VibeToolbar } from '@vibe-flags/core/react';
+ *
+ * export default function App() {
+ *   return (
+ *     <>
+ *       <MyApp />
+ *       <VibeToolbar />
+ *     </>
+ *   );
+ * }
+ * ```
+ */
+export function VibeToolbar(): ReactElement {
+  return createElement('vibe-toolbar');
 }
