@@ -1,20 +1,20 @@
 import { LitElement, html, nothing } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
-import { flagStore } from '../store.js';
+import { vibeFlagsStore } from '../store.js';
 
 // Hide children before JS evaluates — prevents flash of content
-if (typeof document !== 'undefined' && !document.getElementById('vibe-flag-fouc')) {
+if (typeof document !== 'undefined' && !document.getElementById('vibe-flags-fouc')) {
   const style = document.createElement('style');
-  style.id = 'vibe-flag-fouc';
+  style.id = 'vibe-flags-fouc';
   style.textContent =
-    'vibe-flag-boolean:not(:defined),vibe-flag-boolean:defined,' +
-    'vibe-flag-select:not(:defined),vibe-flag-select:defined,' +
-    'vibe-flag-option:not(:defined),vibe-flag-option:defined{display:none}';
+    'vibe-flags-boolean:not(:defined),vibe-flags-boolean:defined,' +
+    'vibe-flags-select:not(:defined),vibe-flags-select:defined,' +
+    'vibe-flags-option:not(:defined),vibe-flags-option:defined{display:none}';
   document.head.appendChild(style);
 }
 
-@customElement('vibe-flag-boolean')
-export class VibeFlagBoolean extends LitElement {
+@customElement('vibe-flags-boolean')
+export class VibeFlagsBoolean extends LitElement {
   @property({ type: String })
   name = '';
 
@@ -54,8 +54,8 @@ export class VibeFlagBoolean extends LitElement {
 
   private registerFlag(): void {
     if (!this.name) return;
-    if (!flagStore.getConfigForKey(this.name)) {
-      flagStore.register({
+    if (!vibeFlagsStore.getConfigForKey(this.name)) {
+      vibeFlagsStore.register({
         key: this.name,
         type: 'boolean',
         label: this.description || undefined,
@@ -70,7 +70,7 @@ export class VibeFlagBoolean extends LitElement {
   };
 
   private evaluate(): void {
-    const current = flagStore.get(this.name);
+    const current = vibeFlagsStore.get(this.name);
     if (current === undefined) {
       this.isMatch = false;
     } else if (this.value === '') {
@@ -93,6 +93,6 @@ export class VibeFlagBoolean extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'vibe-flag-boolean': VibeFlagBoolean;
+    'vibe-flags-boolean': VibeFlagsBoolean;
   }
 }

@@ -46,6 +46,12 @@ export default defineConfig({
             { text: 'Flag Types', link: '/docs/configuration' },
           ],
         },
+        {
+          text: 'Frameworks',
+          items: [
+            { text: 'React', link: '/docs/react' },
+          ],
+        },
       ],
       '/api/': [
         {

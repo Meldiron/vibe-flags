@@ -1,10 +1,10 @@
 import { LitElement, html } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
-import { flagStore } from '../store.js';
-import type { VibeFlagOption } from './vibe-flag-option.js';
+import { vibeFlagsStore } from '../store.js';
+import type { VibeFlagsOption } from './vibe-flag-option.js';
 
-@customElement('vibe-flag-select')
-export class VibeFlagSelect extends LitElement {
+@customElement('vibe-flags-select')
+export class VibeFlagsSelect extends LitElement {
   @property({ type: String })
   name = '';
 
@@ -17,7 +17,7 @@ export class VibeFlagSelect extends LitElement {
   connectedCallback(): void {
     super.connectedCallback();
     window.addEventListener('vibe-flags-changed', this.onFlagChange);
-    // Wait a microtask so child <vibe-flag-option> elements are parsed
+    // Wait a microtask so child <vibe-flags-option> elements are parsed
     queueMicrotask(() => this.registerFlag());
   }
 
@@ -36,8 +36,8 @@ export class VibeFlagSelect extends LitElement {
     }
   }
 
-  private getOptions(): VibeFlagOption[] {
-    return Array.from(this.querySelectorAll('vibe-flag-option')) as VibeFlagOption[];
+  private getOptions(): VibeFlagsOption[] {
+    return Array.from(this.querySelectorAll('vibe-flags-option')) as VibeFlagsOption[];
   }
 
   private registerFlag(): void {
@@ -46,8 +46,8 @@ export class VibeFlagSelect extends LitElement {
     const options = this.getOptions().map((el) => el.value).filter(Boolean);
     if (options.length === 0) return;
 
-    if (!flagStore.getConfigForKey(this.name)) {
-      flagStore.register({
+    if (!vibeFlagsStore.getConfigForKey(this.name)) {
+      vibeFlagsStore.register({
         key: this.name,
         type: 'select',
         options,
@@ -63,7 +63,7 @@ export class VibeFlagSelect extends LitElement {
   };
 
   private syncOptions(): void {
-    const current = flagStore.get(this.name);
+    const current = vibeFlagsStore.get(this.name);
     for (const option of this.getOptions()) {
       option.active = option.value === current;
     }
@@ -76,6 +76,6 @@ export class VibeFlagSelect extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'vibe-flag-select': VibeFlagSelect;
+    'vibe-flags-select': VibeFlagsSelect;
   }
 }

@@ -1,17 +1,17 @@
 // Components (side-effect: registers custom elements)
-export { VibeFlagBoolean } from './components/vibe-flag-boolean.js';
-export { VibeFlagSelect } from './components/vibe-flag-select.js';
-export { VibeFlagOption } from './components/vibe-flag-option.js';
-export { VibeToolbar } from './components/vibe-toolbar.js';
+export { VibeFlagsBoolean } from './components/vibe-flag-boolean.js';
+export { VibeFlagsSelect } from './components/vibe-flag-select.js';
+export { VibeFlagsOption } from './components/vibe-flag-option.js';
+export { VibeFlagsToolbar } from './components/vibe-toolbar.js';
 
 // Store (imperative API)
-export { flagStore } from './store.js';
+export { vibeFlagsStore } from './store.js';
 
 // Types
 export type {
-  FlagConfig,
-  FlagConfigBoolean,
-  FlagConfigSelect,
-  FlagValue,
-  FlagState,
+  VibeFlagsConfig,
+  VibeFlagsConfigBoolean,
+  VibeFlagsConfigSelect,
+  VibeFlagsValue,
+  VibeFlagsState,
 } from './types.js';

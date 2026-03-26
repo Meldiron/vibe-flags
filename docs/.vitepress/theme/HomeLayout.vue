@@ -34,15 +34,15 @@ onUnmounted(() => {
   <div class="home-root">
 
     <!-- Light mode toggle -->
-    <vibe-flag-boolean name="lightMode" description="Light mode"></vibe-flag-boolean>
+    <vibe-flags-boolean name="lightMode" description="Light mode"></vibe-flags-boolean>
 
     <!-- Hero Select Flag — live demo of the library -->
-    <vibe-flag-select name="heroVariant" description="Hero variant">
+    <vibe-flags-select name="heroVariant" description="Hero variant">
 
   <!-- ─────────────────────────────────────────────────────────
            HERO 1: Terminal (default)
            ───────────────────────────────────────────────────────── -->
-      <vibe-flag-option value="terminal">
+      <vibe-flags-option value="terminal">
         <section class="hero hero-terminal">
           <div class="hero-inner hero-inner--center">
             <h1 class="brand-mono">
@@ -68,16 +68,16 @@ onUnmounted(() => {
     <span class="c-attr">src</span>=<span class="c-str">"https://unpkg.com/@vibe-flags/core"</span>
 <span class="c-tag">&gt;&lt;/script&gt;</span>
 
-<span class="c-tag">&lt;vibe-flag-boolean</span> <span class="c-attr">name</span>=<span class="c-str">"debug"</span> <span class="c-attr">description</span>=<span class="c-str">"Show debug info"</span><span class="c-tag">&gt;</span>
+<span class="c-tag">&lt;vibe-flags-boolean</span> <span class="c-attr">name</span>=<span class="c-str">"debug"</span> <span class="c-attr">description</span>=<span class="c-str">"Show debug info"</span><span class="c-tag">&gt;</span>
   <span class="c-tag">&lt;button&gt;</span>Show debug logs<span class="c-tag">&lt;/button&gt;</span>
-<span class="c-tag">&lt;/vibe-flag-boolean&gt;</span>
+<span class="c-tag">&lt;/vibe-flags-boolean&gt;</span>
 
-<span class="c-tag">&lt;vibe-flag-select</span> <span class="c-attr">name</span>=<span class="c-str">"header"</span> <span class="c-attr">description</span>=<span class="c-str">"Header layout"</span> <span class="c-attr">default</span>=<span class="c-str">"visual"</span><span class="c-tag">&gt;</span>
-  <span class="c-tag">&lt;vibe-flag-option</span> <span class="c-attr">value</span>=<span class="c-str">"minimal"</span><span class="c-tag">&gt;&lt;h1&gt;</span>Minimal header<span class="c-tag">&lt;/h1&gt;&lt;/vibe-flag-option&gt;</span>
-  <span class="c-tag">&lt;vibe-flag-option</span> <span class="c-attr">value</span>=<span class="c-str">"visual"</span><span class="c-tag">&gt;&lt;h3&gt;</span>Visual header<span class="c-tag">&lt;/h3&gt;&lt;/vibe-flag-option&gt;</span>
-<span class="c-tag">&lt;/vibe-flag-select&gt;</span>
+<span class="c-tag">&lt;vibe-flags-select</span> <span class="c-attr">name</span>=<span class="c-str">"header"</span> <span class="c-attr">description</span>=<span class="c-str">"Header layout"</span> <span class="c-attr">default</span>=<span class="c-str">"visual"</span><span class="c-tag">&gt;</span>
+  <span class="c-tag">&lt;vibe-flags-option</span> <span class="c-attr">value</span>=<span class="c-str">"minimal"</span><span class="c-tag">&gt;&lt;h1&gt;</span>Minimal header<span class="c-tag">&lt;/h1&gt;&lt;/vibe-flags-option&gt;</span>
+  <span class="c-tag">&lt;vibe-flags-option</span> <span class="c-attr">value</span>=<span class="c-str">"visual"</span><span class="c-tag">&gt;&lt;h3&gt;</span>Visual header<span class="c-tag">&lt;/h3&gt;&lt;/vibe-flags-option&gt;</span>
+<span class="c-tag">&lt;/vibe-flags-select&gt;</span>
 
-<span class="c-tag">&lt;vibe-toolbar&gt;&lt;/vibe-toolbar&gt;</span></code></pre>
+<span class="c-tag">&lt;vibe-flags-toolbar&gt;&lt;/vibe-flags-toolbar&gt;</span></code></pre>
             </div>
 
             <div class="hero-actions">
@@ -86,12 +86,12 @@ onUnmounted(() => {
             </div>
           </div>
         </section>
-      </vibe-flag-option>
+      </vibe-flags-option>
 
       <!-- ─────────────────────────────────────────────────────────
            HERO 2: Minimal
            ───────────────────────────────────────────────────────── -->
-      <vibe-flag-option value="minimal">
+      <vibe-flags-option value="minimal">
         <section class="hero hero-minimal">
           <div class="hero-inner hero-inner--center">
             <div class="badge">Open Source · Zero Config · MIT License</div>
@@ -118,14 +118,14 @@ onUnmounted(() => {
             </div>
           </div>
         </section>
-      </vibe-flag-option>
+      </vibe-flags-option>
 
     
 
       <!-- ─────────────────────────────────────────────────────────
            HERO 3: Bold / Split
            ───────────────────────────────────────────────────────── -->
-      <vibe-flag-option value="split">
+      <vibe-flags-option value="split">
         <section class="hero hero-split">
           <div class="hero-inner hero-inner--split">
             <div class="split-left">
@@ -177,9 +177,9 @@ onUnmounted(() => {
             </div>
           </div>
         </section>
-      </vibe-flag-option>
+      </vibe-flags-option>
 
-    </vibe-flag-select>
+    </vibe-flags-select>
 
     <!-- ─────────────────────────────────────────────────────────
          Video Section
@@ -341,7 +341,7 @@ Section to redesign: [EXPLAIN YOUR SECTION HERE]</pre>
     <!-- ─────────────────────────────────────────────────────────
          CTA Section (toggleable)
          ───────────────────────────────────────────────────────── -->
-    <vibe-flag-boolean name="showCta" description="Show CTA section" default value="true">
+    <vibe-flags-boolean name="showCta" description="Show CTA section" default value="true">
       <section class="cta-section">
         <div class="section-inner cta-inner">
           <h2 class="cta-title">Start shipping faster.</h2>
@@ -364,9 +364,9 @@ Section to redesign: [EXPLAIN YOUR SECTION HERE]</pre>
           </div>
         </div>
       </section>
-    </vibe-flag-boolean>
+    </vibe-flags-boolean>
 
-    <vibe-toolbar></vibe-toolbar>
+    <vibe-flags-toolbar></vibe-flags-toolbar>
 
   </div>
 </template>

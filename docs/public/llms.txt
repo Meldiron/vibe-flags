@@ -9,19 +9,19 @@ Vibe Flags is a set of web components for managing feature flags entirely in the
 ```html
 <script type="module" src="https://unpkg.com/@vibe-flags/core"></script>
 
-<vibe-flag-boolean name="showBanner" description="Welcome banner" value="true">
+<vibe-flags-boolean name="showBanner" description="Welcome banner" value="true">
   <div>Welcome to the beta!</div>
-</vibe-flag-boolean>
+</vibe-flags-boolean>
 
-<vibe-toolbar></vibe-toolbar>
+<vibe-flags-toolbar></vibe-flags-toolbar>
 ```
 
 ## Core Concepts
 
-- **Boolean flags** (`<vibe-flag-boolean>`): On/off toggles, start as `false`
-- **Select flags** (`<vibe-flag-select>` + `<vibe-flag-option>`): Multi-option picker, starts as first option
-- **Toolbar** (`<vibe-toolbar>`): Floating sidebar that auto-discovers all registered flags
-- **Store API** (`flagStore`): Imperative JS API for programmatic flag management
+- **Boolean flags** (`<vibe-flags-boolean>`): On/off toggles, start as `false`
+- **Select flags** (`<vibe-flags-select>` + `<vibe-flags-option>`): Multi-option picker, starts as first option
+- **Toolbar** (`<vibe-flags-toolbar>`): Floating sidebar that auto-discovers all registered flags
+- **Store API** (`vibeFlagsStore`): Imperative JS API for programmatic flag management
 
 ## Key Features
 
@@ -44,10 +44,36 @@ npm:
 npm install @vibe-flags/core
 ```
 
+## React Integration
+
+Import `useVibeFlags` and `VibeFlagsToolbar` from `@vibe-flags/core/react` (React 18+ required):
+
+```tsx
+import { useVibeFlags, VibeFlagsToolbar } from '@vibe-flags/core/react';
+
+function App() {
+  const darkMode = useVibeFlags({ key: 'darkMode', type: 'boolean', default: false });
+  return (
+    <>
+      <div>{darkMode ? 'Dark' : 'Light'}</div>
+      <VibeFlagsToolbar />
+    </>
+  );
+}
+```
+
+- **`useVibeFlags(key)`** — subscribe to a pre-registered flag by key
+- **`useVibeFlags(config)`** — register a flag from config and subscribe
+- **`VibeFlagsToolbar`** — renders the floating toolbar; no props required
+- **`VibeFlagsBoolean`** — wraps `<vibe-flags-boolean>`; props: `name`, `description`, `value`, `default`, `children`
+- **`VibeFlagsSelect`** — wraps `<vibe-flags-select>`; props: `name`, `description`, `default`, `children`
+- **`VibeFlagsOption`** — wraps `<vibe-flags-option>`; props: `value`, `children`
+
 ## Documentation
 
 - [Getting Started](/docs/getting-started)
 - [Flag Types](/docs/configuration)
+- [React Integration](/docs/react)
 - [Components API](/api/components)
 - [Store API](/api/store)
 - [Types](/api/types)

@@ -10,13 +10,13 @@
 <body>
   <h1>My App</h1>
 
-  <vibe-flag-boolean name="showBanner" description="Show welcome banner" value="true">
+  <vibe-flags-boolean name="showBanner" description="Show welcome banner" value="true">
     <div style="padding: 16px; background: #dbeafe; border-radius: 8px;">
       Welcome to the beta! This banner is controlled by a feature flag.
     </div>
-  </vibe-flag-boolean>
+  </vibe-flags-boolean>
 
-  <vibe-toolbar></vibe-toolbar>
+  <vibe-flags-toolbar></vibe-flags-toolbar>
 </body>
 </html>
 ```

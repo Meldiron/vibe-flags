@@ -4,28 +4,28 @@ All types are exported from the package:
 
 ```ts
 import type {
-  FlagConfig,
-  FlagConfigBoolean,
-  FlagConfigSelect,
-  FlagValue,
-  FlagState,
+  VibeFlagsConfig,
+  VibeFlagsConfigBoolean,
+  VibeFlagsConfigSelect,
+  VibeFlagsValue,
+  VibeFlagsState,
 } from 'vibe-flags';
 ```
 
-## `FlagConfigBoolean`
+## `VibeFlagsConfigBoolean`
 
 ```ts
-interface FlagConfigBoolean {
+interface VibeFlagsConfigBoolean {
   key: string;
   type: 'boolean';
   label?: string;
 }
 ```
 
-## `FlagConfigSelect`
+## `VibeFlagsConfigSelect`
 
 ```ts
-interface FlagConfigSelect {
+interface VibeFlagsConfigSelect {
   key: string;
   type: 'select';
   options: string[];
@@ -33,22 +33,22 @@ interface FlagConfigSelect {
 }
 ```
 
-## `FlagConfig`
+## `VibeFlagsConfig`
 
 ```ts
-type FlagConfig = FlagConfigBoolean | FlagConfigSelect;
+type VibeFlagsConfig = VibeFlagsConfigBoolean | VibeFlagsConfigSelect;
 ```
 
-## `FlagValue`
+## `VibeFlagsValue`
 
 ```ts
-type FlagValue = boolean | string;
+type VibeFlagsValue = boolean | string;
 ```
 
-## `FlagState`
+## `VibeFlagsState`
 
 ```ts
-interface FlagState {
-  [key: string]: FlagValue;
+interface VibeFlagsState {
+  [key: string]: VibeFlagsValue;
 }
 ```

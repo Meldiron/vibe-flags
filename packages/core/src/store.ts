@@ -1,19 +1,19 @@
-import type { FlagConfig, FlagValue, FlagState } from './types.js';
+import type { VibeFlagsConfig, VibeFlagsValue, VibeFlagsState } from './types.js';
 
 const NAMESPACE = 'vibe-flags:';
 
-function getInitialValue(config: FlagConfig): FlagValue {
+function getInitialValue(config: VibeFlagsConfig): VibeFlagsValue {
   if (config.type === 'boolean') return config.default ?? false;
   if (config.default && config.options.includes(config.default)) return config.default;
   return config.options[0] || '';
 }
 
-class FlagStore extends EventTarget {
-  private configs = new Map<string, FlagConfig>();
-  private state: FlagState = {};
+class VibeFlagsStore extends EventTarget {
+  private configs = new Map<string, VibeFlagsConfig>();
+  private state: VibeFlagsState = {};
   private listening = false;
 
-  register(config: FlagConfig): void {
+  register(config: VibeFlagsConfig): void {
     this.configs.set(config.key, config);
     const initial = getInitialValue(config);
     const stored = this.readFromStorage(config.key);
@@ -40,11 +40,11 @@ class FlagStore extends EventTarget {
     this.dispatch();
   }
 
-  get(key: string): FlagValue | undefined {
+  get(key: string): VibeFlagsValue | undefined {
     return this.state[key];
   }
 
-  set(key: string, value: FlagValue): void {
+  set(key: string, value: VibeFlagsValue): void {
     const config = this.configs.get(key);
     if (!config) return;
 
@@ -59,15 +59,15 @@ class FlagStore extends EventTarget {
     this.dispatch(key);
   }
 
-  getAll(): FlagState {
+  getAll(): VibeFlagsState {
     return { ...this.state };
   }
 
-  getConfig(): FlagConfig[] {
+  getConfig(): VibeFlagsConfig[] {
     return Array.from(this.configs.values());
   }
 
-  getConfigForKey(key: string): FlagConfig | undefined {
+  getConfigForKey(key: string): VibeFlagsConfig | undefined {
     return this.configs.get(key);
   }
 
@@ -79,7 +79,7 @@ class FlagStore extends EventTarget {
     this.dispatch();
   }
 
-  private readFromStorage(key: string): FlagValue | null {
+  private readFromStorage(key: string): VibeFlagsValue | null {
     if (typeof window === 'undefined') return null;
     try {
       const raw = localStorage.getItem(NAMESPACE + key);
@@ -90,7 +90,7 @@ class FlagStore extends EventTarget {
     }
   }
 
-  private writeToStorage(key: string, value: FlagValue): void {
+  private writeToStorage(key: string, value: VibeFlagsValue): void {
     if (typeof window === 'undefined') return;
     try {
       localStorage.setItem(NAMESPACE + key, JSON.stringify(value));
@@ -136,4 +136,4 @@ class FlagStore extends EventTarget {
   };
 }
 
-export const flagStore = new FlagStore();
+export const vibeFlagsStore = new VibeFlagsStore();

@@ -1,11 +1,11 @@
-export interface FlagConfigBoolean {
+export interface VibeFlagsConfigBoolean {
   key: string;
   type: 'boolean';
   label?: string;
   default?: boolean;
 }
 
-export interface FlagConfigSelect {
+export interface VibeFlagsConfigSelect {
   key: string;
   type: 'select';
   options: string[];
@@ -13,10 +13,10 @@ export interface FlagConfigSelect {
   default?: string;
 }
 
-export type FlagConfig = FlagConfigBoolean | FlagConfigSelect;
+export type VibeFlagsConfig = VibeFlagsConfigBoolean | VibeFlagsConfigSelect;
 
-export type FlagValue = boolean | string;
+export type VibeFlagsValue = boolean | string;
 
-export interface FlagState {
-  [key: string]: FlagValue;
+export interface VibeFlagsState {
+  [key: string]: VibeFlagsValue;
 }
