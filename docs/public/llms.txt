@@ -31,6 +31,7 @@ Vibe Flags is a set of web components for managing feature flags entirely in the
 - Persistent state via localStorage
 - Reactive event system (`vibe-flags-changed` event)
 - Full TypeScript support
+- CSS-isolated toolbar via Shadow DOM (`all: initial`) — global page styles cannot bleed in
 
 ## Installation
 
