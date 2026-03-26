@@ -10,6 +10,11 @@ const THEME_KEY = 'vibeFlagsTheme';
 export class VibeFlagsToolbar extends LitElement {
   static styles = [
     css`
+      :host {
+        all: initial;
+        display: block;
+      }
+
       * {
         box-sizing: border-box;
         margin: 0;

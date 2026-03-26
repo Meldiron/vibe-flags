@@ -186,7 +186,7 @@ A single option inside `<vibe-flags-select>`. Its children are shown only when t
 
 ### `<vibe-flags-toolbar>`
 
-Floating toggle button + slide-out sidebar. Automatically discovers all registered flags and renders controls (toggle switches for booleans, dropdowns for selects).
+Floating toggle button + slide-out sidebar. Automatically discovers all registered flags and renders controls (toggle switches for booleans, dropdowns for selects). Uses Shadow DOM with `all: initial` on the host element — global page styles (font size, colors, spacing, etc.) cannot leak into the toolbar.
 
 #### Example
 
