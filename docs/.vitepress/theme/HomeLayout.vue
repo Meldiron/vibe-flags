@@ -583,10 +583,10 @@ Section to redesign: [EXPLAIN YOUR SECTION HERE]</pre>
    HERO 1: Terminal
    ═══════════════════════════════════════════════════════════════ */
 .hero-terminal {
-  background: var(--vp-c-bg);
+  background: #0a0a0a;
 }
 .dark .hero-terminal {
-  background: #060a10;
+  background: #0a0a0a;
 }
 .brand-mono {
   font-family: var(--vp-font-family-mono);
