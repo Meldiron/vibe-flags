@@ -52,6 +52,12 @@ export default defineConfig({
             { text: 'React', link: '/docs/react' },
           ],
         },
+        {
+          text: 'Resources',
+          items: [
+            { text: 'Comparison', link: '/docs/comparison' },
+          ],
+        },
       ],
       '/api/': [
         {
