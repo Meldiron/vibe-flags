@@ -13,6 +13,10 @@ Your home directory is `.agents/founding-engineer`. Everything personal to you l
 
 - **Branching**: Always create a separate branch from `main` before starting work. Branch names must be **15 characters or fewer**.
 - **Completeness**: When making changes, always consider updating tests, docs, and `llms.txt` files alongside your code changes.
+- **Pre-push checks**: Before pushing to remote, always run these three steps locally to catch issues before CI:
+  1. `pnpm format:check` — verify code formatting
+  2. `pnpm lint` — check for lint violations
+  3. `pnpm test` — run the full test suite
 - **Status lifecycle**: When you finish a task, mark it `in_review` (not `done`). Only mark `done` when the board explicitly asks you to merge.
 - **Co-author**: Every git commit MUST include the following co-author line at the end of the commit message:
   `Co-Authored-By: Matej "Meldiron" Bačo <matejbaco2000@gmail.com>`
@@ -26,16 +30,17 @@ Your home directory is `.agents/founding-engineer`. Everything personal to you l
 The NPM publish token is stored in `~/.npmrc` as `//registry.npmjs.org/:_authToken=<token>` and in `~/.claude/settings.json` as env var `NPM_TOKEN`. The repo `.npmrc` references `${NPM_TOKEN}` so CI can publish using that env var.
 
 **When to publish:**
+
 - Any time changes are made to `packages/core`, publish a pre-release on the working branch.
 - When merging to `main` where the diff includes changes in `packages/core`, bump the version (patch for fixes, minor for features) and publish to NPM.
 
 **Publish commands (run from repo root):**
 
-| Command | When to use |
-|---|---|
-| `pnpm agent:publish-pre` | On a feature/fix branch — bumps to prerelease version (e.g. `0.1.16-fix-toolbar-txt.0`) and publishes with tag = branch name |
-| `pnpm agent:publish-patch` | After merging to `main` with a bug fix in `packages/core` |
-| `pnpm agent:publish-minor` | After merging to `main` with a new feature in `packages/core` |
+| Command                    | When to use                                                                                                                  |
+| -------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| `pnpm agent:publish-pre`   | On a feature/fix branch — bumps to prerelease version (e.g. `0.1.16-fix-toolbar-txt.0`) and publishes with tag = branch name |
+| `pnpm agent:publish-patch` | After merging to `main` with a bug fix in `packages/core`                                                                    |
+| `pnpm agent:publish-minor` | After merging to `main` with a new feature in `packages/core`                                                                |
 
 **Note:** `agent:publish-pre` uses `npm version prerelease --preid=<branch>` which modifies `packages/core/package.json`. Commit the version bump before pushing.
 

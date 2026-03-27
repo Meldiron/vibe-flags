@@ -26,9 +26,15 @@ Select flags let users choose between multiple options. They start as the first 
 
   <vibe-flags-option value="table">
     <table style="width: 100%; border-collapse: collapse;">
-      <tr><td style="border: 1px solid #e5e7eb; padding: 8px;">Row 1</td></tr>
-      <tr><td style="border: 1px solid #e5e7eb; padding: 8px;">Row 2</td></tr>
-      <tr><td style="border: 1px solid #e5e7eb; padding: 8px;">Row 3</td></tr>
+      <tr>
+        <td style="border: 1px solid #e5e7eb; padding: 8px;">Row 1</td>
+      </tr>
+      <tr>
+        <td style="border: 1px solid #e5e7eb; padding: 8px;">Row 2</td>
+      </tr>
+      <tr>
+        <td style="border: 1px solid #e5e7eb; padding: 8px;">Row 3</td>
+      </tr>
     </table>
   </vibe-flags-option>
 </vibe-flags-select>

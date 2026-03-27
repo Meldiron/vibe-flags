@@ -1,12 +1,12 @@
-import { LitElement, html, css, nothing, type CSSResult } from 'lit';
-import { customElement, state } from 'lit/decorators.js';
-import { tokensDark, tokensLight } from '../styles/tokens.js';
-import { vibeFlagsStore } from '../store.js';
-import type { VibeFlagsConfig, VibeFlagsState } from '../types.js';
+import { LitElement, html, css, nothing, type CSSResult } from "lit";
+import { customElement, state } from "lit/decorators.js";
+import { tokensDark, tokensLight } from "../styles/tokens.js";
+import { vibeFlagsStore } from "../store.js";
+import type { VibeFlagsConfig, VibeFlagsState } from "../types.js";
 
-const THEME_KEY = 'vibeFlagsTheme';
+const THEME_KEY = "vibeFlagsTheme";
 
-@customElement('vibe-flags-toolbar')
+@customElement("vibe-flags-toolbar")
 export class VibeFlagsToolbar extends LitElement {
   static styles = [
     css`
@@ -176,8 +176,7 @@ export class VibeFlagsToolbar extends LitElement {
       .flag-key {
         font-size: 10px;
         color: var(--vf-text-muted);
-        font-family: 'SF Mono', 'Fira Code', 'Fira Mono', Menlo, Consolas,
-          monospace;
+        font-family: "SF Mono", "Fira Code", "Fira Mono", Menlo, Consolas, monospace;
         overflow: hidden;
         display: -webkit-box;
         -webkit-line-clamp: 3;
@@ -342,26 +341,26 @@ export class VibeFlagsToolbar extends LitElement {
 
   connectedCallback(): void {
     super.connectedCallback();
-    window.addEventListener('vibe-flags-changed', this.onFlagChange);
+    window.addEventListener("vibe-flags-changed", this.onFlagChange);
     this.syncFromStore();
     this.loadTheme();
   }
 
   disconnectedCallback(): void {
     super.disconnectedCallback();
-    window.removeEventListener('vibe-flags-changed', this.onFlagChange);
+    window.removeEventListener("vibe-flags-changed", this.onFlagChange);
   }
 
   private loadTheme(): void {
-    if (typeof window === 'undefined') return;
+    if (typeof window === "undefined") return;
     const saved = localStorage.getItem(THEME_KEY);
-    this.darkMode = saved ? saved === 'dark' : true;
+    this.darkMode = saved ? saved === "dark" : true;
     this.applyTheme();
   }
 
   private toggleTheme(): void {
     this.darkMode = !this.darkMode;
-    localStorage.setItem(THEME_KEY, this.darkMode ? 'dark' : 'light');
+    localStorage.setItem(THEME_KEY, this.darkMode ? "dark" : "light");
     this.applyTheme();
   }
 
@@ -403,23 +402,83 @@ export class VibeFlagsToolbar extends LitElement {
   }
 
   private renderFlagIcon() {
-    return html`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>`;
+    return html`<svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z" />
+      <line x1="4" y1="22" x2="4" y2="15" />
+    </svg>`;
   }
 
   private renderCloseIcon() {
-    return html`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>`;
+    return html`<svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <line x1="18" y1="6" x2="6" y2="18" />
+      <line x1="6" y1="6" x2="18" y2="18" />
+    </svg>`;
   }
 
   private renderChevronDown() {
-    return html`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>`;
+    return html`<svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <polyline points="6 9 12 15 18 9" />
+    </svg>`;
   }
 
   private renderSunIcon() {
-    return html`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>`;
+    return html`<svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <circle cx="12" cy="12" r="5" />
+      <line x1="12" y1="1" x2="12" y2="3" />
+      <line x1="12" y1="21" x2="12" y2="23" />
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+      <line x1="1" y1="12" x2="3" y2="12" />
+      <line x1="21" y1="12" x2="23" y2="12" />
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+    </svg>`;
   }
 
   private renderMoonIcon() {
-    return html`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>`;
+    return html`<svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+    </svg>`;
   }
 
   private renderBooleanFlag(config: VibeFlagsConfig) {
@@ -432,11 +491,7 @@ export class VibeFlagsToolbar extends LitElement {
             <div class="flag-key">${config.key}</div>
           </div>
           <label class="toggle">
-            <input
-              type="checkbox"
-              .checked=${checked}
-              @change=${() => this.onToggle(config.key)}
-            />
+            <input type="checkbox" .checked=${checked} @change=${() => this.onToggle(config.key)} />
             <span class="toggle-track"></span>
             <span class="toggle-thumb"></span>
           </label>
@@ -446,7 +501,7 @@ export class VibeFlagsToolbar extends LitElement {
   }
 
   private renderSelectFlag(config: VibeFlagsConfig) {
-    if (config.type !== 'select') return nothing;
+    if (config.type !== "select") return nothing;
     const current = this.flags[config.key] as string;
     return html`
       <div class="flag-item">
@@ -462,10 +517,7 @@ export class VibeFlagsToolbar extends LitElement {
               @change=${(e: Event) => this.onSelect(config.key, e)}
             >
               ${config.options.map(
-                (opt) =>
-                  html`<option value=${opt} ?selected=${opt === current}>
-                    ${opt}
-                  </option>`
+                (opt) => html`<option value=${opt} ?selected=${opt === current}>${opt}</option>`
               )}
             </select>
             <span class="select-chevron">${this.renderChevronDown()}</span>
@@ -477,21 +529,27 @@ export class VibeFlagsToolbar extends LitElement {
 
   protected render() {
     return html`
-      ${this.open ? nothing : html`
-        <button class="fab" @click=${this.toggle} aria-label="Toggle feature flags">
-          ${this.renderFlagIcon()}
-        </button>
-      `}
+      ${this.open
+        ? nothing
+        : html`
+            <button class="fab" @click=${this.toggle} aria-label="Toggle feature flags">
+              ${this.renderFlagIcon()}
+            </button>
+          `}
 
-      <div class="card ${this.open ? 'open' : ''}">
+      <div class="card ${this.open ? "open" : ""}">
         <div class="header">
           <h2>
-            ${this.renderFlagIcon()}
-            Vibe Flags
+            ${this.renderFlagIcon()} Vibe Flags
             <span class="badge">${this.configs.length}</span>
           </h2>
           <div class="header-actions">
-            <button class="icon-btn" @click=${this.toggleTheme} aria-label="Toggle theme" title="${this.darkMode ? 'Switch to light theme' : 'Switch to dark theme'}">
+            <button
+              class="icon-btn"
+              @click=${this.toggleTheme}
+              aria-label="Toggle theme"
+              title="${this.darkMode ? "Switch to light theme" : "Switch to dark theme"}"
+            >
               ${this.darkMode ? this.renderSunIcon() : this.renderMoonIcon()}
             </button>
             <button class="icon-btn" @click=${this.toggle} aria-label="Close">
@@ -504,16 +562,14 @@ export class VibeFlagsToolbar extends LitElement {
           ${this.configs.length === 0
             ? html`<div class="empty">No flags configured</div>`
             : this.configs.map((config) =>
-                config.type === 'boolean'
+                config.type === "boolean"
                   ? this.renderBooleanFlag(config)
                   : this.renderSelectFlag(config)
               )}
         </div>
 
         <div class="footer">
-          <button class="reset-btn" @click=${this.onReset}>
-            Reset all to defaults
-          </button>
+          <button class="reset-btn" @click=${this.onReset}>Reset all to defaults</button>
         </div>
       </div>
     `;
@@ -522,6 +578,6 @@ export class VibeFlagsToolbar extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'vibe-flags-toolbar': VibeFlagsToolbar;
+    "vibe-flags-toolbar": VibeFlagsToolbar;
   }
 }

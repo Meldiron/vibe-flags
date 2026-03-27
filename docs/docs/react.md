@@ -13,7 +13,7 @@ React 18 or 19 is required as a peer dependency.
 ## Quick start
 
 ```tsx
-import { VibeFlagsToolbar, VibeFlagsBoolean } from '@vibe-flags/core/react';
+import { VibeFlagsToolbar, VibeFlagsBoolean } from "@vibe-flags/core/react";
 
 function App() {
   return (
@@ -38,17 +38,17 @@ function App() {
 Register flags imperatively — useful at app startup before any component mounts:
 
 ```tsx
-import { vibeFlagsStore } from '@vibe-flags/core';
+import { vibeFlagsStore } from "@vibe-flags/core";
 
 // Register a boolean flag
-vibeFlagsStore.register({ key: 'darkMode', type: 'boolean', default: false });
+vibeFlagsStore.register({ key: "darkMode", type: "boolean", default: false });
 
 // Register a select flag
 vibeFlagsStore.register({
-  key: 'theme',
-  type: 'select',
-  options: ['light', 'dark', 'auto'],
-  default: 'light',
+  key: "theme",
+  type: "select",
+  options: ["light", "dark", "auto"],
+  default: "light",
 });
 ```
 
@@ -57,17 +57,17 @@ vibeFlagsStore.register({
 Subscribe to a flag value inside any component. The component re-renders automatically when the flag changes.
 
 ```tsx
-import { useVibeFlags } from '@vibe-flags/core/react';
-import { vibeFlagsStore } from '@vibe-flags/core';
+import { useVibeFlags } from "@vibe-flags/core/react";
+import { vibeFlagsStore } from "@vibe-flags/core";
 
-vibeFlagsStore.register({ key: 'darkMode', type: 'boolean', default: false });
+vibeFlagsStore.register({ key: "darkMode", type: "boolean", default: false });
 
 function App() {
-  const darkMode = useVibeFlags('darkMode');
+  const darkMode = useVibeFlags("darkMode");
 
   return (
-    <div style={{ background: darkMode ? '#1a1a1a' : '#fff' }}>
-      Dark mode is {darkMode ? 'on' : 'off'}
+    <div style={{ background: darkMode ? "#1a1a1a" : "#fff" }}>
+      Dark mode is {darkMode ? "on" : "off"}
     </div>
   );
 }
@@ -78,10 +78,10 @@ You can also pass a config object directly — the flag is registered on mount:
 ```tsx
 function ThemePicker() {
   const theme = useVibeFlags({
-    key: 'theme',
-    type: 'select',
-    options: ['light', 'dark', 'auto'],
-    default: 'light',
+    key: "theme",
+    type: "select",
+    options: ["light", "dark", "auto"],
+    default: "light",
   });
 
   return <p>Current theme: {theme}</p>;
@@ -104,13 +104,18 @@ useVibeFlags(config: VibeFlagsConfig): VibeFlagsValue
 
 ```tsx
 // Subscribe by key (flag must be registered elsewhere)
-const enabled = useVibeFlags('featureX');
+const enabled = useVibeFlags("featureX");
 
 // Register a boolean flag inline
-const darkMode = useVibeFlags({ key: 'darkMode', type: 'boolean', default: false });
+const darkMode = useVibeFlags({ key: "darkMode", type: "boolean", default: false });
 
 // Register a select flag inline
-const theme = useVibeFlags({ key: 'theme', type: 'select', options: ['light', 'dark'], default: 'light' });
+const theme = useVibeFlags({
+  key: "theme",
+  type: "select",
+  options: ["light", "dark"],
+  default: "light",
+});
 ```
 
 ---
@@ -135,14 +140,14 @@ Where `VibeFlagsConfig` is one of:
 
 ```ts
 // Boolean
-vibeFlagsStore.register({ key: 'darkMode', type: 'boolean', default: false });
+vibeFlagsStore.register({ key: "darkMode", type: "boolean", default: false });
 
 // Select
 vibeFlagsStore.register({
-  key: 'theme',
-  type: 'select',
-  options: ['light', 'dark', 'auto'],
-  default: 'light',
+  key: "theme",
+  type: "select",
+  options: ["light", "dark", "auto"],
+  default: "light",
 });
 ```
 
@@ -152,19 +157,19 @@ vibeFlagsStore.register({
 
 React wrapper for `<vibe-flags-boolean>`. Self-registers the flag and renders children when the flag value matches `value`. If `value` is omitted, children are shown whenever the flag is truthy.
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `name` | `string` | required | Unique flag key |
-| `description` | `string` | `""` | Label shown in toolbar |
-| `value` | `string` | `""` | Expected value to show children |
-| `default` | `boolean` | `false` | Initial value |
+| Prop          | Type      | Default  | Description                     |
+| ------------- | --------- | -------- | ------------------------------- |
+| `name`        | `string`  | required | Unique flag key                 |
+| `description` | `string`  | `""`     | Label shown in toolbar          |
+| `value`       | `string`  | `""`     | Expected value to show children |
+| `default`     | `boolean` | `false`  | Initial value                   |
 
 ```tsx
-import { VibeFlagsBoolean } from '@vibe-flags/core/react';
+import { VibeFlagsBoolean } from "@vibe-flags/core/react";
 
 <VibeFlagsBoolean name="darkMode" description="Dark Mode" default={false}>
   <style>{`body { background: #1a1a1a; color: #fff; }`}</style>
-</VibeFlagsBoolean>
+</VibeFlagsBoolean>;
 ```
 
 ---
@@ -175,20 +180,20 @@ React wrappers for `<vibe-flags-select>` and `<vibe-flags-option>`. Only the act
 
 **`VibeFlagsSelect` props:**
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `name` | `string` | required | Unique flag key |
-| `description` | `string` | `""` | Label shown in toolbar |
-| `default` | `string` | first option | Default selection |
+| Prop          | Type     | Default      | Description            |
+| ------------- | -------- | ------------ | ---------------------- |
+| `name`        | `string` | required     | Unique flag key        |
+| `description` | `string` | `""`         | Label shown in toolbar |
+| `default`     | `string` | first option | Default selection      |
 
 **`VibeFlagsOption` props:**
 
-| Prop | Type | Description |
-|------|------|-------------|
+| Prop    | Type     | Description                                            |
+| ------- | -------- | ------------------------------------------------------ |
 | `value` | `string` | Option identifier — children shown when this is active |
 
 ```tsx
-import { VibeFlagsSelect, VibeFlagsOption } from '@vibe-flags/core/react';
+import { VibeFlagsSelect, VibeFlagsOption } from "@vibe-flags/core/react";
 
 <VibeFlagsSelect name="theme" description="Color theme" default="light">
   <VibeFlagsOption value="light">
@@ -197,5 +202,5 @@ import { VibeFlagsSelect, VibeFlagsOption } from '@vibe-flags/core/react';
   <VibeFlagsOption value="dark">
     <style>{`:root { --bg: #111; --text: #fff; }`}</style>
   </VibeFlagsOption>
-</VibeFlagsSelect>
+</VibeFlagsSelect>;
 ```

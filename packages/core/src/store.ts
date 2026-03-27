@@ -1,11 +1,11 @@
-import type { VibeFlagsConfig, VibeFlagsValue, VibeFlagsState } from './types.js';
+import type { VibeFlagsConfig, VibeFlagsValue, VibeFlagsState } from "./types.js";
 
-const NAMESPACE = 'vibe-flags:';
+const NAMESPACE = "vibe-flags:";
 
 function getInitialValue(config: VibeFlagsConfig): VibeFlagsValue {
-  if (config.type === 'boolean') return config.default ?? false;
+  if (config.type === "boolean") return config.default ?? false;
   if (config.default && config.options.includes(config.default)) return config.default;
-  return config.options[0] || '';
+  return config.options[0] || "";
 }
 
 class VibeFlagsStore extends EventTarget {
@@ -18,16 +18,18 @@ class VibeFlagsStore extends EventTarget {
     const initial = getInitialValue(config);
     const stored = this.readFromStorage(config.key);
     // Only use stored value if it's valid for this config
-    const isValid = stored !== null && (
-      (config.type === 'boolean' && typeof stored === 'boolean') ||
-      (config.type === 'select' && typeof stored === 'string' && config.options.includes(stored))
-    );
+    const isValid =
+      stored !== null &&
+      ((config.type === "boolean" && typeof stored === "boolean") ||
+        (config.type === "select" &&
+          typeof stored === "string" &&
+          config.options.includes(stored)));
     this.state[config.key] = isValid ? stored : initial;
 
     if (!this.listening) {
       this.listening = true;
-      if (typeof window !== 'undefined') {
-        window.addEventListener('storage', this.onStorageEvent);
+      if (typeof window !== "undefined") {
+        window.addEventListener("storage", this.onStorageEvent);
       }
     }
 
@@ -48,9 +50,9 @@ class VibeFlagsStore extends EventTarget {
     const config = this.configs.get(key);
     if (!config) return;
 
-    if (config.type === 'boolean' && typeof value !== 'boolean') return;
-    if (config.type === 'select') {
-      if (typeof value !== 'string') return;
+    if (config.type === "boolean" && typeof value !== "boolean") return;
+    if (config.type === "select") {
+      if (typeof value !== "string") return;
       if (!config.options.includes(value)) return;
     }
 
@@ -80,7 +82,7 @@ class VibeFlagsStore extends EventTarget {
   }
 
   private readFromStorage(key: string): VibeFlagsValue | null {
-    if (typeof window === 'undefined') return null;
+    if (typeof window === "undefined") return null;
     try {
       const raw = localStorage.getItem(NAMESPACE + key);
       if (raw === null) return null;
@@ -91,7 +93,7 @@ class VibeFlagsStore extends EventTarget {
   }
 
   private writeToStorage(key: string, value: VibeFlagsValue): void {
-    if (typeof window === 'undefined') return;
+    if (typeof window === "undefined") return;
     try {
       localStorage.setItem(NAMESPACE + key, JSON.stringify(value));
     } catch {
@@ -100,7 +102,7 @@ class VibeFlagsStore extends EventTarget {
   }
 
   private removeFromStorage(key: string): void {
-    if (typeof window === 'undefined') return;
+    if (typeof window === "undefined") return;
     try {
       localStorage.removeItem(NAMESPACE + key);
     } catch {
@@ -110,13 +112,13 @@ class VibeFlagsStore extends EventTarget {
 
   private dispatch(key?: string): void {
     const detail = { key, state: this.getAll() };
-    const event = new CustomEvent('vibe-flags-changed', {
+    const event = new CustomEvent("vibe-flags-changed", {
       detail,
       bubbles: true,
     });
     this.dispatchEvent(event);
-    if (typeof window !== 'undefined') {
-      window.dispatchEvent(new CustomEvent('vibe-flags-changed', { detail }));
+    if (typeof window !== "undefined") {
+      window.dispatchEvent(new CustomEvent("vibe-flags-changed", { detail }));
     }
   }
 
