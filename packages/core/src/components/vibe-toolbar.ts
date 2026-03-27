@@ -169,9 +169,8 @@ export class VibeFlagsToolbar extends LitElement {
         font-weight: 500;
         margin-bottom: 1px;
         overflow: hidden;
-        display: -webkit-box;
-        -webkit-line-clamp: 3;
-        -webkit-box-orient: vertical;
+        text-overflow: ellipsis;
+        white-space: nowrap;
       }
 
       .flag-key {
@@ -180,8 +179,9 @@ export class VibeFlagsToolbar extends LitElement {
         font-family: 'SF Mono', 'Fira Code', 'Fira Mono', Menlo, Consolas,
           monospace;
         overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
       }
 
       .flag-row {
