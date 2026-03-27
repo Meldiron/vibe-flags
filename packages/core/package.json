@@ -20,7 +20,8 @@
   "unpkg": "./dist/vibe-flags.cdn.mjs",
   "jsdelivr": "./dist/vibe-flags.cdn.mjs",
   "files": [
-    "dist"
+    "dist",
+    "README.md"
   ],
   "sideEffects": true,
   "peerDependencies": {
@@ -51,6 +52,6 @@
     "build": "tsc && vite build && vite build --config vite.cdn.config.ts",
     "test": "vitest run",
     "test:watch": "vitest",
-    "prepublishOnly": "pnpm build"
+    "prepublishOnly": "cp ../../README.md ./README.md && pnpm build"
   }
 }

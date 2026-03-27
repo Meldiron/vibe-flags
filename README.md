@@ -1,5 +1,9 @@
 # Vibe Flags
 
+[![npm version](https://img.shields.io/npm/v/@vibe-flags/core)](https://www.npmjs.com/package/@vibe-flags/core)
+[![npm downloads](https://img.shields.io/npm/dm/@vibe-flags/core)](https://www.npmjs.com/package/@vibe-flags/core)
+[![license](https://img.shields.io/npm/l/@vibe-flags/core)](https://github.com/Meldiron/vibe-flags/blob/main/LICENSE)
+
 **Feature flags for the browser — zero config, no backend, no auth.**
 
 Drop one script tag in. Toggle flags from a floating toolbar. Flags persist across page reloads. Works anywhere HTML runs.

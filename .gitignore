@@ -4,3 +4,4 @@ dist
 .vitepress/cache
 *.local
 .DS_Store
+packages/core/README.md
