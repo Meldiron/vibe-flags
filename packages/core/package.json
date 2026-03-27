@@ -1,6 +1,6 @@
 {
   "name": "@vibe-flags/core",
-  "version": "0.1.15",
+  "version": "0.1.16-fix-toolbar-txt.0",
   "type": "module",
   "main": "./dist/vibe-flags.js",
   "module": "./dist/vibe-flags.js",
