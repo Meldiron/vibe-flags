@@ -1,6 +1,7 @@
 import type { VibeFlagsConfig, VibeFlagsValue, VibeFlagsState } from './types.js';
 
 const NAMESPACE = 'vibe-flags:';
+const URL_NAMESPACE = 'vf:';
 
 function getInitialValue(config: VibeFlagsConfig): VibeFlagsValue {
   if (config.type === 'boolean') return config.default ?? false;
@@ -13,16 +14,39 @@ class VibeFlagsStore extends EventTarget {
   private state: VibeFlagsState = {};
   private listening = false;
 
+  private readFromUrl(config: VibeFlagsConfig): VibeFlagsValue | null {
+    if (typeof window === 'undefined') return null;
+    const params = new URLSearchParams(window.location.search);
+    const raw = params.get(URL_NAMESPACE + config.key);
+    if (raw === null) return null;
+    if (config.type === 'boolean') {
+      if (raw === 'true') return true;
+      if (raw === 'false') return false;
+      return null;
+    }
+    if (config.type === 'select') {
+      if (config.options.includes(raw)) return raw;
+      return null;
+    }
+    return null;
+  }
+
   register(config: VibeFlagsConfig): void {
     this.configs.set(config.key, config);
     const initial = getInitialValue(config);
-    const stored = this.readFromStorage(config.key);
-    // Only use stored value if it's valid for this config
-    const isValid = stored !== null && (
-      (config.type === 'boolean' && typeof stored === 'boolean') ||
-      (config.type === 'select' && typeof stored === 'string' && config.options.includes(stored))
-    );
-    this.state[config.key] = isValid ? stored : initial;
+    const urlValue = this.readFromUrl(config);
+    if (urlValue !== null) {
+      // URL params take priority and are ephemeral (not written to localStorage)
+      this.state[config.key] = urlValue;
+    } else {
+      const stored = this.readFromStorage(config.key);
+      // Only use stored value if it's valid for this config
+      const isValid = stored !== null && (
+        (config.type === 'boolean' && typeof stored === 'boolean') ||
+        (config.type === 'select' && typeof stored === 'string' && config.options.includes(stored))
+      );
+      this.state[config.key] = isValid ? stored : initial;
+    }
 
     if (!this.listening) {
       this.listening = true;

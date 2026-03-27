@@ -39,6 +39,20 @@ No JavaScript. No config objects. No build step.
 3. Toggling a flag updates `localStorage` and re-evaluates every flag
 4. Children stay hidden until JS confirms they should be visible — no flash of content
 
+### URL Overrides
+
+Override any flag via URL query parameter without persisting to localStorage:
+
+```
+https://yourapp.com?vf:darkMode=true&vf:theme=dark
+```
+
+- Format: `?vf:<flag-name>=<value>`
+- URL params take priority over localStorage values
+- URL params are ephemeral — not saved across page loads
+- Boolean flags: accept `true` or `false` only; any other value is ignored
+- Select flags: value must be a valid option; unrecognized values are ignored
+
 ### Installation
 
 CDN (recommended):
@@ -118,6 +132,20 @@ Use two elements with `value="true"` and `value="false"`:
 | Attribute | Required | Description |
 |-----------|----------|-------------|
 | `value` | Yes | The option value. Children are shown only when this option is active. |
+
+### URL Query Parameter Overrides
+
+Override any flag's value via URL without touching localStorage:
+
+```
+https://yourapp.com?vf:dark-mode=true&vf:theme=dark
+```
+
+**Rules:**
+- URL params take priority over localStorage values when present.
+- URL params are **ephemeral** — not written to localStorage, do not persist across page loads.
+- Boolean flags accept `true` or `false`; any other value is ignored and falls back to localStorage or default.
+- Select flags accept any value in the options list; unrecognized values are ignored.
 
 ---
 

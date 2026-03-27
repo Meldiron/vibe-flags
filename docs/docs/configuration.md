@@ -44,3 +44,19 @@
 | Attribute | Required | Description |
 |-----------|----------|-------------|
 | `value` | Yes | The option value. Children are shown only when this option is active. |
+
+## URL Query Parameter Overrides
+
+You can override any flag's value via a URL query parameter without touching localStorage. This is useful for sharing exact flag states with teammates for QA, demos, or reviews.
+
+**Format:** `?vf:<flag-name>=<value>`
+
+```
+https://yourapp.com?vf:dark-mode=true&vf:theme=dark
+```
+
+**Rules:**
+- URL params take priority over localStorage values when present.
+- URL params are **ephemeral** — they are not written to localStorage and do not persist across page loads.
+- Boolean flags accept `true` or `false`. Any other value is ignored.
+- Select flags accept any value that is a valid option. Values not in the options list are ignored.
