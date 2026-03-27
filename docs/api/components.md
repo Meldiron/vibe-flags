@@ -81,11 +81,24 @@ A single option inside `<vibe-flags-select>`. Its children are shown only when t
 
 Floating toggle button + slide-out sidebar. Automatically discovers all registered flags and renders controls (toggle switches for booleans, dropdowns for selects).
 
+The FAB is draggable — drag it anywhere and it snaps to the nearest viewport corner. The chosen corner is persisted in localStorage (`vibe-flags:toolbar-position`). The panel width can be resized by dragging the edge handle; size is persisted in localStorage (`vibe-flags:toolbar-size`).
+
+### Attributes
+
+| Attribute | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `position` | `'bottom-right' \| 'bottom-left' \| 'top-right' \| 'top-left'` | `'bottom-right'` | Initial corner for the FAB. Overridden by the user's saved localStorage preference. |
+
 ### Example
 
 ```html
 <vibe-flags-boolean name="beta" description="Beta features" value="true">
   <p>Beta content</p>
 </vibe-flags-boolean>
+
+<!-- Default: bottom-right corner -->
 <vibe-flags-toolbar></vibe-flags-toolbar>
+
+<!-- Start in top-left corner -->
+<vibe-flags-toolbar position="top-left"></vibe-flags-toolbar>
 ```
