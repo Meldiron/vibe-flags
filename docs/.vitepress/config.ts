@@ -36,6 +36,7 @@ export default defineConfig({
       { text: 'Docs', link: '/docs/getting-started' },
       { text: 'API', link: '/api/components' },
       { text: 'Examples', link: '/examples/basic' },
+      { text: 'Playground', link: '/playground' },
     ],
     sidebar: {
       '/docs/': [
@@ -70,6 +71,14 @@ export default defineConfig({
             { text: 'Basic Usage', link: '/examples/basic' },
             { text: 'Boolean Flags', link: '/examples/boolean-flags' },
             { text: 'Select Flags', link: '/examples/select-flags' },
+          ],
+        },
+      ],
+      '/playground': [
+        {
+          text: 'Playground',
+          items: [
+            { text: 'Interactive Playground', link: '/playground' },
           ],
         },
       ],

@@ -81,6 +81,7 @@ function App() {
 - [Basic Example](/examples/basic)
 - [Boolean Flags Example](/examples/boolean-flags)
 - [Select Flags Example](/examples/select-flags)
+- [Interactive Playground](/playground)
 - [Full documentation for LLMs](/llms-full.txt)
 
 ## Source
