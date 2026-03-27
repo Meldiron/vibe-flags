@@ -1,6 +1,6 @@
 {
   "name": "@vibe-flags/core",
-  "version": "0.1.17",
+  "version": "0.1.18",
   "type": "module",
   "main": "./dist/vibe-flags.js",
   "module": "./dist/vibe-flags.js",
