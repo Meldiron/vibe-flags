@@ -7,7 +7,10 @@
     "dev:docs": "pnpm --filter docs dev",
     "human:login": "npm login",
     "human:build": "pnpm --filter @vibe-flags/core build && echo '\n✅ Build complete. Run: pnpm human:publish'",
-    "human:publish": "pnpm human:build && pnpm --filter @vibe-flags/core exec npm publish --access public"
+    "human:publish": "pnpm human:build && pnpm --filter @vibe-flags/core exec npm publish --access public",
+    "agent:publish-pre": "BRANCH=$(git rev-parse --abbrev-ref HEAD) && pnpm --filter @vibe-flags/core exec npm version prerelease --preid=$BRANCH && pnpm --filter @vibe-flags/core build && pnpm --filter @vibe-flags/core exec npm publish --access public --tag $BRANCH",
+    "agent:publish-patch": "pnpm --filter @vibe-flags/core exec npm version patch && pnpm --filter @vibe-flags/core build && pnpm --filter @vibe-flags/core exec npm publish --access public",
+    "agent:publish-minor": "pnpm --filter @vibe-flags/core exec npm version minor && pnpm --filter @vibe-flags/core build && pnpm --filter @vibe-flags/core exec npm publish --access public"
   },
   "devDependencies": {
     "typescript": "^5.7.0"

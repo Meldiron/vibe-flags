@@ -168,6 +168,10 @@ export class VibeFlagsToolbar extends LitElement {
         font-size: 12px;
         font-weight: 500;
         margin-bottom: 1px;
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
       }
 
       .flag-key {
@@ -175,6 +179,9 @@ export class VibeFlagsToolbar extends LitElement {
         color: var(--vf-text-muted);
         font-family: 'SF Mono', 'Fira Code', 'Fira Mono', Menlo, Consolas,
           monospace;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
       }
 
       .flag-row {
@@ -239,6 +246,7 @@ export class VibeFlagsToolbar extends LitElement {
       .select-wrapper {
         position: relative;
         flex-shrink: 0;
+        max-width: 120px;
       }
 
       .select {
@@ -254,6 +262,11 @@ export class VibeFlagsToolbar extends LitElement {
         cursor: pointer;
         outline: none;
         min-width: 80px;
+        max-width: 120px;
+        width: 120px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
         transition: border-color 0.15s ease;
       }
 
