@@ -87,10 +87,8 @@ export default defineConfig({
           ],
         },
         {
-          text: 'Resources',
-          items: [
-            { text: 'Comparison', link: '/docs/comparison' },
-          ],
+          text: "Resources",
+          items: [{ text: "Comparison", link: "/docs/comparison" }],
         },
       ],
       "/examples/": [
