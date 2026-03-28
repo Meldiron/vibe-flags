@@ -12,40 +12,12 @@
         {{ preset.name }}
       </button>
     </div>
-
-    <!-- Hidden form: submitted into the StackBlitz iframe on preset change -->
-    <form
-      ref="formEl"
-      method="post"
-      action="https://stackblitz.com/run"
-      :target="frameId"
-      style="display: none"
-    >
-      <input type="hidden" name="project[title]" value="Vibe Flags Playground" />
-      <input
-        type="hidden"
-        name="project[description]"
-        value="Interactive Vibe Flags playground — try vibe-flags components in real time."
-      />
-      <input type="hidden" name="project[template]" value="html" />
-      <input type="hidden" name="project[tags][]" value="vibe-flags" />
-      <input ref="fileInput" type="hidden" name="project[files][index.html]" :value="activeCode" />
-      <input type="hidden" name="embedOptions[forceEmbedLayout]" value="1" />
-      <input type="hidden" name="embedOptions[openFile]" value="index.html" />
-      <input type="hidden" name="embedOptions[hideExplorer]" value="1" />
-    </form>
-
-    <iframe
-      :name="frameId"
-      class="playground-embed"
-      allow="cross-origin-isolated"
-      title="Vibe Flags interactive playground powered by StackBlitz"
-    />
+    <div ref="embedEl" class="playground-embed" />
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted, nextTick } from 'vue';
+import { ref, onMounted } from 'vue';
 
 const BOOLEAN_PRESET = `<!DOCTYPE html>
 <html>
@@ -57,7 +29,7 @@ const BOOLEAN_PRESET = `<!DOCTYPE html>
     .card { padding: 16px; background: #1c1f26; border-radius: 8px; margin-bottom: 12px; }
     .banner { padding: 16px; background: #1a3a5c; border: 1px solid #2d6a9f; border-radius: 8px; margin-bottom: 12px; }
   </style>
-  <script type="module" src="https://unpkg.com/@vibe-flags/core"><\\/script>
+  <script type="module" src="https://unpkg.com/@vibe-flags/core"><\/script>
 </head>
 <body>
   <h2>Boolean Flag Demo</h2>
@@ -87,7 +59,7 @@ const SELECT_PRESET = `<!DOCTYPE html>
     [data-value="green"] { background: #1a3a2a; border: 1px solid #2d9f4e; }
     [data-value="red"]   { background: #3a1a1a; border: 1px solid #9f2d2d; }
   </style>
-  <script type="module" src="https://unpkg.com/@vibe-flags/core"><\\/script>
+  <script type="module" src="https://unpkg.com/@vibe-flags/core"><\/script>
 </head>
 <body>
   <h2>Select Flag Demo</h2>
@@ -115,7 +87,7 @@ const MULTI_PRESET = `<!DOCTYPE html>
     .badge { display: inline-block; background: #7c3aed; color: #fff; padding: 2px 8px; border-radius: 99px; font-size: 12px; }
     .compact h2 { font-size: 14px; margin: 0 0 4px; }
   </style>
-  <script type="module" src="https://unpkg.com/@vibe-flags/core"><\\/script>
+  <script type="module" src="https://unpkg.com/@vibe-flags/core"><\/script>
 </head>
 <body>
   <vibe-flags-select name="layout" description="Layout density" value="default" options="default,compact">
@@ -146,26 +118,57 @@ const presets = [
   { name: 'Multiple Flags', code: MULTI_PRESET },
 ];
 
-const frameId = 'vf-playground-frame';
-const formEl = ref(null);
-const fileInput = ref(null);
+const embedEl = ref(null);
 const activePreset = ref('Boolean Flag');
-const activeCode = ref(BOOLEAN_PRESET);
+let vm = null;
 
-function submit() {
-  if (formEl.value) formEl.value.submit();
+const EMBED_OPTIONS = {
+  height: 550,
+  view: 'preview',
+  hideExplorer: true,
+  hideNavigation: true,
+  hideDevTools: true,
+  settings: {
+    compile: {
+      trigger: 'auto',
+      action: 'refresh',
+      clearConsole: false,
+    },
+  },
+};
+
+function makeProject(code) {
+  return {
+    title: 'Vibe Flags Playground',
+    template: 'html',
+    files: { 'index.html': code },
+  };
 }
 
-function loadPreset(preset) {
+function loadStackBlitzSDK() {
+  return new Promise((resolve, reject) => {
+    if (window.StackBlitzSDK) {
+      resolve(window.StackBlitzSDK);
+      return;
+    }
+    const script = document.createElement('script');
+    script.src = 'https://unpkg.com/@stackblitz/sdk/bundles/sdk.umd.js';
+    script.onload = () => resolve(window.StackBlitzSDK);
+    script.onerror = reject;
+    document.head.appendChild(script);
+  });
+}
+
+async function loadPreset(preset) {
   activePreset.value = preset.name;
-  activeCode.value = preset.code;
-  // Update the hidden input directly before submit to ensure the latest value is sent
-  if (fileInput.value) fileInput.value.value = preset.code;
-  submit();
+  if (vm) {
+    await vm.applyFsDiff({ create: { 'index.html': preset.code }, destroy: [] });
+  }
 }
 
-onMounted(() => {
-  nextTick(submit);
+onMounted(async () => {
+  const sdk = await loadStackBlitzSDK();
+  vm = await sdk.embedProject(embedEl.value, makeProject(BOOLEAN_PRESET), EMBED_OPTIONS);
 });
 </script>
 
@@ -214,15 +217,8 @@ onMounted(() => {
 
 .playground-embed {
   width: 100%;
-  height: 600px;
   border: 1px solid var(--vp-c-divider);
   border-radius: 8px;
-  background: var(--vp-c-bg-soft);
-}
-
-@media (max-width: 768px) {
-  .playground-embed {
-    height: 480px;
-  }
+  overflow: hidden;
 }
 </style>
