@@ -1,6 +1,6 @@
 {
   "name": "@vibe-flags/core",
-  "version": "0.1.19-vib-59-badges.0",
+  "version": "0.1.19-vib-59-badges.1",
   "type": "module",
   "main": "./dist/vibe-flags.js",
   "module": "./dist/vibe-flags.js",
