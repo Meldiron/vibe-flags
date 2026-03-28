@@ -63,6 +63,10 @@ export default defineConfig({
             { text: 'Types', link: '/api/types' },
           ],
         },
+        {
+          text: 'Resources',
+          items: [{ text: 'Comparison', link: '/docs/comparison' }],
+        },
       ],
       '/examples/': [
         {

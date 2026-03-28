@@ -34,3 +34,13 @@ No JavaScript. No config objects. No build step.
 2. `<vibe-flags-toolbar>` discovers all registered flags and renders controls
 3. Toggling a flag updates `localStorage` and re-evaluates every flag
 4. Children stay hidden until JS confirms they should be visible — no flash of content
+
+## URL Overrides
+
+Share flag states via URL without changing localStorage:
+
+```
+https://yourapp.com?vf:darkMode=true&vf:theme=dark
+```
+
+URL params take priority over localStorage and are ephemeral — they are not saved. See [Flag Types](/docs/configuration#url-query-parameter-overrides) for details.
