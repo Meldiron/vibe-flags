@@ -84,6 +84,10 @@ onUnmounted(() => {
               <a href="/docs/getting-started" class="btn btn-primary">Get Started</a>
               <a href="/examples/basic" class="btn btn-outline">Examples</a>
             </div>
+            <div class="ph-badge">
+              <a href="https://www.producthunt.com/products/vibe-flags?embed=true&utm_source=badge-featured&utm_medium=badge&utm_campaign=badge-vibe-flags" target="_blank" rel="noopener noreferrer" class="ph-badge-dark"><img alt="Vibe Flags - Offline-first feature flags for vibe coding. | Product Hunt" width="250" height="54" src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1109872&theme=dark&t=1774702592864" /></a>
+              <a href="https://www.producthunt.com/products/vibe-flags?embed=true&utm_source=badge-featured&utm_medium=badge&utm_campaign=badge-vibe-flags" target="_blank" rel="noopener noreferrer" class="ph-badge-light"><img alt="Vibe Flags - Offline-first feature flags for vibe coding. | Product Hunt" width="250" height="54" src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1109872&theme=light&t=1774702610353" /></a>
+            </div>
           </div>
         </section>
       </vibe-flag-option>
@@ -105,6 +109,10 @@ onUnmounted(() => {
             <div class="hero-actions">
               <a href="/docs/getting-started" class="btn btn-primary">Get Started</a>
               <a href="/api/components" class="btn btn-outline">API Reference</a>
+            </div>
+            <div class="ph-badge">
+              <a href="https://www.producthunt.com/products/vibe-flags?embed=true&utm_source=badge-featured&utm_medium=badge&utm_campaign=badge-vibe-flags" target="_blank" rel="noopener noreferrer" class="ph-badge-dark"><img alt="Vibe Flags - Offline-first feature flags for vibe coding. | Product Hunt" width="250" height="54" src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1109872&theme=dark&t=1774702592864" /></a>
+              <a href="https://www.producthunt.com/products/vibe-flags?embed=true&utm_source=badge-featured&utm_medium=badge&utm_campaign=badge-vibe-flags" target="_blank" rel="noopener noreferrer" class="ph-badge-light"><img alt="Vibe Flags - Offline-first feature flags for vibe coding. | Product Hunt" width="250" height="54" src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1109872&theme=light&t=1774702610353" /></a>
             </div>
             <div class="snippet-box">
               <pre class="snippet-pre"><span class="c-tag">&lt;script</span>
@@ -139,6 +147,10 @@ onUnmounted(() => {
               <div class="hero-actions hero-actions--left">
                 <a href="/docs/getting-started" class="btn btn-primary">Get Started</a>
                 <a href="/api/components" class="btn btn-ghost">API Reference</a>
+              </div>
+              <div class="ph-badge ph-badge--left">
+                <a href="https://www.producthunt.com/products/vibe-flags?embed=true&utm_source=badge-featured&utm_medium=badge&utm_campaign=badge-vibe-flags" target="_blank" rel="noopener noreferrer" class="ph-badge-dark"><img alt="Vibe Flags - Offline-first feature flags for vibe coding. | Product Hunt" width="250" height="54" src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1109872&theme=dark&t=1774702592864" /></a>
+                <a href="https://www.producthunt.com/products/vibe-flags?embed=true&utm_source=badge-featured&utm_medium=badge&utm_campaign=badge-vibe-flags" target="_blank" rel="noopener noreferrer" class="ph-badge-light"><img alt="Vibe Flags - Offline-first feature flags for vibe coding. | Product Hunt" width="250" height="54" src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1109872&theme=light&t=1774702610353" /></a>
               </div>
             </div>
             <div class="split-right">
@@ -452,6 +464,29 @@ Section to redesign: [EXPLAIN YOUR SECTION HERE]</pre>
 }
 .hero-actions--left {
   justify-content: flex-start;
+}
+.ph-badge {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+.ph-badge--left {
+  justify-content: flex-start;
+}
+.ph-badge img {
+  display: block;
+}
+.ph-badge-light {
+  display: none;
+}
+.ph-badge-dark {
+  display: block;
+}
+:root:not(.dark) .ph-badge-light {
+  display: block;
+}
+:root:not(.dark) .ph-badge-dark {
+  display: none;
 }
 .btn {
   display: inline-flex;
