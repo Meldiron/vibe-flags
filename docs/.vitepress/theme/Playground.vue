@@ -29,7 +29,7 @@ const BOOLEAN_PRESET = `<!DOCTYPE html>
     .card { padding: 16px; background: #1c1f26; border-radius: 8px; margin-bottom: 12px; }
     .banner { padding: 16px; background: #1a3a5c; border: 1px solid #2d6a9f; border-radius: 8px; margin-bottom: 12px; }
   </style>
-  <script type="module" src="https://unpkg.com/@vibe-flags/core"><\/script>
+  <script src="https://unpkg.com/@vibe-flags/core/dist/vibe-flags.cdn.js"><\/script>
 </head>
 <body>
   <h2>Boolean Flag Demo</h2>
@@ -59,7 +59,7 @@ const SELECT_PRESET = `<!DOCTYPE html>
     [data-value="green"] { background: #1a3a2a; border: 1px solid #2d9f4e; }
     [data-value="red"]   { background: #3a1a1a; border: 1px solid #9f2d2d; }
   </style>
-  <script type="module" src="https://unpkg.com/@vibe-flags/core"><\/script>
+  <script src="https://unpkg.com/@vibe-flags/core/dist/vibe-flags.cdn.js"><\/script>
 </head>
 <body>
   <h2>Select Flag Demo</h2>
@@ -87,7 +87,7 @@ const MULTI_PRESET = `<!DOCTYPE html>
     .badge { display: inline-block; background: #7c3aed; color: #fff; padding: 2px 8px; border-radius: 99px; font-size: 12px; }
     .compact h2 { font-size: 14px; margin: 0 0 4px; }
   </style>
-  <script type="module" src="https://unpkg.com/@vibe-flags/core"><\/script>
+  <script src="https://unpkg.com/@vibe-flags/core/dist/vibe-flags.cdn.js"><\/script>
 </head>
 <body>
   <vibe-flags-select name="layout" description="Layout density" value="default" options="default,compact">
