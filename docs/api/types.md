@@ -9,7 +9,7 @@ import type {
   VibeFlagsConfigSelect,
   VibeFlagsValue,
   VibeFlagsState,
-} from 'vibe-flags';
+} from "vibe-flags";
 ```
 
 ## `VibeFlagsConfigBoolean`
@@ -17,7 +17,7 @@ import type {
 ```ts
 interface VibeFlagsConfigBoolean {
   key: string;
-  type: 'boolean';
+  type: "boolean";
   label?: string;
 }
 ```
@@ -27,7 +27,7 @@ interface VibeFlagsConfigBoolean {
 ```ts
 interface VibeFlagsConfigSelect {
   key: string;
-  type: 'select';
+  type: "select";
   options: string[];
   label?: string;
 }

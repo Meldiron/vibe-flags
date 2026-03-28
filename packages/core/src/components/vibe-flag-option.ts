@@ -1,16 +1,16 @@
-import { LitElement, html, nothing } from 'lit';
-import { customElement, property, state } from 'lit/decorators.js';
+import { LitElement, html, nothing } from "lit";
+import { customElement, property } from "lit/decorators.js";
 
-@customElement('vibe-flags-option')
+@customElement("vibe-flags-option")
 export class VibeFlagsOption extends LitElement {
   @property({ type: String })
-  value = '';
+  value = "";
 
   @property({ type: Boolean, reflect: true })
   active = false;
 
   protected firstUpdated(): void {
-    this.style.display = 'contents';
+    this.style.display = "contents";
   }
 
   protected render() {
@@ -20,6 +20,6 @@ export class VibeFlagsOption extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'vibe-flags-option': VibeFlagsOption;
+    "vibe-flags-option": VibeFlagsOption;
   }
 }

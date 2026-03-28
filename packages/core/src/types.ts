@@ -1,13 +1,13 @@
 export interface VibeFlagsConfigBoolean {
   key: string;
-  type: 'boolean';
+  type: "boolean";
   label?: string;
   default?: boolean;
 }
 
 export interface VibeFlagsConfigSelect {
   key: string;
-  type: 'select';
+  type: "select";
   options: string[];
   label?: string;
   default?: string;

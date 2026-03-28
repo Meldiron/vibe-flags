@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach, vi, afterEach } from 'vitest';
+import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { renderHook, render, act } from '@testing-library/react';
 import { useVibeFlags, VibeFlagsToolbar, VibeFlagsBoolean, VibeFlagsSelect, VibeFlagsOption } from '../src/react/index.js';
 import { createElement } from 'react';
@@ -88,7 +88,7 @@ describe('useVibeFlags', () => {
 
   it('stops updating after unmount', () => {
     vibeFlagsStore.register({ key: 'darkMode', type: 'boolean', default: false });
-    const { result, unmount } = renderHook(() => useVibeFlags('darkMode'));
+    const { unmount } = renderHook(() => useVibeFlags('darkMode'));
     unmount();
 
     // Calling set after unmount should not throw

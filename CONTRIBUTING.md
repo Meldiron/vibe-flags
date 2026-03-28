@@ -45,6 +45,12 @@ pnpm build
 
 # Watch mode for tests
 cd packages/core && pnpm test:watch
+
+# Check formatting
+pnpm format:check
+
+# Run linter
+pnpm lint
 ```
 
 ### Project Structure
@@ -82,7 +88,12 @@ Before submitting a bug report, please:
    ```
 2. Make your changes
 3. Write or update tests as needed
-4. Ensure all tests pass: `pnpm test`
+4. Ensure all checks pass locally before pushing:
+   ```bash
+   pnpm format:check
+   pnpm lint
+   pnpm test
+   ```
 5. Commit your changes (see [Commit Messages](#commit-messages))
 6. Push to your fork and open a Pull Request
 
@@ -110,8 +121,18 @@ PRs that do not pass CI or lack tests for new functionality will not be merged.
 ### Running the Linter
 
 ```bash
-cd packages/core && pnpm lint
+pnpm lint
 ```
+
+### CI Checks
+
+Every push and pull request runs three automated checks via GitHub Actions:
+
+1. **Format check** — `pnpm format:check` (Prettier)
+2. **Lint** — `pnpm lint` (ESLint)
+3. **Test** — `pnpm test`
+
+PRs will not be merged if any check fails. Run these locally before pushing to catch issues early.
 
 ## Commit Messages
 
@@ -126,6 +147,7 @@ We follow the [Conventional Commits](https://www.conventionalcommits.org/) speci
 ```
 
 **Types:**
+
 - `feat`: A new feature
 - `fix`: A bug fix
 - `docs`: Documentation changes
@@ -135,6 +157,7 @@ We follow the [Conventional Commits](https://www.conventionalcommits.org/) speci
 - `perf`: Performance improvements
 
 **Examples:**
+
 ```
 feat(core): add persistence option for flag store
 fix(toolbar): prevent toolbar from rendering outside viewport

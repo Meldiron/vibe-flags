@@ -1,6 +1,6 @@
 {
   "name": "@vibe-flags/core",
-  "version": "0.1.18",
+  "version": "0.1.19-drag-fab.2",
   "type": "module",
   "main": "./dist/vibe-flags.js",
   "module": "./dist/vibe-flags.js",
@@ -20,8 +20,11 @@
   "unpkg": "./dist/vibe-flags.cdn.mjs",
   "jsdelivr": "./dist/vibe-flags.cdn.mjs",
   "files": [
-    "dist"
+    "dist",
+    "README.md",
+    "LICENSE"
   ],
+  "license": "MIT",
   "sideEffects": true,
   "peerDependencies": {
     "lit": "^3.0.0 || ^4.0.0",
@@ -51,6 +54,6 @@
     "build": "tsc && vite build && vite build --config vite.cdn.config.ts",
     "test": "vitest run",
     "test:watch": "vitest",
-    "prepublishOnly": "pnpm build"
+    "prepublishOnly": "cp ../../README.md ./README.md && cp ../../LICENSE ./LICENSE && npm run build"
   }
 }

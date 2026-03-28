@@ -10,11 +10,11 @@
 </vibe-flags-boolean>
 ```
 
-| Attribute | Required | Default | Description |
-|-----------|----------|---------|-------------|
-| `name` | Yes | — | Unique identifier for the flag |
-| `description` | No | `""` | Label shown in the toolbar (falls back to `name`) |
-| `value` | No | `""` | Expected value to show children. If omitted, children are always shown. |
+| Attribute     | Required | Default | Description                                                             |
+| ------------- | -------- | ------- | ----------------------------------------------------------------------- |
+| `name`        | Yes      | —       | Unique identifier for the flag                                          |
+| `description` | No       | `""`    | Label shown in the toolbar (falls back to `name`)                       |
+| `value`       | No       | `""`    | Expected value to show children. If omitted, children are always shown. |
 
 ## Select Flags
 
@@ -34,13 +34,26 @@
 </vibe-flags-select>
 ```
 
-| Attribute | Required | Default | Description |
-|-----------|----------|---------|-------------|
-| `name` | Yes | — | Unique identifier for the flag |
-| `description` | No | `""` | Label shown in the toolbar (falls back to `name`) |
+| Attribute     | Required | Default | Description                                       |
+| ------------- | -------- | ------- | ------------------------------------------------- |
+| `name`        | Yes      | —       | Unique identifier for the flag                    |
+| `description` | No       | `""`    | Label shown in the toolbar (falls back to `name`) |
 
 ### `<vibe-flags-option>`
 
-| Attribute | Required | Description |
-|-----------|----------|-------------|
-| `value` | Yes | The option value. Children are shown only when this option is active. |
+| Attribute | Required | Description                                                           |
+| --------- | -------- | --------------------------------------------------------------------- |
+| `value`   | Yes      | The option value. Children are shown only when this option is active. |
+
+## Toolbar Position
+
+The `<vibe-flags-toolbar>` FAB starts at the corner specified by the `position` attribute. The user can drag it to any corner and the choice is saved in localStorage — that saved preference takes priority over the attribute.
+
+```html
+<!-- Start in top-left (overridden by localStorage if user has dragged before) -->
+<vibe-flags-toolbar position="top-left"></vibe-flags-toolbar>
+```
+
+Valid values: `bottom-right` (default), `bottom-left`, `top-right`, `top-left`.
+
+The panel width can also be resized by dragging the edge handle on the open panel. The chosen size is saved in localStorage (`vibe-flags:toolbar-size`).
