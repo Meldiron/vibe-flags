@@ -1,17 +1,5 @@
 <template>
   <div class="playground">
-    <div class="playground-toolbar">
-      <span class="playground-label">Presets:</span>
-      <button
-        v-for="preset in presets"
-        :key="preset.name"
-        class="preset-btn"
-        :class="{ active: activePreset === preset.name }"
-        @click="loadPreset(preset)"
-      >
-        {{ preset.name }}
-      </button>
-    </div>
     <div ref="embedEl" class="playground-embed" />
   </div>
 </template>
@@ -19,7 +7,14 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 
-const BOOLEAN_PRESET = `<!DOCTYPE html>
+const props = defineProps({
+  preset: {
+    type: String,
+    default: 'boolean',
+  },
+});
+
+const BOOLEAN_CODE = `<!DOCTYPE html>
 <html>
 <head>
   <meta charset="UTF-8" />
@@ -47,7 +42,7 @@ const BOOLEAN_PRESET = `<!DOCTYPE html>
 </body>
 </html>`;
 
-const SELECT_PRESET = `<!DOCTYPE html>
+const SELECT_CODE = `<!DOCTYPE html>
 <html>
 <head>
   <meta charset="UTF-8" />
@@ -75,7 +70,7 @@ const SELECT_PRESET = `<!DOCTYPE html>
 </body>
 </html>`;
 
-const MULTI_PRESET = `<!DOCTYPE html>
+const MULTI_CODE = `<!DOCTYPE html>
 <html>
 <head>
   <meta charset="UTF-8" />
@@ -112,15 +107,13 @@ const MULTI_PRESET = `<!DOCTYPE html>
 </body>
 </html>`;
 
-const presets = [
-  { name: 'Boolean Flag', code: BOOLEAN_PRESET },
-  { name: 'Select Flag', code: SELECT_PRESET },
-  { name: 'Multiple Flags', code: MULTI_PRESET },
-];
+const CODE_MAP = {
+  boolean: BOOLEAN_CODE,
+  select: SELECT_CODE,
+  multiple: MULTI_CODE,
+};
 
 const embedEl = ref(null);
-const activePreset = ref('Boolean Flag');
-let vm = null;
 
 const EMBED_OPTIONS = {
   height: 550,
@@ -137,14 +130,6 @@ const EMBED_OPTIONS = {
   },
 };
 
-function makeProject(code) {
-  return {
-    title: 'Vibe Flags Playground',
-    template: 'html',
-    files: { 'index.html': code },
-  };
-}
-
 function loadStackBlitzSDK() {
   return new Promise((resolve, reject) => {
     if (window.StackBlitzSDK) {
@@ -159,60 +144,20 @@ function loadStackBlitzSDK() {
   });
 }
 
-async function loadPreset(preset) {
-  activePreset.value = preset.name;
-  if (vm) {
-    await vm.applyFsDiff({ create: { 'index.html': preset.code }, destroy: [] });
-  }
-}
-
 onMounted(async () => {
+  const code = CODE_MAP[props.preset] ?? BOOLEAN_CODE;
   const sdk = await loadStackBlitzSDK();
-  vm = await sdk.embedProject(embedEl.value, makeProject(BOOLEAN_PRESET), EMBED_OPTIONS);
+  await sdk.embedProject(
+    embedEl.value,
+    { title: 'Vibe Flags Playground', template: 'html', files: { 'index.html': code } },
+    EMBED_OPTIONS,
+  );
 });
 </script>
 
 <style scoped>
 .playground {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
   margin: 24px 0;
-}
-
-.playground-toolbar {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  flex-wrap: wrap;
-}
-
-.playground-label {
-  font-size: 13px;
-  color: var(--vp-c-text-2);
-  font-weight: 600;
-}
-
-.preset-btn {
-  padding: 4px 12px;
-  border-radius: 6px;
-  border: 1px solid var(--vp-c-divider);
-  background: var(--vp-c-bg-soft);
-  color: var(--vp-c-text-1);
-  cursor: pointer;
-  font-size: 13px;
-  transition: background 0.15s, border-color 0.15s;
-}
-
-.preset-btn:hover {
-  background: var(--vp-c-bg-mute);
-  border-color: var(--vp-c-brand);
-}
-
-.preset-btn.active {
-  background: var(--vp-c-brand-soft);
-  border-color: var(--vp-c-brand);
-  color: var(--vp-c-brand);
 }
 
 .playground-embed {

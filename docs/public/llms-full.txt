@@ -583,7 +583,11 @@ import { VibeFlagsSelect, VibeFlagsOption } from '@vibe-flags/core/react';
 
 ## Playground
 
-An interactive playground is available at `/playground`. Users can write HTML with vibe-flags components in a live editor and see the result rendered in real time (300 ms debounce). Three presets are provided: Boolean Flag, Select Flag, and Multiple Flags. No install or build step required — the preview iframe loads the CDN script automatically.
+An interactive playground is available under `/playground/`. Each example has its own page with a live StackBlitz embed — no install or build step required. Pages:
+
+- `/playground/boolean-flag` — toggle a boolean flag on/off
+- `/playground/select-flag` — switch between options with a select flag
+- `/playground/multiple-flags` — combine boolean and select flags together
 
 ---
 
