@@ -5,6 +5,7 @@
     "build": "pnpm --filter @vibe-flags/core build",
     "test": "pnpm --filter @vibe-flags/core test",
     "lint": "eslint packages/",
+    "format": "prettier --write \"**/*.{ts,js,json,md}\" --ignore-path .gitignore",
     "format:check": "prettier --check \"**/*.{ts,js,json,md}\" --ignore-path .gitignore",
     "dev:docs": "pnpm --filter docs dev",
     "human:login": "npm login",
