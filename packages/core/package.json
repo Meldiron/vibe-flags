@@ -21,8 +21,10 @@
   "jsdelivr": "./dist/vibe-flags.cdn.mjs",
   "files": [
     "dist",
-    "README.md"
+    "README.md",
+    "LICENSE"
   ],
+  "license": "MIT",
   "sideEffects": true,
   "peerDependencies": {
     "lit": "^3.0.0 || ^4.0.0",
@@ -52,6 +54,6 @@
     "build": "tsc && vite build && vite build --config vite.cdn.config.ts",
     "test": "vitest run",
     "test:watch": "vitest",
-    "prepublishOnly": "cp ../../README.md ./README.md && npm run build"
+    "prepublishOnly": "cp ../../README.md ./README.md && cp ../../LICENSE ./LICENSE && npm run build"
   }
 }
