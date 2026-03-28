@@ -10,11 +10,11 @@
 </vibe-flags-boolean>
 ```
 
-| Attribute | Required | Default | Description |
-|-----------|----------|---------|-------------|
-| `name` | Yes | — | Unique identifier for the flag |
-| `description` | No | `""` | Label shown in the toolbar (falls back to `name`) |
-| `value` | No | `""` | Expected value to show children. If omitted, children are always shown. |
+| Attribute     | Required | Default | Description                                                             |
+| ------------- | -------- | ------- | ----------------------------------------------------------------------- |
+| `name`        | Yes      | —       | Unique identifier for the flag                                          |
+| `description` | No       | `""`    | Label shown in the toolbar (falls back to `name`)                       |
+| `value`       | No       | `""`    | Expected value to show children. If omitted, children are always shown. |
 
 ## Select Flags
 
@@ -34,16 +34,16 @@
 </vibe-flags-select>
 ```
 
-| Attribute | Required | Default | Description |
-|-----------|----------|---------|-------------|
-| `name` | Yes | — | Unique identifier for the flag |
-| `description` | No | `""` | Label shown in the toolbar (falls back to `name`) |
+| Attribute     | Required | Default | Description                                       |
+| ------------- | -------- | ------- | ------------------------------------------------- |
+| `name`        | Yes      | —       | Unique identifier for the flag                    |
+| `description` | No       | `""`    | Label shown in the toolbar (falls back to `name`) |
 
 ### `<vibe-flags-option>`
 
-| Attribute | Required | Description |
-|-----------|----------|-------------|
-| `value` | Yes | The option value. Children are shown only when this option is active. |
+| Attribute | Required | Description                                                           |
+| --------- | -------- | --------------------------------------------------------------------- |
+| `value`   | Yes      | The option value. Children are shown only when this option is active. |
 
 ## Toolbar Position
 

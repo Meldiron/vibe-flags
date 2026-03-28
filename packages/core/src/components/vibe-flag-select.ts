@@ -1,55 +1,57 @@
-import { LitElement, html } from 'lit';
-import { customElement, property, state } from 'lit/decorators.js';
-import { vibeFlagsStore } from '../store.js';
-import type { VibeFlagsOption } from './vibe-flag-option.js';
+import { LitElement, html } from "lit";
+import { customElement, property } from "lit/decorators.js";
+import { vibeFlagsStore } from "../store.js";
+import type { VibeFlagsOption } from "./vibe-flag-option.js";
 
-@customElement('vibe-flags-select')
+@customElement("vibe-flags-select")
 export class VibeFlagsSelect extends LitElement {
   @property({ type: String })
-  name = '';
+  name = "";
 
   @property({ type: String })
-  description = '';
+  description = "";
 
   @property({ type: String })
-  default = '';
+  default = "";
 
   connectedCallback(): void {
     super.connectedCallback();
-    window.addEventListener('vibe-flags-changed', this.onFlagChange);
+    window.addEventListener("vibe-flags-changed", this.onFlagChange);
     // Wait a microtask so child <vibe-flags-option> elements are parsed
     queueMicrotask(() => this.registerFlag());
   }
 
   disconnectedCallback(): void {
     super.disconnectedCallback();
-    window.removeEventListener('vibe-flags-changed', this.onFlagChange);
+    window.removeEventListener("vibe-flags-changed", this.onFlagChange);
   }
 
   protected firstUpdated(): void {
-    this.style.display = 'contents';
+    this.style.display = "contents";
   }
 
   protected willUpdate(changed: Map<string, unknown>): void {
-    if (changed.has('name') || changed.has('description') || changed.has('default')) {
+    if (changed.has("name") || changed.has("description") || changed.has("default")) {
       this.registerFlag();
     }
   }
 
   private getOptions(): VibeFlagsOption[] {
-    return Array.from(this.querySelectorAll('vibe-flags-option')) as VibeFlagsOption[];
+    return Array.from(this.querySelectorAll("vibe-flags-option")) as VibeFlagsOption[];
   }
 
   private registerFlag(): void {
     if (!this.name) return;
 
-    const options = this.getOptions().map((el) => el.value).filter(Boolean);
+    const options = this.getOptions()
+      .map((el) => el.value)
+      .filter(Boolean);
     if (options.length === 0) return;
 
     if (!vibeFlagsStore.getConfigForKey(this.name)) {
       vibeFlagsStore.register({
         key: this.name,
-        type: 'select',
+        type: "select",
         options,
         label: this.description || undefined,
         default: this.default || undefined,
@@ -76,6 +78,6 @@ export class VibeFlagsSelect extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'vibe-flags-select': VibeFlagsSelect;
+    "vibe-flags-select": VibeFlagsSelect;
   }
 }
