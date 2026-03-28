@@ -4,6 +4,9 @@
   "scripts": {
     "build": "pnpm --filter @vibe-flags/core build",
     "test": "pnpm --filter @vibe-flags/core test",
+    "lint": "eslint packages/",
+    "format": "prettier --write \"**/*.{ts,js,json,md}\" --ignore-path .gitignore",
+    "format:check": "prettier --check \"**/*.{ts,js,json,md}\" --ignore-path .gitignore",
     "dev:docs": "pnpm --filter docs dev",
     "human:login": "npm login",
     "human:build": "pnpm --filter @vibe-flags/core build && echo '\n✅ Build complete. Run: pnpm human:publish'",
@@ -13,7 +16,11 @@
     "agent:publish-minor": "pnpm --filter @vibe-flags/core exec npm version minor && pnpm --filter @vibe-flags/core build && pnpm --filter @vibe-flags/core exec npm publish --access public"
   },
   "devDependencies": {
-    "typescript": "^5.7.0"
+    "@eslint/js": "^9.0.0",
+    "eslint": "^9.0.0",
+    "prettier": "^3.0.0",
+    "typescript": "^5.7.0",
+    "typescript-eslint": "^8.0.0"
   },
   "pnpm": {
     "onlyBuiltDependencies": [

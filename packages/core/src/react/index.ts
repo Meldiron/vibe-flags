@@ -1,13 +1,13 @@
-import { useState, useEffect, createElement } from 'react';
-import type { ReactElement, ReactNode } from 'react';
-import { vibeFlagsStore } from '../store.js';
-import type { VibeFlagsConfig, VibeFlagsValue, VibeFlagsState } from '../types.js';
+import { useState, useEffect, createElement } from "react";
+import type { ReactElement, ReactNode } from "react";
+import { vibeFlagsStore } from "../store.js";
+import type { VibeFlagsConfig, VibeFlagsValue, VibeFlagsState } from "../types.js";
 
 // Ensure all custom elements are registered when this module loads
-import '../components/vibe-flag-boolean.js';
-import '../components/vibe-flag-select.js';
-import '../components/vibe-flag-option.js';
-import '../components/vibe-toolbar.js';
+import "../components/vibe-flag-boolean.js";
+import "../components/vibe-flag-select.js";
+import "../components/vibe-flag-option.js";
+import "../components/vibe-toolbar.js";
 
 /**
  * React hook to read and reactively subscribe to a feature flag value.
@@ -21,12 +21,12 @@ import '../components/vibe-toolbar.js';
 export function useVibeFlags(key: string): VibeFlagsValue | undefined;
 export function useVibeFlags(config: VibeFlagsConfig): VibeFlagsValue;
 export function useVibeFlags(keyOrConfig: string | VibeFlagsConfig): VibeFlagsValue | undefined {
-  const key = typeof keyOrConfig === 'string' ? keyOrConfig : keyOrConfig.key;
+  const key = typeof keyOrConfig === "string" ? keyOrConfig : keyOrConfig.key;
 
   const [value, setValue] = useState<VibeFlagsValue | undefined>(() => vibeFlagsStore.get(key));
 
   useEffect(() => {
-    if (typeof keyOrConfig !== 'string') {
+    if (typeof keyOrConfig !== "string") {
       vibeFlagsStore.register(keyOrConfig);
     }
 
@@ -40,11 +40,11 @@ export function useVibeFlags(keyOrConfig: string | VibeFlagsConfig): VibeFlagsVa
       }
     };
 
-    window.addEventListener('vibe-flags-changed', handler);
+    window.addEventListener("vibe-flags-changed", handler);
     return () => {
-      window.removeEventListener('vibe-flags-changed', handler);
+      window.removeEventListener("vibe-flags-changed", handler);
     };
-  }, [key]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [key]);
 
   return value;
 }
@@ -61,7 +61,7 @@ export function useVibeFlags(keyOrConfig: string | VibeFlagsConfig): VibeFlagsVa
  * ```
  */
 export function VibeFlagsToolbar(): ReactElement {
-  return createElement('vibe-flags-toolbar');
+  return createElement("vibe-flags-toolbar");
 }
 
 interface VibeFlagsBooleanProps {
@@ -94,9 +94,9 @@ export function VibeFlagsBoolean({
   children,
 }: VibeFlagsBooleanProps): ReactElement {
   return createElement(
-    'vibe-flags-boolean',
+    "vibe-flags-boolean",
     { name, description, value, default: defaultValue },
-    children,
+    children
   );
 }
 
@@ -127,11 +127,7 @@ export function VibeFlagsSelect({
   default: defaultValue,
   children,
 }: VibeFlagsSelectProps): ReactElement {
-  return createElement(
-    'vibe-flags-select',
-    { name, description, default: defaultValue },
-    children,
-  );
+  return createElement("vibe-flags-select", { name, description, default: defaultValue }, children);
 }
 
 interface VibeFlagsOptionProps {
@@ -150,5 +146,5 @@ interface VibeFlagsOptionProps {
  * ```
  */
 export function VibeFlagsOption({ value, children }: VibeFlagsOptionProps): ReactElement {
-  return createElement('vibe-flags-option', { value }, children);
+  return createElement("vibe-flags-option", { value }, children);
 }

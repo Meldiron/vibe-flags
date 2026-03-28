@@ -20,7 +20,7 @@ Vibe Flags is a set of web components for managing feature flags entirely in the
 
 - **Boolean flags** (`<vibe-flags-boolean>`): On/off toggles, start as `false`
 - **Select flags** (`<vibe-flags-select>` + `<vibe-flags-option>`): Multi-option picker, starts as first option
-- **Toolbar** (`<vibe-flags-toolbar>`): Floating sidebar that auto-discovers all registered flags
+- **Toolbar** (`<vibe-flags-toolbar>`): Floating sidebar that auto-discovers all registered flags; draggable FAB snaps to corners, panel is resizable
 - **Store API** (`vibeFlagsStore`): Imperative JS API for programmatic flag management
 
 ## Key Features
@@ -66,7 +66,7 @@ function App() {
 
 - **`useVibeFlags(key)`** — subscribe to a pre-registered flag by key
 - **`useVibeFlags(config)`** — register a flag from config and subscribe
-- **`VibeFlagsToolbar`** — renders the floating toolbar; no props required
+- **`VibeFlagsToolbar`** — renders the floating toolbar; optional `position` prop (`'bottom-right'` | `'bottom-left'` | `'top-right'` | `'top-left'`)
 - **`VibeFlagsBoolean`** — wraps `<vibe-flags-boolean>`; props: `name`, `description`, `value`, `default`, `children`
 - **`VibeFlagsSelect`** — wraps `<vibe-flags-select>`; props: `name`, `description`, `default`, `children`
 - **`VibeFlagsOption`** — wraps `<vibe-flags-option>`; props: `value`, `children`
@@ -82,6 +82,7 @@ function App() {
 - [Basic Example](/examples/basic)
 - [Boolean Flags Example](/examples/boolean-flags)
 - [Select Flags Example](/examples/select-flags)
+- [Comparison with LaunchDarkly, Unleash, PostHog](/docs/comparison)
 - [Full documentation for LLMs](/llms-full.txt)
 
 ## Source

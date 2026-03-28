@@ -14,7 +14,12 @@ Add one script tag, write some HTML. That's it.
 </vibe-flags-boolean>
 
 <vibe-flags-boolean name="darkMode" description="Dark mode" value="true">
-  <style>body { background: #1a1a1a; color: #fafafa; }</style>
+  <style>
+    body {
+      background: #1a1a1a;
+      color: #fafafa;
+    }
+  </style>
 </vibe-flags-boolean>
 
 <vibe-flags-toolbar></vibe-flags-toolbar>

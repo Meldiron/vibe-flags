@@ -3,21 +3,21 @@
 ```html
 <!DOCTYPE html>
 <html>
-<head>
-  <title>Vibe Flags Demo</title>
-  <script type="module" src="https://unpkg.com/@vibe-flags/core"></script>
-</head>
-<body>
-  <h1>My App</h1>
+  <head>
+    <title>Vibe Flags Demo</title>
+    <script type="module" src="https://unpkg.com/@vibe-flags/core"></script>
+  </head>
+  <body>
+    <h1>My App</h1>
 
-  <vibe-flags-boolean name="showBanner" description="Show welcome banner" value="true">
-    <div style="padding: 16px; background: #dbeafe; border-radius: 8px;">
-      Welcome to the beta! This banner is controlled by a feature flag.
-    </div>
-  </vibe-flags-boolean>
+    <vibe-flags-boolean name="showBanner" description="Show welcome banner" value="true">
+      <div style="padding: 16px; background: #dbeafe; border-radius: 8px;">
+        Welcome to the beta! This banner is controlled by a feature flag.
+      </div>
+    </vibe-flags-boolean>
 
-  <vibe-flags-toolbar></vibe-flags-toolbar>
-</body>
+    <vibe-flags-toolbar></vibe-flags-toolbar>
+  </body>
 </html>
 ```
 

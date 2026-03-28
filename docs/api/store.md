@@ -3,7 +3,7 @@
 The `vibeFlagsStore` provides an imperative API for managing flags programmatically.
 
 ```ts
-import { vibeFlagsStore } from 'vibe-flags';
+import { vibeFlagsStore } from "vibe-flags";
 ```
 
 ## Methods
@@ -13,8 +13,13 @@ import { vibeFlagsStore } from 'vibe-flags';
 Register a single flag. Reads existing value from `localStorage`, falling back to `false` for booleans or the first option for selects. This is called automatically by `<vibe-flags-boolean>` and `<vibe-flags-select>` elements.
 
 ```ts
-vibeFlagsStore.register({ key: 'beta', type: 'boolean', label: 'Beta Mode' });
-vibeFlagsStore.register({ key: 'theme', type: 'select', options: ['light', 'dark'], label: 'Theme' });
+vibeFlagsStore.register({ key: "beta", type: "boolean", label: "Beta Mode" });
+vibeFlagsStore.register({
+  key: "theme",
+  type: "select",
+  options: ["light", "dark"],
+  label: "Theme",
+});
 ```
 
 ### `unregister(key: string)`
@@ -22,7 +27,7 @@ vibeFlagsStore.register({ key: 'theme', type: 'select', options: ['light', 'dark
 Remove a flag from the store.
 
 ```ts
-vibeFlagsStore.unregister('beta');
+vibeFlagsStore.unregister("beta");
 ```
 
 ### `get(key: string): VibeFlagsValue | undefined`
@@ -30,8 +35,8 @@ vibeFlagsStore.unregister('beta');
 Get the current value of a flag.
 
 ```ts
-vibeFlagsStore.get('beta');  // false
-vibeFlagsStore.get('theme'); // 'light'
+vibeFlagsStore.get("beta"); // false
+vibeFlagsStore.get("theme"); // 'light'
 ```
 
 ### `set(key: string, value: VibeFlagsValue): void`
@@ -39,12 +44,12 @@ vibeFlagsStore.get('theme'); // 'light'
 Set a flag value. Validates the value against the flag's type and options. Persists to `localStorage` and dispatches a change event.
 
 ```ts
-vibeFlagsStore.set('beta', true);
-vibeFlagsStore.set('theme', 'dark');
+vibeFlagsStore.set("beta", true);
+vibeFlagsStore.set("theme", "dark");
 
 // Invalid values are silently ignored:
-vibeFlagsStore.set('beta', 'yes');     // ignored (not a boolean)
-vibeFlagsStore.set('theme', 'neon');   // ignored (not in options)
+vibeFlagsStore.set("beta", "yes"); // ignored (not a boolean)
+vibeFlagsStore.set("theme", "neon"); // ignored (not in options)
 ```
 
 ### `getAll(): VibeFlagsState`
@@ -79,14 +84,14 @@ vibeFlagsStore.reset();
 Dispatched on `window` whenever a flag value changes.
 
 ```ts
-window.addEventListener('vibe-flags-changed', (e) => {
+window.addEventListener("vibe-flags-changed", (e) => {
   const { key, state } = e.detail;
   console.log(`Flag "${key}" changed`);
-  console.log('All flags:', state);
+  console.log("All flags:", state);
 });
 ```
 
-| Property | Type | Description |
-|----------|------|-------------|
-| `detail.key` | `string \| undefined` | The flag that changed, or `undefined` for bulk changes (reset) |
-| `detail.state` | `VibeFlagsState` | Snapshot of all current flag values |
+| Property       | Type                  | Description                                                    |
+| -------------- | --------------------- | -------------------------------------------------------------- |
+| `detail.key`   | `string \| undefined` | The flag that changed, or `undefined` for bulk changes (reset) |
+| `detail.state` | `VibeFlagsState`      | Snapshot of all current flag values                            |
