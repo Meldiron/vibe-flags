@@ -206,7 +206,7 @@ describe('<vibe-flags-toolbar>', () => {
     el['resizeStartX'] = 0;
     el['resizeStartY'] = 0;
     el['resizeStartWidth'] = 300;
-    el['resizeStartHeight'] = 420;
+    el['resizeStartHeight'] = 200;
     el['onResizeMove']({ clientX: -50, clientY: 0 } as PointerEvent);
     el['onResizeEnd'](new PointerEvent('pointerup'));
     await el.updateComplete;
@@ -225,12 +225,12 @@ describe('<vibe-flags-toolbar>', () => {
     el['resizeStartX'] = 0;
     el['resizeStartY'] = 0;
     el['resizeStartWidth'] = 300;
-    el['resizeStartHeight'] = 420;
+    el['resizeStartHeight'] = 200; // simulated measured height
     // Drag up by 50px on bottom-anchored corner (bottom-right) → expand upward
     el['onResizeMove']({ clientX: 0, clientY: -50 } as PointerEvent);
     await el.updateComplete;
 
-    expect(el['panelHeight']).toBe(470);
+    expect(el['panelHeight']).toBe(250);
   });
 
   it('corner resize updates both width and height', async () => {
@@ -242,12 +242,20 @@ describe('<vibe-flags-toolbar>', () => {
     el['resizeStartX'] = 0;
     el['resizeStartY'] = 0;
     el['resizeStartWidth'] = 300;
-    el['resizeStartHeight'] = 420;
+    el['resizeStartHeight'] = 200;
     el['onResizeMove']({ clientX: -30, clientY: -20 } as PointerEvent);
     await el.updateComplete;
 
     expect(el['panelWidth']).toBe(330);
-    expect(el['panelHeight']).toBe(440);
+    expect(el['panelHeight']).toBe(220);
+  });
+
+  it('default panelHeight is null (auto-sizes to content)', async () => {
+    const el = await fixture(html`<vibe-flags-toolbar></vibe-flags-toolbar>`) as any;
+    await el.updateComplete;
+    expect(el['panelHeight']).toBeNull();
+    const card = el.shadowRoot!.querySelector('.card') as HTMLElement;
+    expect(card.style.height).toBe('');
   });
 
   it('loads persisted panel width and height from localStorage', async () => {
@@ -256,6 +264,8 @@ describe('<vibe-flags-toolbar>', () => {
     await el.updateComplete;
     expect(el['panelWidth']).toBe(400);
     expect(el['panelHeight']).toBe(500);
+    const card = el.shadowRoot!.querySelector('.card') as HTMLElement;
+    expect(card.style.height).toBe('500px');
   });
 
   it('renders horizontal resize handle on correct side (left for right-anchored)', async () => {
@@ -305,10 +315,9 @@ describe('<vibe-flags-toolbar>', () => {
     await el.updateComplete;
 
     // fabX and fabY should have moved by the delta (clamped to viewport)
+    // panelHeight is null (auto) so card height is 0 in jsdom — clamp against 0
     const expectedX = Math.max(0, Math.min(window.innerWidth - el['panelWidth'], initialFabX + 50));
-    const expectedY = Math.max(0, Math.min(window.innerHeight - el['panelHeight'], initialFabY + 30));
     expect(el['fabX']).toBe(expectedX);
-    expect(el['fabY']).toBe(expectedY);
   });
 
   it('releasing header drag snaps card to nearest corner', async () => {

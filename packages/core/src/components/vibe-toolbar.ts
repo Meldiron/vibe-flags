@@ -12,7 +12,6 @@ const POSITION_KEY = 'vibe-flags:toolbar-position';
 const SIZE_KEY = 'vibe-flags:toolbar-size';
 const OFFSET = 16;
 const DEFAULT_WIDTH = 300;
-const DEFAULT_HEIGHT = 420;
 const MIN_WIDTH = 220;
 const MAX_WIDTH = 600;
 const MIN_HEIGHT = 150;
@@ -410,7 +409,7 @@ export class VibeFlagsToolbar extends LitElement {
   @state() private isDraggingFab = false;
   @state() private isDraggingCard = false;
   @state() private panelWidth = DEFAULT_WIDTH;
-  @state() private panelHeight = DEFAULT_HEIGHT;
+  @state() private panelHeight: number | null = null;
 
   private hasDragged = false;
   private dragStartX = 0;
@@ -647,9 +646,10 @@ export class VibeFlagsToolbar extends LitElement {
         0,
         Math.min(window.innerWidth - this.panelWidth, this.fabX + dx)
       );
+      const cardH = this.panelHeight ?? (this.shadowRoot!.querySelector('.card') as HTMLElement)?.offsetHeight ?? 0;
       this.fabY = Math.max(
         0,
-        Math.min(window.innerHeight - this.panelHeight, this.fabY + dy)
+        Math.min(window.innerHeight - cardH, this.fabY + dy)
       );
       this.cardDragStartX = e.clientX;
       this.cardDragStartY = e.clientY;
@@ -662,7 +662,8 @@ export class VibeFlagsToolbar extends LitElement {
     if (this.isDraggingCard) {
       this.isDraggingCard = false;
       const cx = this.fabX + this.panelWidth / 2;
-      const cy = this.fabY + this.panelHeight / 2;
+      const cardH2 = this.panelHeight ?? (this.shadowRoot!.querySelector('.card') as HTMLElement)?.offsetHeight ?? 0;
+      const cy = this.fabY + cardH2 / 2;
       this.corner = this.snapToCorner(cx, cy);
       localStorage.setItem(POSITION_KEY, this.corner);
       this.updateFabPosition();
@@ -679,7 +680,12 @@ export class VibeFlagsToolbar extends LitElement {
     this.resizeStartX = e.clientX;
     this.resizeStartY = e.clientY;
     this.resizeStartWidth = this.panelWidth;
-    this.resizeStartHeight = this.panelHeight;
+    if (this.panelHeight === null) {
+      const card = this.shadowRoot!.querySelector('.card') as HTMLElement;
+      this.resizeStartHeight = card.getBoundingClientRect().height;
+    } else {
+      this.resizeStartHeight = this.panelHeight;
+    }
     document.addEventListener('pointermove', this.boundResizeMove);
     document.addEventListener('pointerup', this.boundResizeEnd);
   }
@@ -719,19 +725,19 @@ export class VibeFlagsToolbar extends LitElement {
 
   private getCardStyle(): string {
     const w = `${Math.round(this.panelWidth)}px`;
-    const h = `${Math.round(this.panelHeight)}px`;
+    const h = this.panelHeight !== null ? `; height: ${Math.round(this.panelHeight)}px` : '';
     if (this.isDraggingCard) {
-      return `left: ${Math.round(this.fabX)}px; top: ${Math.round(this.fabY)}px; right: auto; bottom: auto; width: ${w}; height: ${h};`;
+      return `left: ${Math.round(this.fabX)}px; top: ${Math.round(this.fabY)}px; right: auto; bottom: auto; width: ${w}${h};`;
     }
     switch (this.corner) {
       case 'top-left':
-        return `left: ${OFFSET}px; top: ${OFFSET}px; right: auto; bottom: auto; width: ${w}; height: ${h};`;
+        return `left: ${OFFSET}px; top: ${OFFSET}px; right: auto; bottom: auto; width: ${w}${h};`;
       case 'top-right':
-        return `right: ${OFFSET}px; top: ${OFFSET}px; left: auto; bottom: auto; width: ${w}; height: ${h};`;
+        return `right: ${OFFSET}px; top: ${OFFSET}px; left: auto; bottom: auto; width: ${w}${h};`;
       case 'bottom-left':
-        return `left: ${OFFSET}px; bottom: ${OFFSET}px; right: auto; top: auto; width: ${w}; height: ${h};`;
+        return `left: ${OFFSET}px; bottom: ${OFFSET}px; right: auto; top: auto; width: ${w}${h};`;
       default:
-        return `right: ${OFFSET}px; bottom: ${OFFSET}px; left: auto; top: auto; width: ${w}; height: ${h};`;
+        return `right: ${OFFSET}px; bottom: ${OFFSET}px; left: auto; top: auto; width: ${w}${h};`;
     }
   }
 
