@@ -85,8 +85,8 @@ onUnmounted(() => {
               <a href="/examples/basic" class="btn btn-outline">Examples</a>
             </div>
             <div class="ph-badge">
-              <a href="https://www.producthunt.com/products/vibe-flags?embed=true&utm_source=badge-featured&utm_medium=badge&utm_campaign=badge-vibe-flags" target="_blank" rel="noopener noreferrer" class="ph-badge-dark"><img alt="Vibe Flags - Offline-first feature flags for vibe coding. | Product Hunt" width="250" height="54" src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1109872&theme=dark&t=1774702592864" /></a>
-              <a href="https://www.producthunt.com/products/vibe-flags?embed=true&utm_source=badge-featured&utm_medium=badge&utm_campaign=badge-vibe-flags" target="_blank" rel="noopener noreferrer" class="ph-badge-light"><img alt="Vibe Flags - Offline-first feature flags for vibe coding. | Product Hunt" width="250" height="54" src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1109872&theme=light&t=1774702610353" /></a>
+              <vibe-flag-boolean name="lightMode" value="false"><a href="https://www.producthunt.com/products/vibe-flags?embed=true&utm_source=badge-featured&utm_medium=badge&utm_campaign=badge-vibe-flags" target="_blank" rel="noopener noreferrer"><img alt="Vibe Flags - Offline-first feature flags for vibe coding. | Product Hunt" width="250" height="54" src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1109872&theme=dark&t=1774702592864" /></a></vibe-flag-boolean>
+              <vibe-flag-boolean name="lightMode" value="true"><a href="https://www.producthunt.com/products/vibe-flags?embed=true&utm_source=badge-featured&utm_medium=badge&utm_campaign=badge-vibe-flags" target="_blank" rel="noopener noreferrer"><img alt="Vibe Flags - Offline-first feature flags for vibe coding. | Product Hunt" width="250" height="54" src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1109872&theme=light&t=1774702610353" /></a></vibe-flag-boolean>
             </div>
           </div>
         </section>
@@ -111,8 +111,8 @@ onUnmounted(() => {
               <a href="/api/components" class="btn btn-outline">API Reference</a>
             </div>
             <div class="ph-badge">
-              <a href="https://www.producthunt.com/products/vibe-flags?embed=true&utm_source=badge-featured&utm_medium=badge&utm_campaign=badge-vibe-flags" target="_blank" rel="noopener noreferrer" class="ph-badge-dark"><img alt="Vibe Flags - Offline-first feature flags for vibe coding. | Product Hunt" width="250" height="54" src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1109872&theme=dark&t=1774702592864" /></a>
-              <a href="https://www.producthunt.com/products/vibe-flags?embed=true&utm_source=badge-featured&utm_medium=badge&utm_campaign=badge-vibe-flags" target="_blank" rel="noopener noreferrer" class="ph-badge-light"><img alt="Vibe Flags - Offline-first feature flags for vibe coding. | Product Hunt" width="250" height="54" src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1109872&theme=light&t=1774702610353" /></a>
+              <vibe-flag-boolean name="lightMode" value="false"><a href="https://www.producthunt.com/products/vibe-flags?embed=true&utm_source=badge-featured&utm_medium=badge&utm_campaign=badge-vibe-flags" target="_blank" rel="noopener noreferrer"><img alt="Vibe Flags - Offline-first feature flags for vibe coding. | Product Hunt" width="250" height="54" src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1109872&theme=dark&t=1774702592864" /></a></vibe-flag-boolean>
+              <vibe-flag-boolean name="lightMode" value="true"><a href="https://www.producthunt.com/products/vibe-flags?embed=true&utm_source=badge-featured&utm_medium=badge&utm_campaign=badge-vibe-flags" target="_blank" rel="noopener noreferrer"><img alt="Vibe Flags - Offline-first feature flags for vibe coding. | Product Hunt" width="250" height="54" src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1109872&theme=light&t=1774702610353" /></a></vibe-flag-boolean>
             </div>
             <div class="snippet-box">
               <pre class="snippet-pre"><span class="c-tag">&lt;script</span>
@@ -149,8 +149,8 @@ onUnmounted(() => {
                 <a href="/api/components" class="btn btn-ghost">API Reference</a>
               </div>
               <div class="ph-badge ph-badge--left">
-                <a href="https://www.producthunt.com/products/vibe-flags?embed=true&utm_source=badge-featured&utm_medium=badge&utm_campaign=badge-vibe-flags" target="_blank" rel="noopener noreferrer" class="ph-badge-dark"><img alt="Vibe Flags - Offline-first feature flags for vibe coding. | Product Hunt" width="250" height="54" src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1109872&theme=dark&t=1774702592864" /></a>
-                <a href="https://www.producthunt.com/products/vibe-flags?embed=true&utm_source=badge-featured&utm_medium=badge&utm_campaign=badge-vibe-flags" target="_blank" rel="noopener noreferrer" class="ph-badge-light"><img alt="Vibe Flags - Offline-first feature flags for vibe coding. | Product Hunt" width="250" height="54" src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1109872&theme=light&t=1774702610353" /></a>
+                <vibe-flag-boolean name="lightMode" value="false"><a href="https://www.producthunt.com/products/vibe-flags?embed=true&utm_source=badge-featured&utm_medium=badge&utm_campaign=badge-vibe-flags" target="_blank" rel="noopener noreferrer"><img alt="Vibe Flags - Offline-first feature flags for vibe coding. | Product Hunt" width="250" height="54" src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1109872&theme=dark&t=1774702592864" /></a></vibe-flag-boolean>
+                <vibe-flag-boolean name="lightMode" value="true"><a href="https://www.producthunt.com/products/vibe-flags?embed=true&utm_source=badge-featured&utm_medium=badge&utm_campaign=badge-vibe-flags" target="_blank" rel="noopener noreferrer"><img alt="Vibe Flags - Offline-first feature flags for vibe coding. | Product Hunt" width="250" height="54" src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1109872&theme=light&t=1774702610353" /></a></vibe-flag-boolean>
               </div>
             </div>
             <div class="split-right">
@@ -475,18 +475,6 @@ Section to redesign: [EXPLAIN YOUR SECTION HERE]</pre>
 }
 .ph-badge img {
   display: block;
-}
-.ph-badge-light {
-  display: none;
-}
-.ph-badge-dark {
-  display: block;
-}
-:root:not(.dark) .ph-badge-light {
-  display: block;
-}
-:root:not(.dark) .ph-badge-dark {
-  display: none;
 }
 .btn {
   display: inline-flex;
