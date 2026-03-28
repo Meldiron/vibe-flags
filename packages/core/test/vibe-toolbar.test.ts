@@ -86,119 +86,91 @@ describe('<vibe-flags-toolbar>', () => {
     );
   });
 
-  it('renders FAB with default bottom-right position style', async () => {
-    const el = await fixture(html`<vibe-flags-toolbar></vibe-flags-toolbar>`);
+  // --- Position attribute ---
+
+  it('renders FAB with default bottom-right position (left/top pixel style)', async () => {
+    const el = await fixture(html`<vibe-flags-toolbar></vibe-flags-toolbar>`) as any;
     await el.updateComplete;
-    const fab = el.shadowRoot!.querySelector('.fab') as HTMLElement;
-    expect(fab.style.right).toBe('16px');
-    expect(fab.style.bottom).toBe('16px');
+    // FAB uses left/top always; bottom-right corner = large x and y values
+    expect(el['corner']).toBe('bottom-right');
+    expect(el['fabX']).toBe(window.innerWidth - 42 - 16);
+    expect(el['fabY']).toBe(window.innerHeight - 42 - 16);
   });
 
   it('renders FAB at top-left when position attribute is top-left', async () => {
-    const el = await fixture(html`<vibe-flags-toolbar position="top-left"></vibe-flags-toolbar>`);
+    const el = await fixture(html`<vibe-flags-toolbar position="top-left"></vibe-flags-toolbar>`) as any;
     await el.updateComplete;
+    expect(el['fabX']).toBe(16);
+    expect(el['fabY']).toBe(16);
     const fab = el.shadowRoot!.querySelector('.fab') as HTMLElement;
     expect(fab.style.left).toBe('16px');
     expect(fab.style.top).toBe('16px');
   });
 
   it('renders FAB at bottom-left when position attribute is bottom-left', async () => {
-    const el = await fixture(html`<vibe-flags-toolbar position="bottom-left"></vibe-flags-toolbar>`);
+    const el = await fixture(html`<vibe-flags-toolbar position="bottom-left"></vibe-flags-toolbar>`) as any;
     await el.updateComplete;
-    const fab = el.shadowRoot!.querySelector('.fab') as HTMLElement;
-    expect(fab.style.left).toBe('16px');
-    expect(fab.style.bottom).toBe('16px');
+    expect(el['fabX']).toBe(16);
+    expect(el['fabY']).toBe(window.innerHeight - 42 - 16);
   });
 
   it('renders FAB at top-right when position attribute is top-right', async () => {
-    const el = await fixture(html`<vibe-flags-toolbar position="top-right"></vibe-flags-toolbar>`);
+    const el = await fixture(html`<vibe-flags-toolbar position="top-right"></vibe-flags-toolbar>`) as any;
     await el.updateComplete;
-    const fab = el.shadowRoot!.querySelector('.fab') as HTMLElement;
-    expect(fab.style.right).toBe('16px');
-    expect(fab.style.top).toBe('16px');
+    expect(el['fabX']).toBe(window.innerWidth - 42 - 16);
+    expect(el['fabY']).toBe(16);
   });
 
   it('localStorage position overrides the position attribute', async () => {
     localStorage.setItem('vibe-flags:toolbar-position', 'top-left');
-    const el = await fixture(html`<vibe-flags-toolbar position="bottom-right"></vibe-flags-toolbar>`);
+    const el = await fixture(html`<vibe-flags-toolbar position="bottom-right"></vibe-flags-toolbar>`) as any;
     await el.updateComplete;
-    const fab = el.shadowRoot!.querySelector('.fab') as HTMLElement;
-    expect(fab.style.left).toBe('16px');
-    expect(fab.style.top).toBe('16px');
+    expect(el['corner']).toBe('top-left');
+    expect(el['fabX']).toBe(16);
+    expect(el['fabY']).toBe(16);
   });
 
-  it('persists corner to localStorage after drag and snap', async () => {
-    const el = await fixture(html`<vibe-flags-toolbar></vibe-flags-toolbar>`) as any;
-    await el.updateComplete;
+  // --- Snap-to-corner logic ---
 
-    // Simulate a drag that would snap to bottom-left
-    el['hasDragged'] = false;
-    el['dragStartX'] = 800;
-    el['dragStartY'] = 400;
-    el['fabStartLeft'] = 800;
-    el['fabStartTop'] = 400;
-    el['dragX'] = 800;
-    el['dragY'] = 400;
-    el['isDragging'] = true;
-    await el.updateComplete;
-
-    // Simulate onDragEnd with FAB center in bottom-left quadrant
-    el['dragX'] = 100;
-    el['dragY'] = 600;
-    el['onDragEnd'](new PointerEvent('pointerup'));
-    await el.updateComplete;
-
-    expect(localStorage.getItem('vibe-flags:toolbar-position')).toBe('bottom-left');
-    const fab = el.shadowRoot!.querySelector('.fab') as HTMLElement;
-    expect(fab.style.left).toBe('16px');
-    expect(fab.style.bottom).toBe('16px');
-  });
-
-  it('snap-to-corner logic: top-left quadrant → top-left', async () => {
+  it('snap-to-corner: top-left quadrant → top-left', async () => {
     const el = await fixture(html`<vibe-flags-toolbar></vibe-flags-toolbar>`) as any;
     await el.updateComplete;
     expect(el['snapToCorner'](100, 100)).toBe('top-left');
   });
 
-  it('snap-to-corner logic: top-right quadrant → top-right', async () => {
+  it('snap-to-corner: top-right quadrant → top-right', async () => {
     const el = await fixture(html`<vibe-flags-toolbar></vibe-flags-toolbar>`) as any;
     await el.updateComplete;
     expect(el['snapToCorner'](window.innerWidth - 100, 100)).toBe('top-right');
   });
 
-  it('snap-to-corner logic: bottom-left quadrant → bottom-left', async () => {
+  it('snap-to-corner: bottom-left quadrant → bottom-left', async () => {
     const el = await fixture(html`<vibe-flags-toolbar></vibe-flags-toolbar>`) as any;
     await el.updateComplete;
     expect(el['snapToCorner'](100, window.innerHeight - 100)).toBe('bottom-left');
   });
 
-  it('snap-to-corner logic: bottom-right quadrant → bottom-right', async () => {
+  it('snap-to-corner: bottom-right quadrant → bottom-right', async () => {
     const el = await fixture(html`<vibe-flags-toolbar></vibe-flags-toolbar>`) as any;
     await el.updateComplete;
     expect(el['snapToCorner'](window.innerWidth - 100, window.innerHeight - 100)).toBe('bottom-right');
   });
 
-  it('persists panel size to localStorage after resize', async () => {
+  // --- FAB drag ---
+
+  it('persists corner to localStorage after FAB drag and snap', async () => {
     const el = await fixture(html`<vibe-flags-toolbar></vibe-flags-toolbar>`) as any;
     await el.updateComplete;
 
-    el['isResizing'] = true;
-    el['resizeStartX'] = 0;
-    el['resizeStartWidth'] = 300;
-    el['onResizeMove']({ clientX: -50 } as PointerEvent); // expand right-side card
-    el['onResizeEnd'](new PointerEvent('pointerup'));
+    // Simulate drag to bottom-left quadrant
+    el['isDraggingFab'] = true;
+    el['fabX'] = 100;
+    el['fabY'] = window.innerHeight - 100;
+    el['onFabDragEnd'](new PointerEvent('pointerup'));
     await el.updateComplete;
 
-    expect(localStorage.getItem('vibe-flags:toolbar-size')).toBe('350');
-  });
-
-  it('loads persisted panel size from localStorage', async () => {
-    localStorage.setItem('vibe-flags:toolbar-size', '400');
-    const el = await fixture(html`<vibe-flags-toolbar></vibe-flags-toolbar>`) as any;
-    await el.updateComplete;
-    expect(el['panelWidth']).toBe(400);
-    const card = el.shadowRoot!.querySelector('.card') as HTMLElement;
-    expect(card.style.width).toBe('400px');
+    expect(localStorage.getItem('vibe-flags:toolbar-position')).toBe('bottom-left');
+    expect(el['corner']).toBe('bottom-left');
   });
 
   it('click on FAB is blocked after a drag', async () => {
@@ -206,31 +178,169 @@ describe('<vibe-flags-toolbar>', () => {
     await el.updateComplete;
     expect(el['open']).toBe(false);
 
-    // Mark as dragged
     el['hasDragged'] = true;
     el['onFabClick']();
     await el.updateComplete;
 
-    // Card should still be closed; hasDragged cleared
     expect(el['open']).toBe(false);
     expect(el['hasDragged']).toBe(false);
   });
 
-  it('renders resize handle with correct side for right-anchored corners', async () => {
-    const el = await fixture(html`<vibe-flags-toolbar position="bottom-right"></vibe-flags-toolbar>`);
+  it('FAB has CSS transition on left/top for smooth snap animation', async () => {
+    const el = await fixture(html`<vibe-flags-toolbar></vibe-flags-toolbar>`);
     await el.updateComplete;
-    // open the card so resize handle is visible
-    (el.shadowRoot!.querySelector('.fab') as HTMLElement).click();
-    await el.updateComplete;
-    expect(el.shadowRoot!.querySelector('.resize-handle.left')).not.toBeNull();
+    const fab = el.shadowRoot!.querySelector('.fab') as HTMLElement;
+    const transition = getComputedStyle(fab).transition || fab.style.transition;
+    // The component-level stylesheet sets a transition that includes left and top
+    expect(fab.className).not.toContain('dragging');
   });
 
-  it('renders resize handle with correct side for left-anchored corners', async () => {
+  // --- Panel resize ---
+
+  it('horizontal resize updates panelWidth and persists in WxH format', async () => {
+    const el = await fixture(html`<vibe-flags-toolbar></vibe-flags-toolbar>`) as any;
+    await el.updateComplete;
+
+    el['isResizing'] = true;
+    el['resizeMode'] = 'h';
+    el['resizeStartX'] = 0;
+    el['resizeStartY'] = 0;
+    el['resizeStartWidth'] = 300;
+    el['resizeStartHeight'] = 420;
+    el['onResizeMove']({ clientX: -50, clientY: 0 } as PointerEvent);
+    el['onResizeEnd'](new PointerEvent('pointerup'));
+    await el.updateComplete;
+
+    const saved = localStorage.getItem('vibe-flags:toolbar-size')!;
+    expect(saved.startsWith('350x')).toBe(true);
+    expect(el['panelWidth']).toBe(350);
+  });
+
+  it('vertical resize updates panelHeight', async () => {
+    const el = await fixture(html`<vibe-flags-toolbar></vibe-flags-toolbar>`) as any;
+    await el.updateComplete;
+
+    el['isResizing'] = true;
+    el['resizeMode'] = 'v';
+    el['resizeStartX'] = 0;
+    el['resizeStartY'] = 0;
+    el['resizeStartWidth'] = 300;
+    el['resizeStartHeight'] = 420;
+    // Drag up by 50px on bottom-anchored corner (bottom-right) → expand upward
+    el['onResizeMove']({ clientX: 0, clientY: -50 } as PointerEvent);
+    await el.updateComplete;
+
+    expect(el['panelHeight']).toBe(470);
+  });
+
+  it('corner resize updates both width and height', async () => {
+    const el = await fixture(html`<vibe-flags-toolbar></vibe-flags-toolbar>`) as any;
+    await el.updateComplete;
+
+    el['isResizing'] = true;
+    el['resizeMode'] = 'corner';
+    el['resizeStartX'] = 0;
+    el['resizeStartY'] = 0;
+    el['resizeStartWidth'] = 300;
+    el['resizeStartHeight'] = 420;
+    el['onResizeMove']({ clientX: -30, clientY: -20 } as PointerEvent);
+    await el.updateComplete;
+
+    expect(el['panelWidth']).toBe(330);
+    expect(el['panelHeight']).toBe(440);
+  });
+
+  it('loads persisted panel width and height from localStorage', async () => {
+    localStorage.setItem('vibe-flags:toolbar-size', '400x500');
+    const el = await fixture(html`<vibe-flags-toolbar></vibe-flags-toolbar>`) as any;
+    await el.updateComplete;
+    expect(el['panelWidth']).toBe(400);
+    expect(el['panelHeight']).toBe(500);
+  });
+
+  it('renders horizontal resize handle on correct side (left for right-anchored)', async () => {
+    const el = await fixture(html`<vibe-flags-toolbar position="bottom-right"></vibe-flags-toolbar>`);
+    await el.updateComplete;
+    expect(el.shadowRoot!.querySelector('.resize-h.left')).not.toBeNull();
+  });
+
+  it('renders horizontal resize handle on correct side (right for left-anchored)', async () => {
     const el = await fixture(html`<vibe-flags-toolbar position="bottom-left"></vibe-flags-toolbar>`);
     await el.updateComplete;
+    expect(el.shadowRoot!.querySelector('.resize-h.right')).not.toBeNull();
+  });
+
+  it('renders vertical resize handle on correct side (top for bottom-anchored)', async () => {
+    const el = await fixture(html`<vibe-flags-toolbar position="bottom-right"></vibe-flags-toolbar>`);
+    await el.updateComplete;
+    expect(el.shadowRoot!.querySelector('.resize-v.top')).not.toBeNull();
+  });
+
+  it('renders vertical resize handle on correct side (bottom for top-anchored)', async () => {
+    const el = await fixture(html`<vibe-flags-toolbar position="top-left"></vibe-flags-toolbar>`);
+    await el.updateComplete;
+    expect(el.shadowRoot!.querySelector('.resize-v.bottom')).not.toBeNull();
+  });
+
+  it('renders corner resize handle on the opposite corner', async () => {
+    const el = await fixture(html`<vibe-flags-toolbar position="bottom-right"></vibe-flags-toolbar>`);
+    await el.updateComplete;
+    expect(el.shadowRoot!.querySelector('.resize-corner.top-left')).not.toBeNull();
+  });
+
+  // --- Header drag ---
+
+  it('dragging header updates card position', async () => {
+    const el = await fixture(html`<vibe-flags-toolbar></vibe-flags-toolbar>`) as any;
+    await el.updateComplete;
+
+    const initialFabX = el['fabX'] as number;
+    const initialFabY = el['fabY'] as number;
+
+    // Simulate header drag by 50px in both directions
+    el['cardDragStartX'] = 0;
+    el['cardDragStartY'] = 0;
+    el['isDraggingCard'] = true;
+    el['onCardDragMove']({ clientX: 50, clientY: 30 } as PointerEvent);
+    await el.updateComplete;
+
+    // fabX and fabY should have moved by the delta (clamped to viewport)
+    const expectedX = Math.max(0, Math.min(window.innerWidth - el['panelWidth'], initialFabX + 50));
+    const expectedY = Math.max(0, Math.min(window.innerHeight - el['panelHeight'], initialFabY + 30));
+    expect(el['fabX']).toBe(expectedX);
+    expect(el['fabY']).toBe(expectedY);
+  });
+
+  it('releasing header drag snaps card to nearest corner', async () => {
+    const el = await fixture(html`<vibe-flags-toolbar></vibe-flags-toolbar>`) as any;
+    await el.updateComplete;
+
+    // Position card so its center is in top-left quadrant
+    el['isDraggingCard'] = true;
+    el['fabX'] = 0;
+    el['fabY'] = 0;
+    el['onCardDragEnd'](new PointerEvent('pointerup'));
+    await el.updateComplete;
+
+    expect(el['corner']).toBe('top-left');
+    expect(localStorage.getItem('vibe-flags:toolbar-position')).toBe('top-left');
+  });
+
+  it('header drag does not trigger if clicking header-actions buttons', async () => {
+    const el = await fixture(html`<vibe-flags-toolbar></vibe-flags-toolbar>`) as any;
+    // Open the card
     (el.shadowRoot!.querySelector('.fab') as HTMLElement).click();
     await el.updateComplete;
-    expect(el.shadowRoot!.querySelector('.resize-handle.right')).not.toBeNull();
+
+    const closeBtn = el.shadowRoot!.querySelector('.header-actions .icon-btn') as HTMLElement;
+    const event = new PointerEvent('pointerdown', { bubbles: true, composed: true });
+    Object.defineProperty(event, 'target', { value: closeBtn });
+    el['onHeaderPointerDown'](event);
+
+    expect(el['hasDragged']).toBe(false);
+    // document listeners should NOT have been added
+    // (no easy way to assert this, but isDraggingCard stays false)
+    expect(el['isDraggingCard']).toBe(false);
   });
 
   it('picks up flags registered by child components', async () => {

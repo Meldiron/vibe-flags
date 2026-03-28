@@ -12,10 +12,13 @@ const POSITION_KEY = 'vibe-flags:toolbar-position';
 const SIZE_KEY = 'vibe-flags:toolbar-size';
 const OFFSET = 16;
 const DEFAULT_WIDTH = 300;
+const DEFAULT_HEIGHT = 420;
 const MIN_WIDTH = 220;
 const MAX_WIDTH = 600;
+const MIN_HEIGHT = 150;
 const FAB_SIZE = 42;
 const DRAG_THRESHOLD = 5;
+const SNAP_DURATION = 300;
 
 @customElement('vibe-flags-toolbar')
 export class VibeFlagsToolbar extends LitElement {
@@ -46,7 +49,9 @@ export class VibeFlagsToolbar extends LitElement {
         align-items: center;
         justify-content: center;
         box-shadow: var(--vf-shadow-lg);
-        transition: background 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+        transition: left ${SNAP_DURATION}ms cubic-bezier(0.4, 0, 0.2, 1),
+          top ${SNAP_DURATION}ms cubic-bezier(0.4, 0, 0.2, 1),
+          background 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
         font-family: var(--vf-font);
         user-select: none;
         touch-action: none;
@@ -99,24 +104,45 @@ export class VibeFlagsToolbar extends LitElement {
         pointer-events: auto;
       }
 
-      .resize-handle {
+      /* Resize handles */
+      .resize-h,
+      .resize-v,
+      .resize-corner {
         position: absolute;
-        top: 0;
-        bottom: 0;
-        width: 6px;
-        cursor: col-resize;
         z-index: 1;
         background: transparent;
         touch-action: none;
       }
 
-      .resize-handle.left {
-        left: 0;
+      .resize-h {
+        top: 14px;
+        bottom: 14px;
+        width: 6px;
+        cursor: col-resize;
       }
 
-      .resize-handle.right {
-        right: 0;
+      .resize-h.left { left: 0; }
+      .resize-h.right { right: 0; }
+
+      .resize-v {
+        left: 14px;
+        right: 14px;
+        height: 6px;
+        cursor: row-resize;
       }
+
+      .resize-v.top { top: 0; }
+      .resize-v.bottom { bottom: 0; }
+
+      .resize-corner {
+        width: 14px;
+        height: 14px;
+      }
+
+      .resize-corner.top-left    { top: 0;    left: 0;  cursor: nw-resize; }
+      .resize-corner.top-right   { top: 0;    right: 0; cursor: ne-resize; }
+      .resize-corner.bottom-left { bottom: 0; left: 0;  cursor: sw-resize; }
+      .resize-corner.bottom-right { bottom: 0; right: 0; cursor: se-resize; }
 
       .header {
         display: flex;
@@ -125,7 +151,12 @@ export class VibeFlagsToolbar extends LitElement {
         padding: 12px 14px;
         border-bottom: 1px solid var(--vf-border);
         flex-shrink: 0;
+        cursor: grab;
+        user-select: none;
+        touch-action: none;
       }
+
+      .header.dragging-card { cursor: grabbing; }
 
       .header h2 {
         font-size: 13px;
@@ -134,6 +165,7 @@ export class VibeFlagsToolbar extends LitElement {
         display: flex;
         align-items: center;
         gap: 7px;
+        pointer-events: none;
       }
 
       .header h2 svg {
@@ -146,6 +178,7 @@ export class VibeFlagsToolbar extends LitElement {
         display: flex;
         align-items: center;
         gap: 2px;
+        cursor: default;
       }
 
       .badge {
@@ -367,51 +400,45 @@ export class VibeFlagsToolbar extends LitElement {
   @property({ attribute: 'position' })
   position: Corner = 'bottom-right';
 
-  @state()
-  private open = false;
-
-  @state()
-  private flags: VibeFlagsState = {};
-
-  @state()
-  private configs: VibeFlagsConfig[] = [];
-
-  @state()
-  private darkMode = true;
-
-  @state()
-  private corner: Corner = 'bottom-right';
-
-  @state()
-  private isDragging = false;
-
-  @state()
-  private dragX = 0;
-
-  @state()
-  private dragY = 0;
-
-  @state()
-  private panelWidth = DEFAULT_WIDTH;
+  @state() private open = false;
+  @state() private flags: VibeFlagsState = {};
+  @state() private configs: VibeFlagsConfig[] = [];
+  @state() private darkMode = true;
+  @state() private corner: Corner = 'bottom-right';
+  @state() private fabX = 0;
+  @state() private fabY = 0;
+  @state() private isDraggingFab = false;
+  @state() private isDraggingCard = false;
+  @state() private panelWidth = DEFAULT_WIDTH;
+  @state() private panelHeight = DEFAULT_HEIGHT;
 
   private hasDragged = false;
   private dragStartX = 0;
   private dragStartY = 0;
   private fabStartLeft = 0;
   private fabStartTop = 0;
+  private cardDragStartX = 0;
+  private cardDragStartY = 0;
 
   private isResizing = false;
+  private resizeMode: 'h' | 'v' | 'corner' = 'h';
   private resizeStartX = 0;
+  private resizeStartY = 0;
   private resizeStartWidth = 0;
+  private resizeStartHeight = 0;
 
-  private boundDragMove = this.onDragMove.bind(this);
-  private boundDragEnd = this.onDragEnd.bind(this);
+  private boundFabDragMove = this.onFabDragMove.bind(this);
+  private boundFabDragEnd = this.onFabDragEnd.bind(this);
+  private boundCardDragMove = this.onCardDragMove.bind(this);
+  private boundCardDragEnd = this.onCardDragEnd.bind(this);
   private boundResizeMove = this.onResizeMove.bind(this);
   private boundResizeEnd = this.onResizeEnd.bind(this);
+  private boundWindowResize = this.onWindowResize.bind(this);
 
   connectedCallback(): void {
     super.connectedCallback();
     window.addEventListener('vibe-flags-changed', this.onFlagChange);
+    window.addEventListener('resize', this.boundWindowResize);
     this.syncFromStore();
     this.loadTheme();
     this.loadPosition();
@@ -421,8 +448,11 @@ export class VibeFlagsToolbar extends LitElement {
   disconnectedCallback(): void {
     super.disconnectedCallback();
     window.removeEventListener('vibe-flags-changed', this.onFlagChange);
-    document.removeEventListener('pointermove', this.boundDragMove);
-    document.removeEventListener('pointerup', this.boundDragEnd);
+    window.removeEventListener('resize', this.boundWindowResize);
+    document.removeEventListener('pointermove', this.boundFabDragMove);
+    document.removeEventListener('pointerup', this.boundFabDragEnd);
+    document.removeEventListener('pointermove', this.boundCardDragMove);
+    document.removeEventListener('pointerup', this.boundCardDragEnd);
     document.removeEventListener('pointermove', this.boundResizeMove);
     document.removeEventListener('pointerup', this.boundResizeEnd);
   }
@@ -431,7 +461,10 @@ export class VibeFlagsToolbar extends LitElement {
     super.updated(changedProperties);
     if (changedProperties.has('position') && !localStorage.getItem(POSITION_KEY)) {
       const corner = this.parseCorner(this.position);
-      if (corner) this.corner = corner;
+      if (corner) {
+        this.corner = corner;
+        this.updateFabPosition();
+      }
     }
   }
 
@@ -443,17 +476,45 @@ export class VibeFlagsToolbar extends LitElement {
     if (typeof window === 'undefined') return;
     const saved = this.parseCorner(localStorage.getItem(POSITION_KEY));
     this.corner = saved ?? this.parseCorner(this.position) ?? 'bottom-right';
+    this.updateFabPosition();
   }
 
   private loadSize(): void {
     if (typeof window === 'undefined') return;
     const saved = localStorage.getItem(SIZE_KEY);
     if (saved) {
-      const w = parseInt(saved, 10);
-      if (!isNaN(w) && w >= MIN_WIDTH && w <= MAX_WIDTH) {
-        this.panelWidth = w;
-      }
+      const parts = saved.split('x');
+      const w = parseInt(parts[0], 10);
+      const h = parts[1] ? parseInt(parts[1], 10) : NaN;
+      if (!isNaN(w) && w >= MIN_WIDTH && w <= MAX_WIDTH) this.panelWidth = w;
+      if (!isNaN(h) && h >= MIN_HEIGHT) this.panelHeight = h;
     }
+  }
+
+  private updateFabPosition(): void {
+    if (typeof window === 'undefined') return;
+    const { innerWidth: W, innerHeight: H } = window;
+    switch (this.corner) {
+      case 'top-left':
+        this.fabX = OFFSET;
+        this.fabY = OFFSET;
+        break;
+      case 'top-right':
+        this.fabX = W - FAB_SIZE - OFFSET;
+        this.fabY = OFFSET;
+        break;
+      case 'bottom-left':
+        this.fabX = OFFSET;
+        this.fabY = H - FAB_SIZE - OFFSET;
+        break;
+      default:
+        this.fabX = W - FAB_SIZE - OFFSET;
+        this.fabY = H - FAB_SIZE - OFFSET;
+    }
+  }
+
+  private onWindowResize(): void {
+    this.updateFabPosition();
   }
 
   private loadTheme(): void {
@@ -493,57 +554,54 @@ export class VibeFlagsToolbar extends LitElement {
   }
 
   private onToggle(key: string): void {
-    const current = this.flags[key];
-    vibeFlagsStore.set(key, !current);
+    vibeFlagsStore.set(key, !this.flags[key]);
   }
 
   private onSelect(key: string, e: Event): void {
-    const target = e.target as HTMLSelectElement;
-    vibeFlagsStore.set(key, target.value);
+    vibeFlagsStore.set(key, (e.target as HTMLSelectElement).value);
   }
 
   private onReset(): void {
     vibeFlagsStore.reset();
   }
 
-  // --- Drag to reposition FAB ---
+  // --- FAB drag ---
 
   private onFabPointerDown(e: PointerEvent): void {
     if (e.pointerType === 'mouse' && e.button !== 0) return;
     e.preventDefault();
-    const fab = this.shadowRoot!.querySelector('.fab') as HTMLElement;
-    const rect = fab.getBoundingClientRect();
     this.hasDragged = false;
     this.dragStartX = e.clientX;
     this.dragStartY = e.clientY;
-    this.fabStartLeft = rect.left;
-    this.fabStartTop = rect.top;
-    this.dragX = rect.left;
-    this.dragY = rect.top;
-    document.addEventListener('pointermove', this.boundDragMove);
-    document.addEventListener('pointerup', this.boundDragEnd);
+    this.fabStartLeft = this.fabX;
+    this.fabStartTop = this.fabY;
+    document.addEventListener('pointermove', this.boundFabDragMove);
+    document.addEventListener('pointerup', this.boundFabDragEnd);
   }
 
-  private onDragMove(e: PointerEvent): void {
+  private onFabDragMove(e: PointerEvent): void {
     const dx = e.clientX - this.dragStartX;
     const dy = e.clientY - this.dragStartY;
     if (!this.hasDragged && Math.sqrt(dx * dx + dy * dy) > DRAG_THRESHOLD) {
       this.hasDragged = true;
-      this.isDragging = true;
+      this.isDraggingFab = true;
     }
-    if (this.isDragging) {
-      this.dragX = Math.max(0, Math.min(window.innerWidth - FAB_SIZE, this.fabStartLeft + dx));
-      this.dragY = Math.max(0, Math.min(window.innerHeight - FAB_SIZE, this.fabStartTop + dy));
+    if (this.isDraggingFab) {
+      this.fabX = Math.max(0, Math.min(window.innerWidth - FAB_SIZE, this.fabStartLeft + dx));
+      this.fabY = Math.max(0, Math.min(window.innerHeight - FAB_SIZE, this.fabStartTop + dy));
     }
   }
 
-  private onDragEnd(_e: PointerEvent): void {
-    document.removeEventListener('pointermove', this.boundDragMove);
-    document.removeEventListener('pointerup', this.boundDragEnd);
-    if (this.isDragging) {
-      this.isDragging = false;
-      this.corner = this.snapToCorner(this.dragX + FAB_SIZE / 2, this.dragY + FAB_SIZE / 2);
+  private onFabDragEnd(_e: PointerEvent): void {
+    document.removeEventListener('pointermove', this.boundFabDragMove);
+    document.removeEventListener('pointerup', this.boundFabDragEnd);
+    if (this.isDraggingFab) {
+      this.isDraggingFab = false;
+      this.corner = this.snapToCorner(this.fabX + FAB_SIZE / 2, this.fabY + FAB_SIZE / 2);
       localStorage.setItem(POSITION_KEY, this.corner);
+      // updateFabPosition sets fabX/fabY to corner target;
+      // CSS transition on left/top animates the snap smoothly
+      this.updateFabPosition();
     }
   }
 
@@ -564,14 +622,64 @@ export class VibeFlagsToolbar extends LitElement {
     return 'bottom-right';
   }
 
-  // --- Drag to resize card panel ---
+  // --- Card header drag (move open panel) ---
 
-  private onResizePointerDown(e: PointerEvent): void {
+  private onHeaderPointerDown(e: PointerEvent): void {
+    if ((e.target as HTMLElement).closest('.header-actions')) return;
+    if (e.pointerType === 'mouse' && e.button !== 0) return;
+    e.preventDefault();
+    this.hasDragged = false;
+    this.cardDragStartX = e.clientX;
+    this.cardDragStartY = e.clientY;
+    document.addEventListener('pointermove', this.boundCardDragMove);
+    document.addEventListener('pointerup', this.boundCardDragEnd);
+  }
+
+  private onCardDragMove(e: PointerEvent): void {
+    const dx = e.clientX - this.cardDragStartX;
+    const dy = e.clientY - this.cardDragStartY;
+    if (!this.hasDragged && Math.sqrt(dx * dx + dy * dy) > DRAG_THRESHOLD) {
+      this.hasDragged = true;
+      this.isDraggingCard = true;
+    }
+    if (this.isDraggingCard) {
+      this.fabX = Math.max(
+        0,
+        Math.min(window.innerWidth - this.panelWidth, this.fabX + dx)
+      );
+      this.fabY = Math.max(
+        0,
+        Math.min(window.innerHeight - this.panelHeight, this.fabY + dy)
+      );
+      this.cardDragStartX = e.clientX;
+      this.cardDragStartY = e.clientY;
+    }
+  }
+
+  private onCardDragEnd(_e: PointerEvent): void {
+    document.removeEventListener('pointermove', this.boundCardDragMove);
+    document.removeEventListener('pointerup', this.boundCardDragEnd);
+    if (this.isDraggingCard) {
+      this.isDraggingCard = false;
+      const cx = this.fabX + this.panelWidth / 2;
+      const cy = this.fabY + this.panelHeight / 2;
+      this.corner = this.snapToCorner(cx, cy);
+      localStorage.setItem(POSITION_KEY, this.corner);
+      this.updateFabPosition();
+    }
+  }
+
+  // --- Panel resize ---
+
+  private onResizePointerDown(e: PointerEvent, mode: 'h' | 'v' | 'corner'): void {
     e.stopPropagation();
     e.preventDefault();
     this.isResizing = true;
+    this.resizeMode = mode;
     this.resizeStartX = e.clientX;
+    this.resizeStartY = e.clientY;
     this.resizeStartWidth = this.panelWidth;
+    this.resizeStartHeight = this.panelHeight;
     document.addEventListener('pointermove', this.boundResizeMove);
     document.addEventListener('pointerup', this.boundResizeEnd);
   }
@@ -579,53 +687,69 @@ export class VibeFlagsToolbar extends LitElement {
   private onResizeMove(e: PointerEvent): void {
     if (!this.isResizing) return;
     const isRightSide = this.corner === 'bottom-right' || this.corner === 'top-right';
-    const dx = isRightSide
-      ? this.resizeStartX - e.clientX
-      : e.clientX - this.resizeStartX;
-    this.panelWidth = Math.max(MIN_WIDTH, Math.min(MAX_WIDTH, this.resizeStartWidth + dx));
+    const isBottomSide = this.corner === 'bottom-right' || this.corner === 'bottom-left';
+
+    if (this.resizeMode === 'h' || this.resizeMode === 'corner') {
+      const dx = isRightSide
+        ? this.resizeStartX - e.clientX
+        : e.clientX - this.resizeStartX;
+      this.panelWidth = Math.max(MIN_WIDTH, Math.min(MAX_WIDTH, this.resizeStartWidth + dx));
+    }
+    if (this.resizeMode === 'v' || this.resizeMode === 'corner') {
+      const dy = isBottomSide
+        ? this.resizeStartY - e.clientY
+        : e.clientY - this.resizeStartY;
+      const maxH = window.innerHeight - 2 * OFFSET;
+      this.panelHeight = Math.max(MIN_HEIGHT, Math.min(maxH, this.resizeStartHeight + dy));
+    }
   }
 
   private onResizeEnd(_e: PointerEvent): void {
     this.isResizing = false;
     document.removeEventListener('pointermove', this.boundResizeMove);
     document.removeEventListener('pointerup', this.boundResizeEnd);
-    localStorage.setItem(SIZE_KEY, String(Math.round(this.panelWidth)));
+    localStorage.setItem(SIZE_KEY, `${Math.round(this.panelWidth)}x${Math.round(this.panelHeight)}`);
   }
 
-  // --- Position helpers ---
+  // --- Positioning helpers ---
 
   private getFabStyle(): string {
-    if (this.isDragging) {
-      return `left: ${this.dragX}px; top: ${this.dragY}px; right: auto; bottom: auto;`;
-    }
-    switch (this.corner) {
-      case 'top-left':
-        return `left: ${OFFSET}px; top: ${OFFSET}px; right: auto; bottom: auto;`;
-      case 'top-right':
-        return `right: ${OFFSET}px; top: ${OFFSET}px; left: auto; bottom: auto;`;
-      case 'bottom-left':
-        return `left: ${OFFSET}px; bottom: ${OFFSET}px; right: auto; top: auto;`;
-      default:
-        return `right: ${OFFSET}px; bottom: ${OFFSET}px; left: auto; top: auto;`;
-    }
+    return `left: ${Math.round(this.fabX)}px; top: ${Math.round(this.fabY)}px;`;
   }
 
   private getCardStyle(): string {
     const w = `${Math.round(this.panelWidth)}px`;
+    const h = `${Math.round(this.panelHeight)}px`;
+    if (this.isDraggingCard) {
+      return `left: ${Math.round(this.fabX)}px; top: ${Math.round(this.fabY)}px; right: auto; bottom: auto; width: ${w}; height: ${h};`;
+    }
     switch (this.corner) {
       case 'top-left':
-        return `left: ${OFFSET}px; top: ${OFFSET}px; right: auto; bottom: auto; width: ${w};`;
+        return `left: ${OFFSET}px; top: ${OFFSET}px; right: auto; bottom: auto; width: ${w}; height: ${h};`;
       case 'top-right':
-        return `right: ${OFFSET}px; top: ${OFFSET}px; left: auto; bottom: auto; width: ${w};`;
+        return `right: ${OFFSET}px; top: ${OFFSET}px; left: auto; bottom: auto; width: ${w}; height: ${h};`;
       case 'bottom-left':
-        return `left: ${OFFSET}px; bottom: ${OFFSET}px; right: auto; top: auto; width: ${w};`;
+        return `left: ${OFFSET}px; bottom: ${OFFSET}px; right: auto; top: auto; width: ${w}; height: ${h};`;
       default:
-        return `right: ${OFFSET}px; bottom: ${OFFSET}px; left: auto; top: auto; width: ${w};`;
+        return `right: ${OFFSET}px; bottom: ${OFFSET}px; left: auto; top: auto; width: ${w}; height: ${h};`;
     }
   }
 
-  private get resizeHandleSide(): 'left' | 'right' {
+  private get resizeCornerClass(): string {
+    switch (this.corner) {
+      case 'top-left': return 'bottom-right';
+      case 'top-right': return 'bottom-left';
+      case 'bottom-left': return 'top-right';
+      default: return 'top-left';
+    }
+  }
+
+  private get hHandleSide(): 'left' | 'right' {
     return this.corner === 'bottom-right' || this.corner === 'top-right' ? 'left' : 'right';
+  }
+
+  private get vHandleSide(): 'top' | 'bottom' {
+    return this.corner === 'bottom-right' || this.corner === 'bottom-left' ? 'top' : 'bottom';
   }
 
   // --- SVG icons ---
@@ -711,7 +835,7 @@ export class VibeFlagsToolbar extends LitElement {
         ? nothing
         : html`
             <button
-              class="fab${this.isDragging ? ' dragging' : ''}"
+              class="fab${this.isDraggingFab ? ' dragging' : ''}"
               style=${this.getFabStyle()}
               @pointerdown=${this.onFabPointerDown}
               @click=${this.onFabClick}
@@ -723,11 +847,22 @@ export class VibeFlagsToolbar extends LitElement {
 
       <div class="card ${this.open ? 'open' : ''}" style=${this.getCardStyle()}>
         <div
-          class="resize-handle ${this.resizeHandleSide}"
-          @pointerdown=${this.onResizePointerDown}
+          class="resize-h ${this.hHandleSide}"
+          @pointerdown=${(e: PointerEvent) => this.onResizePointerDown(e, 'h')}
+        ></div>
+        <div
+          class="resize-v ${this.vHandleSide}"
+          @pointerdown=${(e: PointerEvent) => this.onResizePointerDown(e, 'v')}
+        ></div>
+        <div
+          class="resize-corner ${this.resizeCornerClass}"
+          @pointerdown=${(e: PointerEvent) => this.onResizePointerDown(e, 'corner')}
         ></div>
 
-        <div class="header">
+        <div
+          class="header${this.isDraggingCard ? ' dragging-card' : ''}"
+          @pointerdown=${this.onHeaderPointerDown}
+        >
           <h2>
             ${this.renderFlagIcon()}
             Vibe Flags
