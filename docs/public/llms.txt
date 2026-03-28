@@ -82,7 +82,6 @@ function App() {
 - [Comparison with LaunchDarkly, Unleash, PostHog](/docs/comparison)
 - [Playground — Boolean Flag](/playground/boolean-flag)
 - [Playground — Select Flag](/playground/select-flag)
-- [Playground — Multiple Flags](/playground/multiple-flags)
 - [Full documentation for LLMs](/llms-full.txt)
 
 ## Source

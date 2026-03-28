@@ -73,7 +73,6 @@ export default defineConfig({
           items: [
             { text: 'Boolean Flag', link: '/playground/boolean-flag' },
             { text: 'Select Flag', link: '/playground/select-flag' },
-            { text: 'Multiple Flags', link: '/playground/multiple-flags' },
           ],
         },
       ],

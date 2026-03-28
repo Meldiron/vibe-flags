@@ -587,7 +587,6 @@ An interactive playground is available under `/playground/`. Each example has it
 
 - `/playground/boolean-flag` — toggle a boolean flag on/off
 - `/playground/select-flag` — switch between options with a select flag
-- `/playground/multiple-flags` — combine boolean and select flags together
 
 ---
 
