@@ -49,10 +49,10 @@ const SELECT_CODE = `<!DOCTYPE html>
   <title>Select Flag Demo</title>
   <style>
     body { font-family: sans-serif; padding: 24px; background: #0d1117; color: #e6edf3; }
-    [data-value] { padding: 16px; border-radius: 8px; margin-bottom: 12px; }
-    [data-value="blue"]  { background: #1a3a5c; border: 1px solid #2d6a9f; }
-    [data-value="green"] { background: #1a3a2a; border: 1px solid #2d9f4e; }
-    [data-value="red"]   { background: #3a1a1a; border: 1px solid #9f2d2d; }
+    .theme { padding: 16px; border-radius: 8px; margin-bottom: 12px; }
+    .blue  { background: #1a3a5c; border: 1px solid #2d6a9f; }
+    .green { background: #1a3a2a; border: 1px solid #2d9f4e; }
+    .red   { background: #3a1a1a; border: 1px solid #9f2d2d; }
   </style>
   <script src="https://unpkg.com/@vibe-flags/core/dist/vibe-flags.cdn.js"><\/script>
 </head>
@@ -60,10 +60,16 @@ const SELECT_CODE = `<!DOCTYPE html>
   <h2>Select Flag Demo</h2>
   <p>Switch themes using the toolbar on the right.</p>
 
-  <vibe-flags-select name="theme" description="UI theme" value="blue" options="blue,green,red">
-    <div data-value="blue">Blue theme is active</div>
-    <div data-value="green">Green theme is active</div>
-    <div data-value="red">Red theme is active</div>
+  <vibe-flags-select name="theme" description="UI theme" default="blue">
+    <vibe-flags-option value="blue">
+      <div class="theme blue">Blue theme is active</div>
+    </vibe-flags-option>
+    <vibe-flags-option value="green">
+      <div class="theme green">Green theme is active</div>
+    </vibe-flags-option>
+    <vibe-flags-option value="red">
+      <div class="theme red">Red theme is active</div>
+    </vibe-flags-option>
   </vibe-flags-select>
 
   <vibe-flags-toolbar></vibe-flags-toolbar>
@@ -85,9 +91,13 @@ const MULTI_CODE = `<!DOCTYPE html>
   <script src="https://unpkg.com/@vibe-flags/core/dist/vibe-flags.cdn.js"><\/script>
 </head>
 <body>
-  <vibe-flags-select name="layout" description="Layout density" value="default" options="default,compact">
-    <div data-value="default"><h2>My App <span class="badge">Beta</span></h2></div>
-    <div data-value="compact" class="compact"><h2>My App <span class="badge">Beta</span></h2></div>
+  <vibe-flags-select name="layout" description="Layout density" default="default">
+    <vibe-flags-option value="default">
+      <h2>My App <span class="badge">Beta</span></h2>
+    </vibe-flags-option>
+    <vibe-flags-option value="compact">
+      <h2 class="compact">My App <span class="badge">Beta</span></h2>
+    </vibe-flags-option>
   </vibe-flags-select>
 
   <vibe-flags-boolean name="promoBar" description="Promo banner" value="true">
