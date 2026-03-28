@@ -61,7 +61,7 @@ export default defineConfig({
     nav: [
       { text: "Docs", link: "/docs/getting-started" },
       { text: "API", link: "/api/components" },
-      { text: "Examples", link: "/examples/basic" },
+      { text: "Playground", link: "/playground/boolean-flag" },
     ],
     sidebar: {
       "/docs/": [
@@ -91,13 +91,12 @@ export default defineConfig({
           items: [{ text: "Comparison", link: "/docs/comparison" }],
         },
       ],
-      "/examples/": [
+      "/playground": [
         {
-          text: "Examples",
+          text: "Playground",
           items: [
-            { text: "Basic Usage", link: "/examples/basic" },
-            { text: "Boolean Flags", link: "/examples/boolean-flags" },
-            { text: "Select Flags", link: "/examples/select-flags" },
+            { text: "Boolean Flag", link: "/playground/boolean-flag" },
+            { text: "Select Flag", link: "/playground/select-flag" },
           ],
         },
       ],

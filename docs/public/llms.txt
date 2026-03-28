@@ -79,10 +79,9 @@ function App() {
 - [Components API](/api/components)
 - [Store API](/api/store)
 - [Types](/api/types)
-- [Basic Example](/examples/basic)
-- [Boolean Flags Example](/examples/boolean-flags)
-- [Select Flags Example](/examples/select-flags)
 - [Comparison with LaunchDarkly, Unleash, PostHog](/docs/comparison)
+- [Playground — Boolean Flag](/playground/boolean-flag)
+- [Playground — Select Flag](/playground/select-flag)
 - [Full documentation for LLMs](/llms-full.txt)
 
 ## Source

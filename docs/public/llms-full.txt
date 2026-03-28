@@ -581,6 +581,15 @@ import { VibeFlagsSelect, VibeFlagsOption } from '@vibe-flags/core/react';
 
 ---
 
+## Playground
+
+An interactive playground is available under `/playground/`. Each example has its own page with a live StackBlitz embed — no install or build step required. Pages:
+
+- `/playground/boolean-flag` — toggle a boolean flag on/off
+- `/playground/select-flag` — switch between options with a select flag
+
+---
+
 ## Source
 
 - GitHub: https://github.com/Meldiron/vibe-flags

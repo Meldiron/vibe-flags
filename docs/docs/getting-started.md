@@ -2,6 +2,10 @@
 
 Add one script tag, write some HTML. That's it.
 
+::: tip Try it instantly
+Want to experiment without installing anything? Open the **[Playground](/playground/boolean-flag)** and start toggling flags in seconds.
+:::
+
 ## Quick Start
 
 ```html
