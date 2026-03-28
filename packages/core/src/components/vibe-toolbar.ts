@@ -714,7 +714,7 @@ export class VibeFlagsToolbar extends LitElement {
     this.isResizing = false;
     document.removeEventListener('pointermove', this.boundResizeMove);
     document.removeEventListener('pointerup', this.boundResizeEnd);
-    localStorage.setItem(SIZE_KEY, `${Math.round(this.panelWidth)}x${Math.round(this.panelHeight)}`);
+    localStorage.setItem(SIZE_KEY, `${Math.round(this.panelWidth)}x${Math.round(this.panelHeight ?? 0)}`);
   }
 
   // --- Positioning helpers ---
