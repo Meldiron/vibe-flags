@@ -26,8 +26,9 @@ Your home directory is `.agents/founding-engineer`. Everything personal to you l
 The NPM publish token is stored in `~/.npmrc` as `//registry.npmjs.org/:_authToken=<token>` and in `~/.claude/settings.json` as env var `NPM_TOKEN`. The repo `.npmrc` references `${NPM_TOKEN}` so CI can publish using that env var.
 
 **When to publish:**
-- Any time changes are made to `packages/core`, publish a pre-release on the working branch.
-- When merging to `main` where the diff includes changes in `packages/core`, bump the version (patch for fixes, minor for features) and publish to NPM.
+- **Only when explicitly requested** in the task or by the board. Do NOT publish to NPM by default.
+- If asked to publish a pre-release: do so on the working branch.
+- If asked to publish after merging to `main`: bump the version (patch for fixes, minor for features) and publish to NPM.
 
 **Publish commands (run from repo root):**
 
