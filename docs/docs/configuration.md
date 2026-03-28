@@ -69,6 +69,7 @@ https://yourapp.com?vf:dark-mode=true&vf:theme=dark
 ```
 
 **Rules:**
+
 - URL params take priority over localStorage values when present.
 - URL params are **ephemeral** — they are not written to localStorage and do not persist across page loads.
 - Boolean flags accept `true` or `false`. Any other value is ignored.

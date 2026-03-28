@@ -1,5 +1,5 @@
-import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
-import { vibeFlagsStore } from '../src/store.js';
+import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
+import { vibeFlagsStore } from "../src/store.js";
 
 describe("VibeFlagsStore", () => {
   beforeEach(() => {
@@ -142,7 +142,7 @@ describe("VibeFlagsStore", () => {
   });
 });
 
-describe('VibeFlagsStore URL overrides', () => {
+describe("VibeFlagsStore URL overrides", () => {
   afterEach(() => {
     vi.unstubAllGlobals();
     localStorage.clear();
@@ -150,49 +150,49 @@ describe('VibeFlagsStore URL overrides', () => {
   });
 
   function setSearch(search: string) {
-    vi.stubGlobal('location', { search });
+    vi.stubGlobal("location", { search });
   }
 
-  it('applies boolean true override from URL', () => {
-    setSearch('?vf:myFlag=true');
-    vibeFlagsStore.register({ key: 'myFlag', type: 'boolean' });
-    expect(vibeFlagsStore.get('myFlag')).toBe(true);
+  it("applies boolean true override from URL", () => {
+    setSearch("?vf:myFlag=true");
+    vibeFlagsStore.register({ key: "myFlag", type: "boolean" });
+    expect(vibeFlagsStore.get("myFlag")).toBe(true);
   });
 
-  it('applies boolean false override from URL', () => {
-    setSearch('?vf:myFlag=false');
-    vibeFlagsStore.register({ key: 'myFlag', type: 'boolean', default: true });
-    expect(vibeFlagsStore.get('myFlag')).toBe(false);
+  it("applies boolean false override from URL", () => {
+    setSearch("?vf:myFlag=false");
+    vibeFlagsStore.register({ key: "myFlag", type: "boolean", default: true });
+    expect(vibeFlagsStore.get("myFlag")).toBe(false);
   });
 
-  it('applies select override from URL', () => {
-    setSearch('?vf:layout=grid');
-    vibeFlagsStore.register({ key: 'layout', type: 'select', options: ['list', 'grid', 'table'] });
-    expect(vibeFlagsStore.get('layout')).toBe('grid');
+  it("applies select override from URL", () => {
+    setSearch("?vf:layout=grid");
+    vibeFlagsStore.register({ key: "layout", type: "select", options: ["list", "grid", "table"] });
+    expect(vibeFlagsStore.get("layout")).toBe("grid");
   });
 
-  it('ignores invalid boolean URL value', () => {
-    setSearch('?vf:myFlag=yes');
-    vibeFlagsStore.register({ key: 'myFlag', type: 'boolean' });
-    expect(vibeFlagsStore.get('myFlag')).toBe(false);
+  it("ignores invalid boolean URL value", () => {
+    setSearch("?vf:myFlag=yes");
+    vibeFlagsStore.register({ key: "myFlag", type: "boolean" });
+    expect(vibeFlagsStore.get("myFlag")).toBe(false);
   });
 
-  it('ignores invalid select URL value not in options', () => {
-    setSearch('?vf:layout=nope');
-    vibeFlagsStore.register({ key: 'layout', type: 'select', options: ['list', 'grid'] });
-    expect(vibeFlagsStore.get('layout')).toBe('list');
+  it("ignores invalid select URL value not in options", () => {
+    setSearch("?vf:layout=nope");
+    vibeFlagsStore.register({ key: "layout", type: "select", options: ["list", "grid"] });
+    expect(vibeFlagsStore.get("layout")).toBe("list");
   });
 
-  it('does not persist URL override to localStorage', () => {
-    setSearch('?vf:myFlag=true');
-    vibeFlagsStore.register({ key: 'myFlag', type: 'boolean' });
-    expect(localStorage.getItem('vibe-flags:myFlag')).toBeNull();
+  it("does not persist URL override to localStorage", () => {
+    setSearch("?vf:myFlag=true");
+    vibeFlagsStore.register({ key: "myFlag", type: "boolean" });
+    expect(localStorage.getItem("vibe-flags:myFlag")).toBeNull();
   });
 
-  it('URL override takes priority over localStorage value', () => {
-    localStorage.setItem('vibe-flags:myFlag', 'false');
-    setSearch('?vf:myFlag=true');
-    vibeFlagsStore.register({ key: 'myFlag', type: 'boolean' });
-    expect(vibeFlagsStore.get('myFlag')).toBe(true);
+  it("URL override takes priority over localStorage value", () => {
+    localStorage.setItem("vibe-flags:myFlag", "false");
+    setSearch("?vf:myFlag=true");
+    vibeFlagsStore.register({ key: "myFlag", type: "boolean" });
+    expect(vibeFlagsStore.get("myFlag")).toBe(true);
   });
 });
