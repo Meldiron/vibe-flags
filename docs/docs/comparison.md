@@ -14,7 +14,7 @@ How does Vibe Flags stack up against other feature flag solutions?
 | **Free, unlimited** | ✅ | 🚫 | ✅ | 🚫 |
 | **localStorage persistence** | ✅ | 🚫 | 🚫 | 🚫 |
 | **AI-friendly HTML API** | ✅ | 🚫 | 🚫 | 🚫 |
-| **Bundle size** | ~11KB gzipped | ~50KB+ | ~20KB+ | ~30KB+ |
+| **Bundle size** | ~11KB | ~50KB+ | ~20KB+ | ~30KB+ |
 
 ## Where Vibe Flags Wins
 
