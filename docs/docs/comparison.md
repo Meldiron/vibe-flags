@@ -6,15 +6,15 @@ How does Vibe Flags stack up against other feature flag solutions?
 
 | Feature | Vibe Flags | LaunchDarkly | Unleash | PostHog Feature Flags |
 |---|---|---|---|---|
-| **Setup complexity** | Drop in a `<script>` tag | SDK + account + project config | Self-host server + SDK | Account + SDK install |
-| **Backend required** | No | Yes | Yes | Yes |
-| **Authentication required** | No | Yes (API key) | Yes (API key) | Yes (API key) |
-| **Pricing** | Free, open source | Paid (free tier limited) | Open source (cloud paid) | Free tier + paid plans |
-| **Self-hosted option** | Yes (static files) | No | Yes | Yes |
-| **localStorage persistence** | Yes (built-in) | No | No | No |
-| **AI-friendly HTML API** | Yes (`<vibe-flags-boolean>`) | No | No | No |
+| **Framework agnostic** | ✅ | ✅ | ✅ | ✅ |
+| **Easy setup** | ✅ | ✅ | 🚫 | ✅ |
+| **Self-hosted option** | ✅ | 🚫 | ✅ | ✅ |
+| **Backendless** | ✅ | 🚫 | 🚫 | 🚫 |
+| **Offline-mode (no auth)** | ✅ | 🚫 | 🚫 | 🚫 |
+| **Free, unlimited** | ✅ | 🚫 | ✅ | 🚫 |
+| **localStorage persistence** | ✅ | 🚫 | 🚫 | 🚫 |
+| **AI-friendly HTML API** | ✅ | 🚫 | 🚫 | 🚫 |
 | **Bundle size** | ~11KB gzipped | ~50KB+ | ~20KB+ | ~30KB+ |
-| **Framework support** | Any (web components + React) | Any (multiple SDKs) | Any (multiple SDKs) | Any (multiple SDKs) |
 
 ## Where Vibe Flags Wins
 
