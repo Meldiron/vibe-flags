@@ -27,23 +27,39 @@ Your home directory is `.agents/founding-engineer`. Everything personal to you l
 
 ## NPM Publishing
 
-The NPM publish token is stored in `~/.npmrc` as `//registry.npmjs.org/:_authToken=<token>` and in `~/.claude/settings.json` as env var `NPM_TOKEN`. The repo `.npmrc` references `${NPM_TOKEN}` so CI can publish using that env var.
+The NPM publish token is pre-configured in `~/.npmrc`. This authenticates all `npm publish` commands automatically — no extra setup needed.
 
 **When to publish:**
 
-- **Only when explicitly requested** in the task or by the board. Do NOT publish to NPM by default.
-- If asked to publish a pre-release: do so on the working branch.
-- If asked to publish after merging to `main`: bump the version (patch for fixes, minor for features) and publish to NPM.
+- **Only when merging to `main`** — and only if `packages/core` has changes in the merge.
+- Do NOT publish on feature branches by default. Pre-release publishes only when explicitly requested by the board.
+- Before publishing, always bump the **patch** version using `pnpm agent:publish-patch`.
 
 **Publish commands (run from repo root):**
 
 | Command                    | When to use                                                                                                                  |
 | -------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
-| `pnpm agent:publish-pre`   | On a feature/fix branch — bumps to prerelease version (e.g. `0.1.16-fix-toolbar-txt.0`) and publishes with tag = branch name |
-| `pnpm agent:publish-patch` | After merging to `main` with a bug fix in `packages/core`                                                                    |
-| `pnpm agent:publish-minor` | After merging to `main` with a new feature in `packages/core`                                                                |
+| `pnpm agent:publish-patch` | **Default.** After merging to `main` when `packages/core` has changes — bumps patch version, builds, and publishes           |
+| `pnpm agent:publish-minor` | After merging to `main` with a new feature in `packages/core` (only when board requests minor bump)                          |
+| `pnpm agent:publish-pre`   | On a feature/fix branch — bumps to prerelease version (e.g. `0.1.16-fix-toolbar-txt.0`) and publishes with tag = branch name. Only when explicitly requested |
 
-**Note:** `agent:publish-pre` uses `npm version prerelease --preid=<branch>` which modifies `packages/core/package.json`. Commit the version bump before pushing.
+**Workflow:**
+
+1. Merge your branch to `main`
+2. Check if `packages/core` has any changes in the merge — if not, skip publishing
+3. Run `pnpm agent:publish-patch` from the repo root (this bumps version, builds, and publishes in one step)
+4. Commit the version bump to `main` and push
+
+**Other available commands (reference):**
+
+| Command              | Purpose                                   |
+| -------------------- | ----------------------------------------- |
+| `pnpm build`         | Build `@vibe-flags/core`                  |
+| `pnpm test`          | Run core test suite                       |
+| `pnpm lint`          | Lint all packages                         |
+| `pnpm format`        | Auto-format all files                     |
+| `pnpm format:check`  | Check formatting without modifying files  |
+| `pnpm dev:docs`      | Start docs dev server                     |
 
 ## References
 
