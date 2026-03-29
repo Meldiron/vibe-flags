@@ -89,3 +89,38 @@ Floating toggle button + slide-out sidebar. Automatically discovers all register
 </vibe-flag-boolean>
 <vibe-toolbar></vibe-toolbar>
 ```
+
+---
+
+## Accessibility
+
+`<vibe-toolbar>` is built to WCAG 2.1 AA standards.
+
+### Keyboard navigation
+
+| Key | Action |
+|-----|--------|
+| `Tab` / `Shift+Tab` | Move focus between controls. Focus is trapped within the panel while it is open. |
+| `Enter` / `Space` | Activate the focused button or toggle. |
+| `Escape` | Close the panel and return focus to the FAB button. |
+
+### ARIA support
+
+| Element | ARIA attributes |
+|---------|----------------|
+| FAB button | `aria-label="Open feature flags toolbar"`, `aria-expanded`, `aria-haspopup="dialog"` |
+| Panel | `role="dialog"`, `aria-label="Feature flags"`, `aria-modal="true"` |
+| Boolean toggle | `role="switch"`, `aria-checked`, `aria-label="{flag name}"` |
+| Select dropdown | `aria-label="{flag name}"` (native `<select>` semantics) |
+| Reset button | `aria-label="Reset all flags to defaults"` |
+| Live region | `aria-live="polite"` — announces flag changes to screen readers |
+
+### Focus management
+
+- Opening the panel moves focus to the first interactive control inside it.
+- Focus is trapped within the panel (Tab cycles through controls without escaping to the page behind).
+- Closing the panel (via Escape, close button, or FAB) returns focus to the FAB button.
+
+### Screen reader announcements
+
+Flag changes are announced via a `aria-live="polite"` region. For example, toggling "Dark Mode" on announces "Dark Mode enabled". Changing a select announces "Theme set to dark".

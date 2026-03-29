@@ -33,6 +33,7 @@ Vibe Flags is a set of web components for managing feature flags entirely in the
 - Reactive event system (`vibe-flags-changed` event)
 - CSS-only rendering via `data-vf-*` attributes on `<html>` (no wrapper components needed)
 - Full TypeScript support
+- WCAG 2.1 AA accessible toolbar: keyboard navigation, focus trap, ARIA roles/labels, screen reader announcements
 
 ## Installation
 
