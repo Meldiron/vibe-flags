@@ -29,7 +29,8 @@ Vibe Flags is a set of web components for managing feature flags entirely in the
 - ~11KB gzipped
 - Framework-agnostic (React, Vue, Svelte, plain HTML)
 - Persistent state via localStorage
-- Reactive event system (`vibe-flags-changed` event)
+- Reactive event system (`vibe-flags-changed` CustomEvent + `window.postMessage` bridge)
+- postMessage integration for iframes, browser extensions, and micro-frontends
 - Full TypeScript support
 
 ## Installation
@@ -55,6 +56,23 @@ npm install @vibe-flags/core
 - [Boolean Flags Example](/examples/boolean-flags)
 - [Select Flags Example](/examples/select-flags)
 - [Full documentation for LLMs](/llms-full.txt)
+
+## postMessage Bridge
+
+On every flag change, emits `window.postMessage` with:
+```json
+{ "type": "vibe-flags:changed", "key": "dark-mode", "value": true, "previousValue": false, "allFlags": { "dark-mode": true } }
+```
+On reset, emits `{ "type": "vibe-flags:reset", "allFlags": { ... } }`.
+
+Configure target origin: `flagStore.configure({ postMessageOrigin: 'https://example.com' })`. Default is `"*"`.
+
+Listen in iframes, browser extensions, or micro-frontends:
+```js
+window.addEventListener('message', (e) => {
+  if (e.data?.type === 'vibe-flags:changed') { /* react to flag change */ }
+});
+```
 
 ## Source
 

@@ -72,6 +72,18 @@ Reset all flags to their initial values (`false` for booleans, first option for 
 flagStore.reset();
 ```
 
+### `configure(options): void`
+
+Configure store-level options.
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `postMessageOrigin` | `string` | `"*"` | Target origin for `window.postMessage` events. Set to a specific origin to restrict delivery. |
+
+```ts
+flagStore.configure({ postMessageOrigin: 'https://example.com' });
+```
+
 ## Events
 
 ### `vibe-flags-changed`
@@ -90,3 +102,81 @@ window.addEventListener('vibe-flags-changed', (e) => {
 |----------|------|-------------|
 | `detail.key` | `string \| undefined` | The flag that changed, or `undefined` for bulk changes (reset) |
 | `detail.state` | `FlagState` | Snapshot of all current flag values |
+
+## postMessage Bridge
+
+Vibe Flags emits `window.postMessage` events on every flag change and reset, enabling integration with iframes, browser extensions, and micro-frontends without tight coupling.
+
+### `vibe-flags:changed`
+
+Emitted on every `flagStore.set()` call that passes validation.
+
+```ts
+window.addEventListener('message', (e) => {
+  if (e.data?.type === 'vibe-flags:changed') {
+    console.log('Flag changed:', e.data.key);
+    console.log('New value:', e.data.value);
+    console.log('Previous value:', e.data.previousValue);
+    console.log('All flags:', e.data.allFlags);
+  }
+});
+```
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `type` | `"vibe-flags:changed"` | Event type discriminator |
+| `key` | `string` | The flag key that changed |
+| `value` | `FlagValue` | The new flag value |
+| `previousValue` | `FlagValue` | The previous flag value |
+| `allFlags` | `FlagState` | Snapshot of all flags after the change |
+
+### `vibe-flags:reset`
+
+Emitted on `flagStore.reset()`.
+
+```ts
+window.addEventListener('message', (e) => {
+  if (e.data?.type === 'vibe-flags:reset') {
+    console.log('Flags reset to defaults:', e.data.allFlags);
+  }
+});
+```
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `type` | `"vibe-flags:reset"` | Event type discriminator |
+| `allFlags` | `FlagState` | Snapshot of all flags at their default values |
+
+### Origin Restriction
+
+By default, messages are posted with `"*"` as the target origin. To restrict delivery to a specific origin:
+
+```ts
+flagStore.configure({ postMessageOrigin: 'https://example.com' });
+```
+
+### Iframe Integration Example
+
+```html
+<!-- parent.html -->
+<iframe id="child" src="https://app.example.com"></iframe>
+<script type="module">
+  import { flagStore } from 'vibe-flags';
+  window.addEventListener('message', (e) => {
+    if (e.data?.type === 'vibe-flags:changed') {
+      // React to flag changes in the parent from the child iframe
+    }
+  });
+</script>
+```
+
+### Browser Extension Example
+
+```js
+// content-script.js
+window.addEventListener('message', (e) => {
+  if (e.data?.type === 'vibe-flags:changed') {
+    chrome.runtime.sendMessage({ flagChanged: e.data });
+  }
+});
+```

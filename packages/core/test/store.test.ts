@@ -120,4 +120,74 @@ describe('FlagStore', () => {
     expect(flagStore.get('darkMode')).toBeUndefined();
     expect(flagStore.getConfigForKey('darkMode')).toBeUndefined();
   });
+
+  describe('postMessage bridge', () => {
+    beforeEach(() => {
+      // Reset configure to defaults between tests
+      flagStore.configure({ postMessageOrigin: '*' });
+    });
+
+    it('emits postMessage on flag change', () => {
+      const spy = vi.spyOn(window, 'postMessage');
+      flagStore.set('darkMode', true);
+      expect(spy).toHaveBeenCalled();
+      spy.mockRestore();
+    });
+
+    it('emits correct payload on flag change', () => {
+      const spy = vi.spyOn(window, 'postMessage');
+      flagStore.set('darkMode', true);
+      const [payload] = spy.mock.calls[0];
+      expect(payload).toMatchObject({
+        type: 'vibe-flags:changed',
+        key: 'darkMode',
+        value: true,
+        previousValue: false,
+      });
+      expect((payload as Record<string, unknown>).allFlags).toHaveProperty('darkMode', true);
+      spy.mockRestore();
+    });
+
+    it('emits postMessage reset event on reset()', () => {
+      const spy = vi.spyOn(window, 'postMessage');
+      flagStore.set('darkMode', true);
+      spy.mockClear();
+      flagStore.reset();
+      expect(spy).toHaveBeenCalledWith(
+        expect.objectContaining({ type: 'vibe-flags:reset' }),
+        '*'
+      );
+      spy.mockRestore();
+    });
+
+    it('reset payload contains default allFlags', () => {
+      flagStore.set('darkMode', true);
+      const spy = vi.spyOn(window, 'postMessage');
+      flagStore.reset();
+      const [payload] = spy.mock.calls[0];
+      expect((payload as Record<string, unknown>).allFlags).toHaveProperty('darkMode', false);
+      spy.mockRestore();
+    });
+
+    it('uses configured postMessageOrigin', () => {
+      flagStore.configure({ postMessageOrigin: 'https://example.com' });
+      const spy = vi.spyOn(window, 'postMessage');
+      flagStore.set('darkMode', true);
+      expect(spy).toHaveBeenCalledWith(
+        expect.objectContaining({ type: 'vibe-flags:changed' }),
+        'https://example.com'
+      );
+      spy.mockRestore();
+    });
+
+    it('uses * as default postMessageOrigin', () => {
+      const spy = vi.spyOn(window, 'postMessage');
+      flagStore.set('darkMode', true);
+      expect(spy).toHaveBeenCalledWith(
+        expect.objectContaining({ type: 'vibe-flags:changed' }),
+        '*'
+      );
+      spy.mockRestore();
+    });
+  });
 });

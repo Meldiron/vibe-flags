@@ -12,6 +12,13 @@ class FlagStore extends EventTarget {
   private configs = new Map<string, FlagConfig>();
   private state: FlagState = {};
   private listening = false;
+  private postMessageOrigin = '*';
+
+  configure(options: { postMessageOrigin?: string }): void {
+    if (options.postMessageOrigin !== undefined) {
+      this.postMessageOrigin = options.postMessageOrigin;
+    }
+  }
 
   register(config: FlagConfig): void {
     this.configs.set(config.key, config);
@@ -54,9 +61,17 @@ class FlagStore extends EventTarget {
       if (!config.options.includes(value)) return;
     }
 
+    const previousValue = this.state[key];
     this.state[key] = value;
     this.writeToStorage(key, value);
     this.dispatch(key);
+    this.postMessage({
+      type: 'vibe-flags:changed',
+      key,
+      value,
+      previousValue,
+      allFlags: this.getAll(),
+    });
   }
 
   getAll(): FlagState {
@@ -77,6 +92,10 @@ class FlagStore extends EventTarget {
       this.removeFromStorage(key);
     }
     this.dispatch();
+    this.postMessage({
+      type: 'vibe-flags:reset',
+      allFlags: this.getAll(),
+    });
   }
 
   private readFromStorage(key: string): FlagValue | null {
@@ -105,6 +124,12 @@ class FlagStore extends EventTarget {
       localStorage.removeItem(NAMESPACE + key);
     } catch {
       // ignore
+    }
+  }
+
+  private postMessage(payload: Record<string, unknown>): void {
+    if (typeof window !== 'undefined') {
+      window.postMessage(payload, this.postMessageOrigin);
     }
   }
 
