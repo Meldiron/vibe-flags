@@ -29,7 +29,7 @@ Vibe Flags is a set of web components for managing feature flags entirely in the
 - ~11KB gzipped
 - Framework-agnostic (React, Vue, Svelte, plain HTML)
 - Persistent state via localStorage
-- Reactive event system (`vibe-flags-changed` CustomEvent + `window.postMessage` bridge)
+- Reactive event system (`vibe-flags-changed` global CustomEvent + per-flag `vibe-flags:{key}:changed` events + `window.postMessage` bridge)
 - postMessage integration for iframes, browser extensions, and micro-frontends
 - Full TypeScript support
 
@@ -56,6 +56,27 @@ npm install @vibe-flags/core
 - [Boolean Flags Example](/examples/boolean-flags)
 - [Select Flags Example](/examples/select-flags)
 - [Full documentation for LLMs](/llms-full.txt)
+
+## Per-Flag Event Bus
+
+Subscribe to a specific flag without filtering a global event:
+```js
+// Using the convenience method (returns unsubscribe fn):
+const unsub = flagStore.on('dark-mode', ({ key, value, previousValue }) => { /* ... */ });
+unsub(); // remove listener
+
+// Or using explicit off():
+function handler({ value }) { document.body.classList.toggle('dark', value); }
+flagStore.on('dark-mode', handler);
+flagStore.off('dark-mode', handler);
+
+// Or listen directly on window:
+window.addEventListener('vibe-flags:dark-mode:changed', (e) => {
+  const { key, value, previousValue } = e.detail;
+});
+```
+
+Event detail: `{ key, value, previousValue }`. Fires on `set()`, on `reset()` (only for flags whose value changed), and on `register()` if a persisted value differs from the flag's default.
 
 ## postMessage Bridge
 

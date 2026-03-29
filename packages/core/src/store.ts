@@ -8,11 +8,15 @@ function getInitialValue(config: FlagConfig): FlagValue {
   return config.options[0] || '';
 }
 
+type PerFlagCallback = (detail: { key: string; value: FlagValue; previousValue: FlagValue }) => void;
+
 class FlagStore extends EventTarget {
   private configs = new Map<string, FlagConfig>();
   private state: FlagState = {};
   private listening = false;
   private postMessageOrigin = '*';
+  // Maps original user callbacks to their wrapped EventListener for .off() support
+  private perFlagHandlers = new Map<PerFlagCallback, EventListener>();
 
   configure(options: { postMessageOrigin?: string }): void {
     if (options.postMessageOrigin !== undefined) {
@@ -29,13 +33,19 @@ class FlagStore extends EventTarget {
       (config.type === 'boolean' && typeof stored === 'boolean') ||
       (config.type === 'select' && typeof stored === 'string' && config.options.includes(stored))
     );
-    this.state[config.key] = isValid ? stored : initial;
+    const value = isValid ? stored : initial;
+    this.state[config.key] = value;
 
     if (!this.listening) {
       this.listening = true;
       if (typeof window !== 'undefined') {
         window.addEventListener('storage', this.onStorageEvent);
       }
+    }
+
+    // Emit per-flag event if persisted value differs from default
+    if (isValid && value !== initial) {
+      this.dispatchPerFlag(config.key, value, initial);
     }
 
     this.dispatch(config.key);
@@ -64,6 +74,7 @@ class FlagStore extends EventTarget {
     const previousValue = this.state[key];
     this.state[key] = value;
     this.writeToStorage(key, value);
+    this.dispatchPerFlag(key, value, previousValue);
     this.dispatch(key);
     this.postMessage({
       type: 'vibe-flags:changed',
@@ -88,14 +99,36 @@ class FlagStore extends EventTarget {
 
   reset(): void {
     for (const [key, config] of this.configs) {
-      this.state[key] = getInitialValue(config);
+      const previousValue = this.state[key];
+      const newValue = getInitialValue(config);
+      this.state[key] = newValue;
       this.removeFromStorage(key);
+      if (newValue !== previousValue) {
+        this.dispatchPerFlag(key, newValue, previousValue);
+      }
     }
     this.dispatch();
     this.postMessage({
       type: 'vibe-flags:reset',
       allFlags: this.getAll(),
     });
+  }
+
+  on(key: string, callback: PerFlagCallback): () => void {
+    const eventName = `vibe-flags:${key}:changed`;
+    const handler: EventListener = (e: Event) => callback((e as CustomEvent).detail);
+    this.perFlagHandlers.set(callback, handler);
+    this.addEventListener(eventName, handler);
+    return () => this.off(key, callback);
+  }
+
+  off(key: string, callback: PerFlagCallback): void {
+    const eventName = `vibe-flags:${key}:changed`;
+    const handler = this.perFlagHandlers.get(callback);
+    if (handler) {
+      this.removeEventListener(eventName, handler);
+      this.perFlagHandlers.delete(callback);
+    }
   }
 
   private readFromStorage(key: string): FlagValue | null {
@@ -130,6 +163,15 @@ class FlagStore extends EventTarget {
   private postMessage(payload: Record<string, unknown>): void {
     if (typeof window !== 'undefined') {
       window.postMessage(payload, this.postMessageOrigin);
+    }
+  }
+
+  private dispatchPerFlag(key: string, value: FlagValue, previousValue: FlagValue): void {
+    const detail = { key, value, previousValue };
+    const eventName = `vibe-flags:${key}:changed`;
+    this.dispatchEvent(new CustomEvent(eventName, { detail }));
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new CustomEvent(eventName, { detail }));
     }
   }
 

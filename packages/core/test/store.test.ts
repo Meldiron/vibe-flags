@@ -190,4 +190,103 @@ describe('FlagStore', () => {
       spy.mockRestore();
     });
   });
+
+  describe('per-flag event bus', () => {
+    it('fires per-flag event on set()', () => {
+      const handler = vi.fn();
+      window.addEventListener('vibe-flags:darkMode:changed', handler);
+      flagStore.set('darkMode', true);
+      expect(handler).toHaveBeenCalledOnce();
+      window.removeEventListener('vibe-flags:darkMode:changed', handler);
+    });
+
+    it('does not fire another flag event when a different flag changes', () => {
+      const handler = vi.fn();
+      window.addEventListener('vibe-flags:theme:changed', handler);
+      flagStore.set('darkMode', true);
+      expect(handler).not.toHaveBeenCalled();
+      window.removeEventListener('vibe-flags:theme:changed', handler);
+    });
+
+    it('event detail contains key, value, and previousValue', () => {
+      const handler = vi.fn();
+      window.addEventListener('vibe-flags:darkMode:changed', handler);
+      flagStore.set('darkMode', true);
+      const detail = handler.mock.calls[0][0].detail;
+      expect(detail).toEqual({ key: 'darkMode', value: true, previousValue: false });
+      window.removeEventListener('vibe-flags:darkMode:changed', handler);
+    });
+
+    it('fires per-flag events for changed flags on reset()', () => {
+      flagStore.set('darkMode', true);
+      flagStore.set('theme', 'dark');
+      const dmHandler = vi.fn();
+      const themeHandler = vi.fn();
+      window.addEventListener('vibe-flags:darkMode:changed', dmHandler);
+      window.addEventListener('vibe-flags:theme:changed', themeHandler);
+      flagStore.reset();
+      expect(dmHandler).toHaveBeenCalledOnce();
+      expect(themeHandler).toHaveBeenCalledOnce();
+      window.removeEventListener('vibe-flags:darkMode:changed', dmHandler);
+      window.removeEventListener('vibe-flags:theme:changed', themeHandler);
+    });
+
+    it('does not fire per-flag event for unchanged flags on reset()', () => {
+      // darkMode is already false (default) — reset should not fire its event
+      const handler = vi.fn();
+      window.addEventListener('vibe-flags:darkMode:changed', handler);
+      flagStore.reset();
+      expect(handler).not.toHaveBeenCalled();
+      window.removeEventListener('vibe-flags:darkMode:changed', handler);
+    });
+
+    it('fires per-flag event on register() when persisted value differs from default', () => {
+      localStorage.setItem('vibe-flags:earlyBird', 'true');
+      const handler = vi.fn();
+      window.addEventListener('vibe-flags:earlyBird:changed', handler);
+      flagStore.register({ key: 'earlyBird', type: 'boolean', default: false });
+      expect(handler).toHaveBeenCalledOnce();
+      window.removeEventListener('vibe-flags:earlyBird:changed', handler);
+    });
+
+    it('does not fire per-flag event on register() when persisted value matches default', () => {
+      localStorage.setItem('vibe-flags:sameDefault', 'false');
+      const handler = vi.fn();
+      window.addEventListener('vibe-flags:sameDefault:changed', handler);
+      flagStore.register({ key: 'sameDefault', type: 'boolean', default: false });
+      expect(handler).not.toHaveBeenCalled();
+      window.removeEventListener('vibe-flags:sameDefault:changed', handler);
+    });
+
+    describe('.on() / .off()', () => {
+      it('.on() subscribes to per-flag events', () => {
+        const cb = vi.fn();
+        flagStore.on('darkMode', cb);
+        flagStore.set('darkMode', true);
+        expect(cb).toHaveBeenCalledOnce();
+        expect(cb.mock.calls[0][0]).toEqual({ key: 'darkMode', value: true, previousValue: false });
+        flagStore.off('darkMode', cb);
+      });
+
+      it('.on() returns an unsubscribe function that removes the listener', () => {
+        const cb = vi.fn();
+        const unsub = flagStore.on('darkMode', cb);
+        unsub();
+        flagStore.set('darkMode', true);
+        expect(cb).not.toHaveBeenCalled();
+      });
+
+      it('.off() removes a listener added with .on()', () => {
+        const cb = vi.fn();
+        flagStore.on('darkMode', cb);
+        flagStore.off('darkMode', cb);
+        flagStore.set('darkMode', true);
+        expect(cb).not.toHaveBeenCalled();
+      });
+
+      it('.off() with unknown callback is a no-op', () => {
+        expect(() => flagStore.off('darkMode', vi.fn())).not.toThrow();
+      });
+    });
+  });
 });

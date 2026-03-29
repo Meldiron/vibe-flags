@@ -72,6 +72,30 @@ Reset all flags to their initial values (`false` for booleans, first option for 
 flagStore.reset();
 ```
 
+### `on(key: string, callback): () => void`
+
+Subscribe to per-flag change events for a specific flag. Returns an unsubscribe function.
+
+```ts
+const unsub = flagStore.on('dark-mode', ({ key, value, previousValue }) => {
+  console.log(`${key} changed from ${previousValue} to ${value}`);
+});
+
+// later:
+unsub();
+```
+
+### `off(key: string, callback): void`
+
+Explicitly remove a listener added with `.on()`. Pass the same callback reference.
+
+```ts
+function handler({ value }) { console.log(value); }
+
+flagStore.on('dark-mode', handler);
+flagStore.off('dark-mode', handler);
+```
+
 ### `configure(options): void`
 
 Configure store-level options.
@@ -85,6 +109,39 @@ flagStore.configure({ postMessageOrigin: 'https://example.com' });
 ```
 
 ## Events
+
+### `vibe-flags:{key}:changed`
+
+Dispatched on `window` (and on the `flagStore` instance itself) whenever a specific flag value changes. Fires on `set()`, `reset()` (only for flags whose value actually changed), and on `register()` when a persisted value differs from the flag's default.
+
+```ts
+window.addEventListener('vibe-flags:dark-mode:changed', (e) => {
+  const { key, value, previousValue } = e.detail;
+  console.log(`${key}: ${previousValue} → ${value}`);
+});
+```
+
+| Property | Type | Description |
+|----------|------|-------------|
+| `detail.key` | `string` | The flag key |
+| `detail.value` | `FlagValue` | The new value |
+| `detail.previousValue` | `FlagValue` | The previous value |
+
+**Vanilla JS example:**
+```ts
+const unsub = flagStore.on('layout', ({ value }) => {
+  document.body.dataset.layout = String(value);
+});
+```
+
+**React example:**
+```ts
+useEffect(() => {
+  return flagStore.on('dark-mode', ({ value }) => {
+    setDarkMode(value as boolean);
+  });
+}, []);
+```
 
 ### `vibe-flags-changed`
 
