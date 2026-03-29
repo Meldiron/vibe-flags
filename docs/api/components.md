@@ -81,6 +81,32 @@ A single option inside `<vibe-flag-select>`. Its children are shown only when th
 
 Floating toggle button + slide-out sidebar. Automatically discovers all registered flags and renders controls (toggle switches for booleans, dropdowns for selects).
 
+### Toolbar buttons
+
+| Button | Description |
+|--------|-------------|
+| Copy as URL | Generates a shareable URL with all current flag states encoded as `vf:` query params and copies it to the clipboard. |
+| Theme toggle | Switches between dark and light toolbar themes. |
+| Close | Closes the panel. |
+
+### Copy as URL
+
+Clicking the link icon in the toolbar header copies a URL to the clipboard. The URL is built from the current page URL with all flag states appended as `vf:` prefixed query parameters:
+
+- Boolean flags: `?vf:darkMode=true&vf:compactMode=false`
+- Select flags: `?vf:layout=grid&vf:theme=dark`
+
+If the page URL already contains `vf:` parameters, they are replaced with the current values rather than duplicated. Non-`vf:` parameters are preserved unchanged.
+
+The button icon briefly changes to a checkmark for 1.5 seconds after a successful copy.
+
+#### Sharing workflow
+
+1. Open the toolbar, configure your flags.
+2. Click the link icon — the URL is copied to your clipboard.
+3. Paste the URL in Slack, a bug report, or a browser tab.
+4. The recipient opens the URL and sees the exact same flag configuration (requires URL query-param override support via `vf:` params to be wired up on the receiving page).
+
 ### Example
 
 ```html

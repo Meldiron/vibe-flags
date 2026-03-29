@@ -368,6 +368,11 @@ export class VibeToolbar extends LitElement {
   @state()
   private liveMessage = '';
 
+  @state()
+  private copied = false;
+
+  private _copyTimer: ReturnType<typeof setTimeout> | null = null;
+
   connectedCallback(): void {
     super.connectedCallback();
     window.addEventListener('vibe-flags-changed', this.onFlagChange);
@@ -496,6 +501,30 @@ export class VibeToolbar extends LitElement {
     flagStore.reset();
   }
 
+  private onCopyUrl(): void {
+    if (typeof window === 'undefined') return;
+    const url = new URL(window.location.href);
+    // Remove existing vf: params
+    const keysToDelete: string[] = [];
+    url.searchParams.forEach((_, key) => {
+      if (key.startsWith('vf:')) keysToDelete.push(key);
+    });
+    keysToDelete.forEach((k) => url.searchParams.delete(k));
+    // Add current flag states
+    for (const config of this.configs) {
+      const value = this.flags[config.key];
+      url.searchParams.set(`vf:${config.key}`, String(value));
+    }
+    void navigator.clipboard.writeText(url.toString()).then(() => {
+      this.copied = true;
+      if (this._copyTimer !== null) clearTimeout(this._copyTimer);
+      this._copyTimer = setTimeout(() => {
+        this.copied = false;
+        this._copyTimer = null;
+      }, 1500);
+    });
+  }
+
   private renderFlagIcon() {
     return html`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>`;
   }
@@ -514,6 +543,14 @@ export class VibeToolbar extends LitElement {
 
   private renderMoonIcon() {
     return html`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>`;
+  }
+
+  private renderLinkIcon() {
+    return html`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>`;
+  }
+
+  private renderCheckIcon() {
+    return html`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>`;
   }
 
   private renderBooleanFlag(config: FlagConfig) {
@@ -602,6 +639,13 @@ export class VibeToolbar extends LitElement {
             <span class="badge">${this.configs.length}</span>
           </h2>
           <div class="header-actions">
+            <button
+              class="icon-btn"
+              @click=${this.onCopyUrl}
+              aria-label=${this.copied ? 'URL copied!' : 'Copy as URL'}
+            >
+              ${this.copied ? this.renderCheckIcon() : this.renderLinkIcon()}
+            </button>
             <button
               class="icon-btn"
               @click=${this.toggleTheme}

@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach } from 'vitest';
+import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { fixture, html, waitUntil } from '@open-wc/testing';
 import '../src/components/vibe-flag-boolean.js';
 import '../src/components/vibe-flag-select.js';
@@ -276,5 +276,122 @@ describe('<vibe-toolbar>', () => {
 
     const live = el.shadowRoot!.querySelector('[aria-live="polite"]') as HTMLElement;
     expect(live.textContent).toBe('Theme set to dark');
+  });
+
+  // Copy as URL tests
+
+  it('copy-as-URL button is present in header-actions', async () => {
+    const el = await fixture(html`<vibe-toolbar></vibe-toolbar>`);
+    await el.updateComplete;
+    // Open panel so header renders
+    (el.shadowRoot!.querySelector('.fab') as HTMLElement).click();
+    await el.updateComplete;
+
+    const btn = el.shadowRoot!.querySelector('.icon-btn[aria-label="Copy as URL"]') as HTMLElement;
+    expect(btn).not.toBeNull();
+  });
+
+  it('copy-as-URL generates URL with boolean and select flag params', async () => {
+    let writtenText = '';
+    vi.stubGlobal('navigator', {
+      clipboard: { writeText: (text: string) => { writtenText = text; return Promise.resolve(); } },
+    });
+
+    flagStore.set('darkMode', true);
+    flagStore.set('theme', 'dark');
+
+    const el = await fixture(html`<vibe-toolbar></vibe-toolbar>`);
+    await el.updateComplete;
+    (el.shadowRoot!.querySelector('.fab') as HTMLElement).click();
+    await el.updateComplete;
+
+    const btn = el.shadowRoot!.querySelector('.icon-btn[aria-label="Copy as URL"]') as HTMLElement;
+    btn.click();
+    await el.updateComplete;
+
+    const url = new URL(writtenText);
+    expect(url.searchParams.get('vf:darkMode')).toBe('true');
+    expect(url.searchParams.get('vf:theme')).toBe('dark');
+
+    vi.unstubAllGlobals();
+  });
+
+  it('copy-as-URL replaces existing vf: params', async () => {
+    let writtenText = '';
+    vi.stubGlobal('navigator', {
+      clipboard: { writeText: (text: string) => { writtenText = text; return Promise.resolve(); } },
+    });
+
+    // Simulate existing vf: param in the URL
+    const originalHref = window.location.href;
+    Object.defineProperty(window, 'location', {
+      value: new URL('http://localhost/?vf:darkMode=false&other=keep'),
+      configurable: true,
+    });
+
+    flagStore.set('darkMode', true);
+
+    const el = await fixture(html`<vibe-toolbar></vibe-toolbar>`);
+    await el.updateComplete;
+    (el.shadowRoot!.querySelector('.fab') as HTMLElement).click();
+    await el.updateComplete;
+
+    const btn = el.shadowRoot!.querySelector('.icon-btn[aria-label="Copy as URL"]') as HTMLElement;
+    btn.click();
+    await el.updateComplete;
+
+    const url = new URL(writtenText);
+    // Old vf:darkMode=false replaced with current value
+    expect(url.searchParams.get('vf:darkMode')).toBe('true');
+    // Non-vf param preserved
+    expect(url.searchParams.get('other')).toBe('keep');
+    // No duplicate
+    expect([...url.searchParams.keys()].filter((k) => k === 'vf:darkMode').length).toBe(1);
+
+    Object.defineProperty(window, 'location', { value: new URL(originalHref), configurable: true });
+    vi.unstubAllGlobals();
+  });
+
+  it('copy-as-URL calls clipboard.writeText', async () => {
+    const writeText = vi.fn().mockResolvedValue(undefined);
+    vi.stubGlobal('navigator', { clipboard: { writeText } });
+
+    const el = await fixture(html`<vibe-toolbar></vibe-toolbar>`);
+    await el.updateComplete;
+    (el.shadowRoot!.querySelector('.fab') as HTMLElement).click();
+    await el.updateComplete;
+
+    (el.shadowRoot!.querySelector('.icon-btn[aria-label="Copy as URL"]') as HTMLElement).click();
+    await el.updateComplete;
+
+    expect(writeText).toHaveBeenCalledOnce();
+    vi.unstubAllGlobals();
+  });
+
+  it('copy-as-URL button shows checkmark feedback after copy', async () => {
+    vi.useFakeTimers();
+    vi.stubGlobal('navigator', {
+      clipboard: { writeText: () => Promise.resolve() },
+    });
+
+    const el = await fixture(html`<vibe-toolbar></vibe-toolbar>`);
+    await el.updateComplete;
+    (el.shadowRoot!.querySelector('.fab') as HTMLElement).click();
+    await el.updateComplete;
+
+    (el.shadowRoot!.querySelector('.icon-btn[aria-label="Copy as URL"]') as HTMLElement).click();
+    // Flush microtasks so the promise resolves and copied=true is set
+    await Promise.resolve();
+    await el.updateComplete;
+
+    expect(el.shadowRoot!.querySelector('.icon-btn[aria-label="URL copied!"]')).not.toBeNull();
+
+    // After 1500ms the button label reverts
+    vi.advanceTimersByTime(1500);
+    await el.updateComplete;
+    expect(el.shadowRoot!.querySelector('.icon-btn[aria-label="Copy as URL"]')).not.toBeNull();
+
+    vi.useRealTimers();
+    vi.unstubAllGlobals();
   });
 });

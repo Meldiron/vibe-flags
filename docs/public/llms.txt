@@ -20,7 +20,7 @@ Vibe Flags is a set of web components for managing feature flags entirely in the
 
 - **Boolean flags** (`<vibe-flag-boolean>`): On/off toggles, start as `false`
 - **Select flags** (`<vibe-flag-select>` + `<vibe-flag-option>`): Multi-option picker, starts as first option
-- **Toolbar** (`<vibe-toolbar>`): Floating sidebar that auto-discovers all registered flags
+- **Toolbar** (`<vibe-toolbar>`): Floating sidebar that auto-discovers all registered flags. Includes a "Copy as URL" button that encodes all current flag states as `vf:` query params and copies the URL to the clipboard.
 - **Store API** (`flagStore`): Imperative JS API for programmatic flag management
 - **Data attributes** (`data-vf-*`): Automatically synced attributes on `<html>` for CSS-only conditional rendering. Boolean flag `darkMode` → `data-vf-dark-mode="true"|"false"`. Select flag `theme` → `data-vf-theme="{value}"`. Removed on `unregister()`.
 
@@ -34,6 +34,7 @@ Vibe Flags is a set of web components for managing feature flags entirely in the
 - CSS-only rendering via `data-vf-*` attributes on `<html>` (no wrapper components needed)
 - Full TypeScript support
 - WCAG 2.1 AA accessible toolbar: keyboard navigation, focus trap, ARIA roles/labels, screen reader announcements
+- Copy-as-URL sharing: toolbar link button encodes all flag states as `vf:` query params (`vf:darkMode=true`, `vf:theme=dark`) and copies to clipboard; existing `vf:` params are replaced, not duplicated; checkmark feedback shown for 1.5 s after copy
 
 ## Installation
 
