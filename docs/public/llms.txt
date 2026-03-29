@@ -22,6 +22,7 @@ Vibe Flags is a set of web components for managing feature flags entirely in the
 - **Select flags** (`<vibe-flag-select>` + `<vibe-flag-option>`): Multi-option picker, starts as first option
 - **Toolbar** (`<vibe-toolbar>`): Floating sidebar that auto-discovers all registered flags
 - **Store API** (`flagStore`): Imperative JS API for programmatic flag management
+- **Data attributes** (`data-vf-*`): Automatically synced attributes on `<html>` for CSS-only conditional rendering. Boolean flag `darkMode` → `data-vf-dark-mode="true"|"false"`. Select flag `theme` → `data-vf-theme="{value}"`. Removed on `unregister()`.
 
 ## Key Features
 
@@ -30,6 +31,7 @@ Vibe Flags is a set of web components for managing feature flags entirely in the
 - Framework-agnostic (React, Vue, Svelte, plain HTML)
 - Persistent state via localStorage
 - Reactive event system (`vibe-flags-changed` event)
+- CSS-only rendering via `data-vf-*` attributes on `<html>` (no wrapper components needed)
 - Full TypeScript support
 
 ## Installation
@@ -48,6 +50,7 @@ npm install @vibe-flags/core
 
 - [Getting Started](/docs/getting-started)
 - [Flag Types](/docs/configuration)
+- [CSS-Only Rendering](/docs/css-only)
 - [Components API](/api/components)
 - [Store API](/api/store)
 - [Types](/api/types)

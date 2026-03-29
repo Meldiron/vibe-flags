@@ -120,4 +120,36 @@ describe('FlagStore', () => {
     expect(flagStore.get('darkMode')).toBeUndefined();
     expect(flagStore.getConfigForKey('darkMode')).toBeUndefined();
   });
+
+  it('sets data attribute on registration', () => {
+    flagStore.register({ key: 'myFeature', type: 'boolean', default: true });
+    expect(document.documentElement.getAttribute('data-vf-my-feature')).toBe('true');
+  });
+
+  it('sets data attribute for select flag on registration', () => {
+    expect(document.documentElement.getAttribute('data-vf-theme')).toBe('light');
+  });
+
+  it('updates data attribute on set', () => {
+    flagStore.set('darkMode', true);
+    expect(document.documentElement.getAttribute('data-vf-dark-mode')).toBe('true');
+  });
+
+  it('updates data attribute for select flag on set', () => {
+    flagStore.set('theme', 'dark');
+    expect(document.documentElement.getAttribute('data-vf-theme')).toBe('dark');
+  });
+
+  it('removes data attribute on unregister', () => {
+    flagStore.unregister('darkMode');
+    expect(document.documentElement.hasAttribute('data-vf-dark-mode')).toBe(false);
+  });
+
+  it('resets data attributes to default values on reset', () => {
+    flagStore.set('darkMode', true);
+    flagStore.set('theme', 'dark');
+    flagStore.reset();
+    expect(document.documentElement.getAttribute('data-vf-dark-mode')).toBe('false');
+    expect(document.documentElement.getAttribute('data-vf-theme')).toBe('light');
+  });
 });

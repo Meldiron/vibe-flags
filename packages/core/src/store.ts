@@ -1,6 +1,7 @@
 import type { FlagConfig, FlagValue, FlagState } from './types.js';
 
 const NAMESPACE = 'vibe-flags:';
+const DATA_ATTR_PREFIX = 'data-vf-';
 
 function getInitialValue(config: FlagConfig): FlagValue {
   if (config.type === 'boolean') return config.default ?? false;
@@ -31,12 +32,14 @@ class FlagStore extends EventTarget {
       }
     }
 
+    this.setDataAttribute(config.key, this.state[config.key]);
     this.dispatch(config.key);
   }
 
   unregister(key: string): void {
     this.configs.delete(key);
     delete this.state[key];
+    this.removeDataAttribute(key);
     this.dispatch();
   }
 
@@ -56,6 +59,7 @@ class FlagStore extends EventTarget {
 
     this.state[key] = value;
     this.writeToStorage(key, value);
+    this.setDataAttribute(key, value);
     this.dispatch(key);
   }
 
@@ -75,8 +79,23 @@ class FlagStore extends EventTarget {
     for (const [key, config] of this.configs) {
       this.state[key] = getInitialValue(config);
       this.removeFromStorage(key);
+      this.setDataAttribute(key, this.state[key]);
     }
     this.dispatch();
+  }
+
+  private toAttrName(key: string): string {
+    return DATA_ATTR_PREFIX + key.replace(/([A-Z])/g, (c) => '-' + c.toLowerCase());
+  }
+
+  private setDataAttribute(key: string, value: FlagValue): void {
+    if (typeof document === 'undefined') return;
+    document.documentElement.setAttribute(this.toAttrName(key), String(value));
+  }
+
+  private removeDataAttribute(key: string): void {
+    if (typeof document === 'undefined') return;
+    document.documentElement.removeAttribute(this.toAttrName(key));
   }
 
   private readFromStorage(key: string): FlagValue | null {
@@ -129,6 +148,7 @@ class FlagStore extends EventTarget {
     try {
       const value = e.newValue ? JSON.parse(e.newValue) : getInitialValue(config);
       this.state[flagKey] = value;
+      this.setDataAttribute(flagKey, value);
       this.dispatch(flagKey);
     } catch {
       // ignore malformed data
