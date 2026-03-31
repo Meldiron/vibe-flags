@@ -11,6 +11,7 @@ export interface FlagConfigSelect {
   options: string[];
   label?: string;
   default?: string;
+  custom?: boolean;
 }
 
 export type FlagConfig = FlagConfigBoolean | FlagConfigSelect;

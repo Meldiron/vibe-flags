@@ -14,6 +14,9 @@ export class VibeFlagSelect extends LitElement {
   @property({ type: String })
   default = '';
 
+  @property({ type: Boolean })
+  custom = false;
+
   connectedCallback(): void {
     super.connectedCallback();
     window.addEventListener('vibe-flags-changed', this.onFlagChange);
@@ -31,7 +34,7 @@ export class VibeFlagSelect extends LitElement {
   }
 
   protected willUpdate(changed: Map<string, unknown>): void {
-    if (changed.has('name') || changed.has('description') || changed.has('default')) {
+    if (changed.has('name') || changed.has('description') || changed.has('default') || changed.has('custom')) {
       this.registerFlag();
     }
   }
@@ -53,6 +56,7 @@ export class VibeFlagSelect extends LitElement {
         options,
         label: this.description || undefined,
         default: this.default || undefined,
+        custom: this.custom || undefined,
       });
     }
     this.syncOptions();
@@ -64,8 +68,12 @@ export class VibeFlagSelect extends LitElement {
 
   private syncOptions(): void {
     const current = flagStore.get(this.name);
-    for (const option of this.getOptions()) {
-      option.active = option.value === current;
+    const options = this.getOptions();
+    const isKnownOption = options.some((o) => o.value === current);
+    for (const option of options) {
+      // When custom value is active and doesn't match any predefined option,
+      // keep all predefined options inactive (none rendered)
+      option.active = isKnownOption ? option.value === current : false;
     }
   }
 

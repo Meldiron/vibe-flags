@@ -4,7 +4,7 @@ const NAMESPACE = 'vibe-flags:';
 
 function getInitialValue(config: FlagConfig): FlagValue {
   if (config.type === 'boolean') return config.default ?? false;
-  if (config.default && config.options.includes(config.default)) return config.default;
+  if (config.default && (config.options.includes(config.default) || config.custom)) return config.default;
   return config.options[0] || '';
 }
 
@@ -31,7 +31,7 @@ class FlagStore extends EventTarget {
     // Only use stored value if it's valid for this config
     const isValid = stored !== null && (
       (config.type === 'boolean' && typeof stored === 'boolean') ||
-      (config.type === 'select' && typeof stored === 'string' && config.options.includes(stored))
+      (config.type === 'select' && typeof stored === 'string' && (config.options.includes(stored) || !!config.custom))
     );
     const value = isValid ? stored : initial;
     this.state[config.key] = value;
@@ -68,7 +68,7 @@ class FlagStore extends EventTarget {
     if (config.type === 'boolean' && typeof value !== 'boolean') return;
     if (config.type === 'select') {
       if (typeof value !== 'string') return;
-      if (!config.options.includes(value)) return;
+      if (!config.options.includes(value) && !config.custom) return;
     }
 
     const previousValue = this.state[key];

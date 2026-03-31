@@ -37,3 +37,28 @@ Select flags let users choose between multiple options. They start as the first 
 ```
 
 Each `<vibe-flag-option>` is a case — only the one matching the current value is visible. The toolbar renders a dropdown with all options.
+
+## Custom Option
+
+Add `custom` to allow users to type any value in the toolbar.
+
+```html
+<vibe-flag-select name="font-size" description="Font size" custom>
+  <vibe-flag-option value="14px"><p style="font-size:14px">Small (14px)</p></vibe-flag-option>
+  <vibe-flag-option value="16px"><p style="font-size:16px">Medium (16px)</p></vibe-flag-option>
+  <vibe-flag-option value="20px"><p style="font-size:20px">Large (20px)</p></vibe-flag-option>
+</vibe-flag-select>
+
+<vibe-toolbar></vibe-toolbar>
+```
+
+When `custom` is set, a **Custom...** option appears at the end of the toolbar dropdown. Selecting it reveals a text input where the user can type any value (e.g. `18px`). The typed value is stored and applied immediately. Switching back to a predefined option removes the custom input.
+
+A custom `default` value is also supported — it does not need to match one of the predefined options:
+
+```html
+<vibe-flag-select name="spacing" default="10px" custom>
+  <vibe-flag-option value="4px"><span>4px</span></vibe-flag-option>
+  <vibe-flag-option value="8px"><span>8px</span></vibe-flag-option>
+</vibe-flag-select>
+```

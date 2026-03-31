@@ -1,5 +1,6 @@
 import { LitElement, html, css, nothing, type CSSResult } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
+import type { FlagConfigSelect } from '../types.js';
 import { tokensDark, tokensLight } from '../styles/tokens.js';
 import { flagStore } from '../store.js';
 import type { FlagConfig, FlagState } from '../types.js';
@@ -275,6 +276,31 @@ export class VibeToolbar extends LitElement {
         height: 12px;
       }
 
+      /* Custom value input */
+      .custom-input {
+        margin-top: 6px;
+        width: 100%;
+        font-size: 12px;
+        font-family: var(--vf-font);
+        padding: 5px 8px;
+        border: 1px solid var(--vf-border);
+        border-radius: var(--vf-radius);
+        background: var(--vf-bg);
+        color: var(--vf-text);
+        outline: none;
+        box-sizing: border-box;
+        transition: border-color 0.15s ease;
+      }
+
+      .custom-input:hover {
+        border-color: var(--vf-text-muted);
+      }
+
+      .custom-input:focus {
+        border-color: var(--vf-accent);
+        box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.15);
+      }
+
       /* Footer */
       .footer {
         padding: 10px 14px;
@@ -321,6 +347,9 @@ export class VibeToolbar extends LitElement {
 
   @state()
   private darkMode = true;
+
+  @state()
+  private customModeKeys = new Set<string>();
 
   connectedCallback(): void {
     super.connectedCallback();
@@ -377,6 +406,18 @@ export class VibeToolbar extends LitElement {
 
   private onSelect(key: string, e: Event): void {
     const target = e.target as HTMLSelectElement;
+    if (target.value === '__vf_custom__') {
+      this.customModeKeys = new Set([...this.customModeKeys, key]);
+    } else {
+      const next = new Set(this.customModeKeys);
+      next.delete(key);
+      this.customModeKeys = next;
+      flagStore.set(key, target.value);
+    }
+  }
+
+  private onCustomInput(key: string, e: Event): void {
+    const target = e.target as HTMLInputElement;
     flagStore.set(key, target.value);
   }
 
@@ -429,7 +470,12 @@ export class VibeToolbar extends LitElement {
 
   private renderSelectFlag(config: FlagConfig) {
     if (config.type !== 'select') return nothing;
+    const selectConfig = config as FlagConfigSelect;
     const current = this.flags[config.key] as string;
+    const isCustomValue = !!selectConfig.custom && !selectConfig.options.includes(current);
+    const showCustomInput = !!selectConfig.custom && (isCustomValue || this.customModeKeys.has(config.key));
+    const selectValue = showCustomInput ? '__vf_custom__' : current;
+    const customInputValue = isCustomValue ? current : '';
     return html`
       <div class="flag-item">
         <div class="flag-row">
@@ -440,19 +486,31 @@ export class VibeToolbar extends LitElement {
           <div class="select-wrapper">
             <select
               class="select"
-              .value=${current}
+              .value=${selectValue}
               @change=${(e: Event) => this.onSelect(config.key, e)}
             >
-              ${config.options.map(
+              ${selectConfig.options.map(
                 (opt) =>
-                  html`<option value=${opt} ?selected=${opt === current}>
+                  html`<option value=${opt} ?selected=${opt === selectValue}>
                     ${opt}
                   </option>`
               )}
+              ${selectConfig.custom
+                ? html`<option value="__vf_custom__" ?selected=${showCustomInput}>Custom...</option>`
+                : nothing}
             </select>
             <span class="select-chevron">${this.renderChevronDown()}</span>
           </div>
         </div>
+        ${showCustomInput
+          ? html`<input
+              class="custom-input"
+              type="text"
+              placeholder="Enter custom value..."
+              .value=${customInputValue}
+              @input=${(e: Event) => this.onCustomInput(config.key, e)}
+            />`
+          : nothing}
       </div>
     `;
   }
