@@ -51,6 +51,8 @@ export class VibeFlagsToolbar extends LitElement {
         transition:
           left ${SNAP_DURATION}ms cubic-bezier(0.4, 0, 0.2, 1),
           top ${SNAP_DURATION}ms cubic-bezier(0.4, 0, 0.2, 1),
+          right ${SNAP_DURATION}ms cubic-bezier(0.4, 0, 0.2, 1),
+          bottom ${SNAP_DURATION}ms cubic-bezier(0.4, 0, 0.2, 1),
           background 0.2s ease,
           box-shadow 0.2s ease,
           transform 0.2s ease;
@@ -748,7 +750,19 @@ export class VibeFlagsToolbar extends LitElement {
   // --- Positioning helpers ---
 
   private getFabStyle(): string {
-    return `left: ${Math.round(this.fabX)}px; top: ${Math.round(this.fabY)}px;`;
+    if (this.isDraggingFab) {
+      return `left: ${Math.round(this.fabX)}px; top: ${Math.round(this.fabY)}px; right: auto; bottom: auto;`;
+    }
+    switch (this.corner) {
+      case "top-left":
+        return `left: ${OFFSET}px; top: ${OFFSET}px; right: auto; bottom: auto;`;
+      case "top-right":
+        return `right: ${OFFSET}px; top: ${OFFSET}px; left: auto; bottom: auto;`;
+      case "bottom-left":
+        return `left: ${OFFSET}px; bottom: ${OFFSET}px; right: auto; top: auto;`;
+      default:
+        return `right: ${OFFSET}px; bottom: ${OFFSET}px; left: auto; top: auto;`;
+    }
   }
 
   private getCardStyle(): string {
