@@ -1,16 +1,19 @@
 {
   "title": "Docs",
   "pages": [
-    "---",
-    "Introduction",
+    "introduction",
     "getting-started",
-    "configuration",
-    "comparison",
-    "---",
-    "Frameworks",
+    "---Core Concepts---",
+    "boolean-flags",
+    "select-flags",
+    "toolbar",
+    "url-overrides",
+    "---Frameworks---",
     "react",
-    "---",
-    "API Reference",
+    "---Guides---",
+    "ai-agents",
+    "comparison",
+    "---API Reference---",
     "...api"
   ]
 }

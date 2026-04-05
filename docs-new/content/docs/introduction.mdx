@@ -1,0 +1,49 @@
+---
+title: Introduction
+description: What Vibe Flags is, why it exists, and who it's for.
+---
+
+Vibe Flags is an open-source feature flag library for the browser. It runs entirely client-side — no backend, no accounts, no API keys. Add one `<script>` tag and declare flags in plain HTML.
+
+## Why Vibe Flags?
+
+Most feature flag tools (LaunchDarkly, Unleash, PostHog) are built for production rollouts at scale. They require servers, SDKs, dashboards, and accounts.
+
+Vibe Flags takes a different approach. It's built for:
+
+- **Prototyping and vibe-coding** — try multiple UI variants without touching git
+- **AI-assisted development** — flags are plain HTML that any LLM can read and write
+- **Static sites and demos** — no backend needed, works offline
+- **Learning and experimentation** — zero setup, instant feedback
+
+## How it works
+
+1. You add flag components to your HTML (`<vibe-flags-boolean>`, `<vibe-flags-select>`)
+2. Each flag self-registers when it connects to the DOM
+3. The `<vibe-flags-toolbar>` discovers all flags and renders toggle controls
+4. Flag state is persisted in `localStorage` — values survive page refreshes
+
+No build step. No framework required. No JavaScript to write.
+
+## Key features
+
+- **~11KB gzipped** with zero runtime dependencies
+- **Web Components** — works in any framework or plain HTML
+- **Boolean and select flags** — toggles and multi-option switches
+- **Draggable toolbar** — floating panel that auto-discovers all flags
+- **localStorage persistence** — state survives refreshes and syncs across tabs
+- **URL overrides** — share exact flag states via query parameters
+- **React integration** — dedicated hooks and components
+- **TypeScript** — full type safety and imperative store API
+- **AI-friendly** — plain HTML API that LLMs understand natively
+
+## What it's not
+
+Vibe Flags is not a replacement for production feature flag systems. It doesn't have:
+
+- Server-side evaluation
+- User targeting or percentage rollouts
+- Audit trails or team permissions
+- Analytics or A/B testing
+
+If you need those things, see the [Comparison](/docs/comparison) page. For everything else, Vibe Flags gets you running in 30 seconds.

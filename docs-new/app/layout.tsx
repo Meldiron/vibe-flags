@@ -20,6 +20,7 @@ export default function Layout({ children }: { children: ReactNode }) {
       <head>
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
         <link rel="author" type="text/plain" href="/llms.txt" />
+        <link rel="author" type="text/plain" href="/llms-full.txt" />
         <link rel="canonical" href="https://vibe-flags.appwrite.network/" />
         <meta property="og:type" content="website" />
         <meta property="og:site_name" content="Vibe Flags" />

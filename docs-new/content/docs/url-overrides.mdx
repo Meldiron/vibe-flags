@@ -1,0 +1,43 @@
+---
+title: URL Overrides
+description: Share exact flag states via URL query parameters.
+---
+
+You can override any flag's value with a URL query parameter. This is useful for sharing exact flag states with teammates for QA, demos, or reviews.
+
+## Format
+
+Prefix flag names with `vf:` in the query string:
+
+```
+https://yourapp.com?vf:darkMode=true&vf:theme=dark
+```
+
+## Rules
+
+- URL params take priority over `localStorage` values
+- URL params are **ephemeral** — they are not written to `localStorage` and don't persist across page loads
+- Boolean flags accept `true` or `false` — any other value is ignored
+- Select flags accept any value that matches a registered option — values not in the options list are ignored
+
+## Examples
+
+### Override a single boolean flag
+
+```
+https://yourapp.com?vf:showBanner=true
+```
+
+### Override multiple flags
+
+```
+https://yourapp.com?vf:showBanner=false&vf:theme=dark&vf:hero=bold
+```
+
+### QA workflow
+
+1. Set up your flags in the toolbar to the exact state you want to share
+2. Construct the URL with `vf:` query parameters matching those values
+3. Send the link to a teammate — they see the same flag state without affecting their local storage
+
+This makes it easy to share specific UI states in pull request descriptions, bug reports, or Slack messages.

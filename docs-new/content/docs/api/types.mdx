@@ -3,7 +3,7 @@ title: Types
 description: TypeScript type definitions exported from @vibe-flags/core.
 ---
 
-All types are exported from the package:
+All types are exported from the package entry point:
 
 ```ts
 import type {
@@ -12,20 +12,25 @@ import type {
   VibeFlagsConfigSelect,
   VibeFlagsValue,
   VibeFlagsState,
-} from "vibe-flags";
+} from "@vibe-flags/core";
 ```
 
 ## `VibeFlagsConfigBoolean`
+
+Configuration for a boolean flag.
 
 ```ts
 interface VibeFlagsConfigBoolean {
   key: string;
   type: "boolean";
   label?: string;
+  default?: boolean;
 }
 ```
 
 ## `VibeFlagsConfigSelect`
+
+Configuration for a select flag.
 
 ```ts
 interface VibeFlagsConfigSelect {
@@ -33,10 +38,13 @@ interface VibeFlagsConfigSelect {
   type: "select";
   options: string[];
   label?: string;
+  default?: string;
 }
 ```
 
 ## `VibeFlagsConfig`
+
+Union of all flag configuration types.
 
 ```ts
 type VibeFlagsConfig = VibeFlagsConfigBoolean | VibeFlagsConfigSelect;
@@ -44,11 +52,15 @@ type VibeFlagsConfig = VibeFlagsConfigBoolean | VibeFlagsConfigSelect;
 
 ## `VibeFlagsValue`
 
+The runtime value of any flag.
+
 ```ts
 type VibeFlagsValue = boolean | string;
 ```
 
 ## `VibeFlagsState`
+
+A map of all flag values, keyed by flag name.
 
 ```ts
 interface VibeFlagsState {

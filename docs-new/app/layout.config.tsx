@@ -13,13 +13,12 @@ export const baseOptions: BaseLayoutProps = {
   links: [
     {
       text: "Docs",
-      url: "/docs/getting-started",
+      url: "/docs/introduction",
       active: "nested-url",
     },
     {
-      text: "API",
-      url: "/docs/api/components",
-      active: "nested-url",
+      text: "Showcase",
+      url: "/showcase",
     },
     {
       text: "GitHub",

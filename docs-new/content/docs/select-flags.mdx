@@ -1,0 +1,119 @@
+---
+title: Select Flags
+description: Multi-option flags that let users pick between variants.
+---
+
+`<vibe-flags-select>` lets users choose between multiple options. Each option is defined as a `<vibe-flags-option>` child — only the active option's children are rendered.
+
+## Basic usage
+
+```html
+<vibe-flags-select name="theme" description="Color theme">
+  <vibe-flags-option value="light">
+    <style>body { background: #fff; color: #111; }</style>
+  </vibe-flags-option>
+  <vibe-flags-option value="dark">
+    <style>body { background: #111; color: #fff; }</style>
+  </vibe-flags-option>
+</vibe-flags-select>
+```
+
+The toolbar shows a dropdown for this flag. Selecting an option hides all other options' children and shows the selected one.
+
+## Attributes
+
+### `<vibe-flags-select>`
+
+| Attribute     | Type      | Default        | Description |
+|---------------|-----------|----------------|-------------|
+| `name`        | `string`  | `''`           | Unique flag identifier. Required. |
+| `description` | `string`  | `''`           | Label shown in the toolbar. Falls back to `name`. |
+| `default`     | `string`  | first option   | The option value to use as the initial selection. Must match a child `<vibe-flags-option value>`. Falls back to the first option if omitted or invalid. |
+| `custom`      | `boolean` | `false`        | When present, adds a "Custom..." option to the toolbar dropdown with a free-text input. |
+
+### `<vibe-flags-option>`
+
+| Attribute | Type     | Default | Description |
+|-----------|----------|---------|-------------|
+| `value`   | `string` | `''`    | The option identifier. Children are shown only when this option is active. |
+
+## Patterns
+
+### Setting a default option
+
+Without `default`, the first option is selected. Use `default` to start at a different option:
+
+```html
+<vibe-flags-select name="theme" description="Theme" default="dark">
+  <vibe-flags-option value="light"><p>Light theme</p></vibe-flags-option>
+  <vibe-flags-option value="dark"><p>Dark theme</p></vibe-flags-option>
+  <vibe-flags-option value="auto"><p>System theme</p></vibe-flags-option>
+</vibe-flags-select>
+```
+
+### Custom values
+
+Add the `custom` attribute to let users type any value in the toolbar — useful for dynamic values like API URLs or experiment IDs:
+
+```html
+<vibe-flags-select name="api-url" description="API URL" custom>
+  <vibe-flags-option value="https://api.example.com">
+    <p>Production</p>
+  </vibe-flags-option>
+  <vibe-flags-option value="https://staging.example.com">
+    <p>Staging</p>
+  </vibe-flags-option>
+</vibe-flags-select>
+```
+
+Selecting "Custom..." in the toolbar reveals a text input. The typed value is stored and persisted like any other selection.
+
+### A/B testing UI variants
+
+Select flags are ideal for comparing multiple designs side by side:
+
+```html
+<vibe-flags-select name="hero" description="Hero section" default="minimal">
+  <vibe-flags-option value="minimal">
+    <section class="hero-minimal">
+      <h1>Simple and clean</h1>
+    </section>
+  </vibe-flags-option>
+  <vibe-flags-option value="bold">
+    <section class="hero-bold">
+      <h1>Big and bold</h1>
+      <p>With a subtitle and CTA</p>
+    </section>
+  </vibe-flags-option>
+  <vibe-flags-option value="video">
+    <section class="hero-video">
+      <video autoplay muted loop src="hero.mp4"></video>
+    </section>
+  </vibe-flags-option>
+</vibe-flags-select>
+```
+
+### Multiple elements, same flag
+
+Like boolean flags, multiple elements can reference the same select flag. They all update together:
+
+```html
+<vibe-flags-select name="theme" description="Theme">
+  <vibe-flags-option value="light">
+    <style>:root { --bg: #fff; --text: #111; }</style>
+  </vibe-flags-option>
+  <vibe-flags-option value="dark">
+    <style>:root { --bg: #111; --text: #fff; }</style>
+  </vibe-flags-option>
+</vibe-flags-select>
+
+<!-- Elsewhere -->
+<vibe-flags-select name="theme">
+  <vibe-flags-option value="light">
+    <span class="badge">Light</span>
+  </vibe-flags-option>
+  <vibe-flags-option value="dark">
+    <span class="badge">Dark</span>
+  </vibe-flags-option>
+</vibe-flags-select>
+```

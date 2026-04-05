@@ -1,0 +1,393 @@
+# Vibe Flags — Full Documentation
+
+> Offline-first feature flag toolkit that lives in your HTML. No servers. No config files. No build step. Made for agents and LLMs.
+
+Vibe Flags is a set of web components for managing feature flags entirely in the browser. Add one CDN script tag, write HTML, and toggle features with a floating toolbar. State persists in localStorage.
+
+---
+
+## Getting Started
+
+Add one script tag and start using feature flags in 60 seconds.
+
+### Installation
+
+CDN (recommended):
+```html
+<script type="module" src="https://unpkg.com/@vibe-flags/core"></script>
+```
+
+npm:
+```bash
+npm install @vibe-flags/core
+```
+
+### Quick Start
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+  <script type="module" src="https://unpkg.com/@vibe-flags/core"></script>
+</head>
+<body>
+  <h1>My App</h1>
+
+  <vibe-flags-boolean name="showBanner" description="Welcome banner" value="true" default>
+    <div style="padding: 16px; background: #dbeafe; border-radius: 8px;">
+      Welcome to the beta! This banner is controlled by a feature flag.
+    </div>
+  </vibe-flags-boolean>
+
+  <vibe-flags-toolbar></vibe-flags-toolbar>
+</body>
+</html>
+```
+
+### How It Works
+
+1. The `<script>` tag loads Vibe Flags and registers the custom elements
+2. Each flag component self-registers when it connects to the DOM
+3. `<vibe-flags-toolbar>` discovers all registered flags and renders controls
+4. Toggling a flag updates `localStorage` and re-evaluates every flag
+5. Children stay hidden until JS confirms they should be visible — no flash of content
+
+---
+
+## Boolean Flags
+
+`<vibe-flags-boolean>` is an on/off toggle that conditionally shows or hides content.
+
+### Attributes
+
+| Attribute | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `name` | `string` | `''` | Unique flag identifier. Required. |
+| `description` | `string` | `''` | Label shown in the toolbar. Falls back to `name`. |
+| `value` | `string` | `''` | Expected value to show children. If omitted, children are always shown. |
+| `default` | `boolean` | `false` | Initial value when no stored value exists. Also used by "Reset all to defaults". |
+
+### Examples
+
+Show when true (most common):
+```html
+<vibe-flags-boolean name="darkMode" description="Dark mode" value="true" default>
+  <style>body { background: #1a1a1a; color: #fafafa; }</style>
+</vibe-flags-boolean>
+```
+
+Show when false:
+```html
+<vibe-flags-boolean name="darkMode" value="false">
+  <style>body { background: #fff; color: #111; }</style>
+</vibe-flags-boolean>
+```
+
+Always show (registration only — omit `value`):
+```html
+<vibe-flags-boolean name="analytics" description="Analytics tracking">
+  <script src="analytics.js"></script>
+</vibe-flags-boolean>
+```
+
+Multiple elements, same flag:
+```html
+<vibe-flags-boolean name="darkMode" value="true">
+  <div class="dark-indicator">Dark mode active</div>
+</vibe-flags-boolean>
+
+<vibe-flags-boolean name="darkMode" value="false">
+  <div class="light-indicator">Light mode active</div>
+</vibe-flags-boolean>
+```
+
+---
+
+## Select Flags
+
+`<vibe-flags-select>` lets users choose between multiple options. Each option is a `<vibe-flags-option>` child.
+
+### `<vibe-flags-select>` Attributes
+
+| Attribute | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `name` | `string` | `''` | Unique flag identifier. Required. |
+| `description` | `string` | `''` | Label shown in the toolbar. Falls back to `name`. |
+| `default` | `string` | first option | Initial option value. Must match a child option's `value`. |
+| `custom` | `boolean` | `false` | Adds a "Custom..." option with free-text input in the toolbar. |
+
+### `<vibe-flags-option>` Attributes
+
+| Attribute | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `value` | `string` | `''` | The option identifier. Children shown only when active. |
+
+### Examples
+
+Basic select:
+```html
+<vibe-flags-select name="theme" description="Color theme">
+  <vibe-flags-option value="light">
+    <style>body { background: #fff; color: #111; }</style>
+  </vibe-flags-option>
+  <vibe-flags-option value="dark">
+    <style>body { background: #111; color: #fff; }</style>
+  </vibe-flags-option>
+</vibe-flags-select>
+```
+
+With explicit default:
+```html
+<vibe-flags-select name="theme" description="Theme" default="dark">
+  <vibe-flags-option value="light"><p>Light</p></vibe-flags-option>
+  <vibe-flags-option value="dark"><p>Dark</p></vibe-flags-option>
+</vibe-flags-select>
+```
+
+With custom free-text input:
+```html
+<vibe-flags-select name="api-url" description="API URL" custom>
+  <vibe-flags-option value="https://api.example.com"><p>Production</p></vibe-flags-option>
+  <vibe-flags-option value="https://staging.example.com"><p>Staging</p></vibe-flags-option>
+</vibe-flags-select>
+```
+
+A/B testing UI variants:
+```html
+<vibe-flags-select name="hero" description="Hero section" default="minimal">
+  <vibe-flags-option value="minimal">
+    <section><h1>Simple and clean</h1></section>
+  </vibe-flags-option>
+  <vibe-flags-option value="bold">
+    <section style="background: #111; color: #fff;">
+      <h1>Big and bold</h1>
+    </section>
+  </vibe-flags-option>
+</vibe-flags-select>
+```
+
+---
+
+## Toolbar
+
+`<vibe-flags-toolbar>` renders a floating action button that opens a slide-out sidebar with controls for all registered flags.
+
+### Attributes
+
+| Attribute | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `position` | `string` | `'bottom-right'` | Initial corner. One of: `bottom-right`, `bottom-left`, `top-right`, `top-left`. Overridden by saved user preference. |
+
+### Behavior
+
+- The FAB is draggable — drag to any corner and it snaps. Position saved in localStorage (`vibe-flags:toolbar-position`).
+- The panel is resizable by dragging the edge handle. Size saved in localStorage (`vibe-flags:toolbar-size`).
+- Uses Shadow DOM with `all: initial` — global page styles cannot leak into the toolbar.
+- "Reset all to defaults" button resets every flag to its `default` attribute value.
+
+```html
+<vibe-flags-toolbar></vibe-flags-toolbar>
+<vibe-flags-toolbar position="top-left"></vibe-flags-toolbar>
+```
+
+---
+
+## URL Query Parameter Overrides
+
+Override any flag's value via URL without touching localStorage.
+
+Format: `?vf:<flag-name>=<value>`
+
+```
+https://yourapp.com?vf:darkMode=true&vf:theme=dark
+```
+
+Rules:
+- URL params take priority over localStorage values
+- URL params are ephemeral — not written to localStorage, don't persist across page loads
+- Boolean flags accept `true` or `false` only; other values are ignored
+- Select flags accept any value matching a registered option; unrecognized values are ignored
+
+---
+
+## Store API
+
+The `vibeFlagsStore` provides an imperative JavaScript API for managing flags programmatically.
+
+```ts
+import { vibeFlagsStore } from '@vibe-flags/core';
+```
+
+### Methods
+
+**`register(config)`** — Register a single flag. Reads existing value from localStorage.
+```ts
+vibeFlagsStore.register({ key: 'beta', type: 'boolean', label: 'Beta Mode' });
+vibeFlagsStore.register({ key: 'theme', type: 'select', options: ['light', 'dark'], label: 'Theme' });
+```
+
+**`unregister(key)`** — Remove a flag from the store.
+```ts
+vibeFlagsStore.unregister('beta');
+```
+
+**`get(key)`** — Get current value. Returns `undefined` if not registered.
+```ts
+vibeFlagsStore.get('beta');  // false
+vibeFlagsStore.get('theme'); // 'light'
+```
+
+**`set(key, value)`** — Set a flag value. Validates, persists to localStorage, dispatches event. Invalid values silently ignored.
+```ts
+vibeFlagsStore.set('beta', true);
+vibeFlagsStore.set('theme', 'dark');
+```
+
+**`getAll()`** — Get all flag values as a plain object.
+```ts
+vibeFlagsStore.getAll(); // { beta: false, theme: 'light' }
+```
+
+**`getConfig()`** — Get all registered flag configurations.
+
+**`getConfigForKey(key)`** — Get config for a specific flag.
+
+**`reset()`** — Reset all flags to defaults and clear localStorage.
+
+### Events
+
+**`vibe-flags-changed`** — Dispatched on `window` when any flag changes.
+```ts
+window.addEventListener('vibe-flags-changed', (e) => {
+  const { key, state } = e.detail;
+  console.log(`Flag "${key}" changed`, state);
+});
+```
+
+| Property | Type | Description |
+|----------|------|-------------|
+| `detail.key` | `string \| undefined` | Flag that changed, or `undefined` for reset |
+| `detail.state` | `VibeFlagsState` | Snapshot of all current values |
+
+---
+
+## TypeScript Types
+
+All types exported from `@vibe-flags/core`:
+
+```ts
+interface VibeFlagsConfigBoolean {
+  key: string;
+  type: 'boolean';
+  label?: string;
+  default?: boolean;
+}
+
+interface VibeFlagsConfigSelect {
+  key: string;
+  type: 'select';
+  options: string[];
+  label?: string;
+  default?: string;
+}
+
+type VibeFlagsConfig = VibeFlagsConfigBoolean | VibeFlagsConfigSelect;
+type VibeFlagsValue = boolean | string;
+
+interface VibeFlagsState {
+  [key: string]: VibeFlagsValue;
+}
+```
+
+---
+
+## React Integration
+
+`@vibe-flags/core` includes React utilities under `@vibe-flags/core/react`. React 18 or 19 required.
+
+### Components
+
+**`VibeFlagsBoolean`** — Wraps `<vibe-flags-boolean>`.
+Props: `name` (required), `description`, `value`, `default` (boolean), `children`.
+
+```tsx
+import { VibeFlagsBoolean } from '@vibe-flags/core/react';
+
+<VibeFlagsBoolean name="darkMode" description="Dark Mode" default={false}>
+  <style>{`body { background: #1a1a1a; color: #fff; }`}</style>
+</VibeFlagsBoolean>
+```
+
+**`VibeFlagsSelect`** — Wraps `<vibe-flags-select>`.
+Props: `name` (required), `description`, `default`, `children`.
+
+**`VibeFlagsOption`** — Wraps `<vibe-flags-option>`.
+Props: `value` (required), `children`.
+
+```tsx
+import { VibeFlagsSelect, VibeFlagsOption } from '@vibe-flags/core/react';
+
+<VibeFlagsSelect name="theme" default="light">
+  <VibeFlagsOption value="light"><LightTheme /></VibeFlagsOption>
+  <VibeFlagsOption value="dark"><DarkTheme /></VibeFlagsOption>
+</VibeFlagsSelect>
+```
+
+**`VibeFlagsToolbar`** — Renders the floating toolbar. No props required.
+
+### Hook: `useVibeFlags`
+
+```ts
+useVibeFlags(key: string): VibeFlagsValue | undefined
+useVibeFlags(config: VibeFlagsConfig): VibeFlagsValue
+```
+
+Subscribe by key (flag must be registered elsewhere):
+```tsx
+const enabled = useVibeFlags('featureX');
+```
+
+Register and subscribe inline:
+```tsx
+const darkMode = useVibeFlags({ key: 'darkMode', type: 'boolean', default: false });
+const theme = useVibeFlags({ key: 'theme', type: 'select', options: ['light', 'dark'], default: 'light' });
+```
+
+### Imperative Registration
+
+```tsx
+import { vibeFlagsStore } from '@vibe-flags/core';
+
+vibeFlagsStore.register({ key: 'darkMode', type: 'boolean', default: false });
+vibeFlagsStore.register({ key: 'theme', type: 'select', options: ['light', 'dark', 'auto'], default: 'light' });
+```
+
+---
+
+## AI Agent Integration
+
+Vibe Flags is designed to be readable and writable by AI. Flags are plain HTML — no SDK to learn.
+
+### For humans — paste into your AI assistant:
+```
+Design 5 distinctly unique and visually different variations of a section
+of my website. Use Vibe Flags (https://vibe-flags.appwrite.network/llms-full.txt)
+to let me switch between variants in its toolbar.
+
+Section to redesign: [EXPLAIN YOUR SECTION HERE]
+```
+
+### For AI agents — add to system prompt or CLAUDE.md:
+```
+When designing UI components, generate multiple distinct variants and use
+Vibe Flags (https://vibe-flags.appwrite.network/llms-full.txt) to let
+the user switch between them in the browser.
+```
+
+---
+
+## Source
+
+- GitHub: https://github.com/Meldiron/vibe-flags
+- npm: https://www.npmjs.com/package/@vibe-flags/core
+- License: MIT

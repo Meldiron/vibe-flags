@@ -1,0 +1,89 @@
+---
+title: Boolean Flags
+description: On/off toggles that conditionally show or hide content.
+---
+
+`<vibe-flags-boolean>` is a toggle flag. It registers itself with the store and conditionally renders its children based on the flag's current value.
+
+## Basic usage
+
+Show content only when the flag is `true`:
+
+```html
+<vibe-flags-boolean name="showBanner" description="Show banner" value="true" default>
+  <div class="banner">Welcome to the beta!</div>
+</vibe-flags-boolean>
+```
+
+The `value="true"` attribute means children are shown when the flag is `true`. The `default` attribute sets the initial value to `true`.
+
+## Attributes
+
+| Attribute     | Type      | Default | Description |
+|---------------|-----------|---------|-------------|
+| `name`        | `string`  | `''`    | Unique flag identifier. Required. |
+| `description` | `string`  | `''`    | Label shown in the toolbar. Falls back to `name` if omitted. |
+| `value`       | `string`  | `''`    | Expected value to show children. If omitted, children are always shown. |
+| `default`     | `boolean` | `false` | Initial value when no stored value exists. Also used by "Reset all to defaults" in the toolbar. |
+
+## Patterns
+
+### Show when true (most common)
+
+```html
+<vibe-flags-boolean name="darkMode" description="Dark mode" value="true" default>
+  <style>body { background: #1a1a1a; color: #fafafa; }</style>
+</vibe-flags-boolean>
+```
+
+### Show when false
+
+Use `value="false"` to show content when the flag is off:
+
+```html
+<vibe-flags-boolean name="darkMode" value="false">
+  <style>body { background: #fff; color: #111; }</style>
+</vibe-flags-boolean>
+```
+
+This is useful for showing mutually exclusive content based on the same flag.
+
+### Always show (registration only)
+
+Omit the `value` attribute to always show children. The flag still registers with the store and appears in the toolbar.
+
+```html
+<vibe-flags-boolean name="analytics" description="Analytics tracking">
+  <script src="analytics.js"></script>
+</vibe-flags-boolean>
+```
+
+### Multiple elements, same flag
+
+Multiple elements can reference the same flag name. They all react to the same toggle:
+
+```html
+<vibe-flags-boolean name="darkMode" value="true">
+  <style>body { background: #1a1a1a; color: #fafafa; }</style>
+</vibe-flags-boolean>
+
+<!-- Elsewhere on the page -->
+<vibe-flags-boolean name="darkMode" value="true">
+  <div class="dark-mode-indicator">Dark mode is active</div>
+</vibe-flags-boolean>
+
+<vibe-flags-boolean name="darkMode" value="false">
+  <div class="light-mode-indicator">Light mode is active</div>
+</vibe-flags-boolean>
+```
+
+## Default values
+
+The `default` attribute controls the initial state:
+
+- **Without `default`** — the flag starts as `false`
+- **With `default`** — the flag starts as `true`
+
+If the user has previously toggled the flag, the stored `localStorage` value takes priority over the `default` attribute.
+
+The "Reset all to defaults" button in the toolbar resets every flag to its `default` value.

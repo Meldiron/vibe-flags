@@ -1,53 +1,85 @@
 ---
 title: Getting Started
-description: Add one script tag, write some HTML. That's it.
+description: Add one script tag and start using feature flags in 60 seconds.
 ---
 
-## Quick Start
+## Installation
+
+### CDN (recommended)
+
+Add the script tag to your HTML. No install, no build step.
 
 ```html
 <script type="module" src="https://unpkg.com/@vibe-flags/core"></script>
-
-<vibe-flags-boolean name="showBanner" description="Welcome banner" value="true">
-  <div style="padding: 16px; background: #dbeafe; border-radius: 8px;">
-    Welcome to the beta! This banner is controlled by a feature flag.
-  </div>
-</vibe-flags-boolean>
-
-<vibe-flags-boolean name="darkMode" description="Dark mode" value="true">
-  <style>
-    body {
-      background: #1a1a1a;
-      color: #fafafa;
-    }
-  </style>
-</vibe-flags-boolean>
-
-<vibe-flags-toolbar></vibe-flags-toolbar>
 ```
 
-A toggle button appears on the right edge of your page. Click it to open the toolbar, flip some flags, and watch the page react. Values persist across refreshes.
+### npm
 
-No JavaScript. No config objects. No build step.
+If you're using a bundler or want the React integration:
 
-<Callout type="info" title="Try it instantly">
-  Want to experiment without installing anything? Head to the [Boolean Flag
-  playground](/docs/playground/boolean-flag) and start toggling flags in seconds.
-</Callout>
-
-## How It Works
-
-1. Each flag component self-registers when it connects to the DOM
-2. `<vibe-flags-toolbar>` discovers all registered flags and renders controls
-3. Toggling a flag updates `localStorage` and re-evaluates every flag
-4. Children stay hidden until JS confirms they should be visible — no flash of content
-
-## URL Overrides
-
-Share flag states via URL without changing localStorage:
-
-```
-https://yourapp.com?vf:darkMode=true&vf:theme=dark
+```bash
+npm install @vibe-flags/core
 ```
 
-URL params take priority over localStorage and are ephemeral — they are not saved. See [Flag Types](/docs/configuration#url-query-parameter-overrides) for details.
+## Quick start
+
+Create an HTML file with a boolean flag and a toolbar:
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+  <script type="module" src="https://unpkg.com/@vibe-flags/core"></script>
+</head>
+<body>
+
+  <h1>My App</h1>
+
+  <vibe-flags-boolean name="showBanner" description="Welcome banner" value="true" default>
+    <div style="padding: 16px; background: #dbeafe; border-radius: 8px;">
+      Welcome to the beta! This banner is controlled by a feature flag.
+    </div>
+  </vibe-flags-boolean>
+
+  <vibe-flags-toolbar></vibe-flags-toolbar>
+
+</body>
+</html>
+```
+
+Open this file in your browser. A toggle button appears at the bottom-right corner. Click it to open the toolbar, flip the flag, and watch the banner appear and disappear.
+
+## What just happened
+
+1. The `<script>` tag loaded Vibe Flags and registered the custom elements
+2. `<vibe-flags-boolean>` registered a flag called `showBanner` with the store
+3. `<vibe-flags-toolbar>` discovered the flag and rendered a toggle switch
+4. Toggling the switch updated `localStorage` and re-evaluated the flag
+5. Children stay hidden until the flag value matches — no flash of content
+
+## Add a select flag
+
+Select flags let users choose between multiple options:
+
+```html
+<vibe-flags-select name="theme" description="Color theme" default="light">
+  <vibe-flags-option value="light">
+    <style>body { background: #fff; color: #111; }</style>
+  </vibe-flags-option>
+  <vibe-flags-option value="dark">
+    <style>body { background: #111; color: #fff; }</style>
+  </vibe-flags-option>
+  <vibe-flags-option value="blue">
+    <style>body { background: #1e3a5f; color: #e0f0ff; }</style>
+  </vibe-flags-option>
+</vibe-flags-select>
+```
+
+The toolbar shows a dropdown for the select flag. Only the active option's children are rendered.
+
+## Next steps
+
+- Learn about [Boolean Flags](/docs/boolean-flags) and [Select Flags](/docs/select-flags) in detail
+- Configure the [Toolbar](/docs/toolbar) position and behavior
+- Share flag states with [URL Overrides](/docs/url-overrides)
+- Use flags in React with the [React integration](/docs/react)

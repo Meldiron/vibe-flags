@@ -1,0 +1,90 @@
+---
+title: AI Agents
+description: How to use Vibe Flags with LLMs and AI coding agents.
+---
+
+Vibe Flags is designed to be readable and writable by AI. Flags are declared in plain HTML — no SDK to learn, no config files to parse. Any LLM that can write HTML can use Vibe Flags.
+
+## Why it works with AI
+
+Most feature flag tools require:
+- SDK initialization with API keys
+- Config objects in JavaScript
+- Dashboard interactions through a web UI
+
+Vibe Flags uses HTML custom elements instead. An AI agent can:
+- **Read** existing flags by parsing the HTML
+- **Add** new flags by inserting elements
+- **Modify** flag defaults by changing attributes
+- **Remove** flags by deleting elements
+
+No imports, no function calls, no framework-specific knowledge needed.
+
+## Prompt for humans
+
+Copy this into your AI assistant when you want it to generate multiple design variants:
+
+```
+Design 5 distinctly unique and visually different variations of a section
+of my website. Use your best designer skills to make each variant
+professional, modern, and creative — vary the layout, typography, colors,
+spacing, and visual style across all 5.
+
+Use Vibe Flags (https://vibe-flags.appwrite.network/llms-full.txt) to let
+me switch between variants in its toolbar, so I can pick the one I like most.
+
+Section to redesign: [EXPLAIN YOUR SECTION HERE]
+```
+
+## Instructions for AI agents
+
+Add this to your system prompt, `CLAUDE.md`, or agent instructions:
+
+```
+When designing UI components, generate multiple distinct variants and use
+Vibe Flags (https://vibe-flags.appwrite.network/llms-full.txt) to let
+the user switch between them in the browser.
+```
+
+## Example: AI-generated variants
+
+An AI agent asked to design a hero section might produce:
+
+```html
+<script type="module" src="https://unpkg.com/@vibe-flags/core"></script>
+
+<vibe-flags-select name="hero" description="Hero section variant" default="minimal">
+  <vibe-flags-option value="minimal">
+    <section style="padding: 4rem; text-align: center;">
+      <h1>Welcome</h1>
+      <p>A clean, minimal hero.</p>
+    </section>
+  </vibe-flags-option>
+  <vibe-flags-option value="bold">
+    <section style="padding: 6rem; background: #111; color: #fff; text-align: center;">
+      <h1 style="font-size: 4rem;">Go Bold</h1>
+      <p>High contrast, large type.</p>
+    </section>
+  </vibe-flags-option>
+  <vibe-flags-option value="gradient">
+    <section style="padding: 6rem; background: linear-gradient(135deg, #667eea, #764ba2); color: #fff; text-align: center;">
+      <h1>Gradient Hero</h1>
+      <p>Colorful and modern.</p>
+    </section>
+  </vibe-flags-option>
+</vibe-flags-select>
+
+<vibe-flags-toolbar></vibe-flags-toolbar>
+```
+
+The user opens the page, uses the toolbar to flip between variants, and picks the one they like — no rebuilds, no git branches, no manual code swapping.
+
+## LLM context file
+
+Vibe Flags publishes a machine-readable documentation file at:
+
+```
+https://vibe-flags.appwrite.network/llms-full.txt
+```
+
+Point your AI agent to this URL for complete API documentation in a format optimized for LLM consumption.

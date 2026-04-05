@@ -1,0 +1,60 @@
+---
+title: Toolbar
+description: The floating control panel that discovers and manages all flags.
+---
+
+`<vibe-flags-toolbar>` renders a floating action button (FAB) that opens a slide-out sidebar. It automatically discovers all registered flags and renders the appropriate controls — toggle switches for booleans, dropdowns for selects.
+
+## Basic usage
+
+Add the toolbar anywhere in your HTML:
+
+```html
+<vibe-flags-toolbar></vibe-flags-toolbar>
+```
+
+That's it. The toolbar finds all `<vibe-flags-boolean>` and `<vibe-flags-select>` elements on the page and generates controls for each one.
+
+## Position
+
+The FAB starts at the corner specified by the `position` attribute:
+
+```html
+<!-- Default: bottom-right -->
+<vibe-flags-toolbar></vibe-flags-toolbar>
+
+<!-- Start in top-left -->
+<vibe-flags-toolbar position="top-left"></vibe-flags-toolbar>
+```
+
+Valid values: `bottom-right` (default), `bottom-left`, `top-right`, `top-left`.
+
+### Dragging
+
+The FAB is draggable. Drag it to any corner and it snaps into place. The chosen corner is saved in `localStorage` (`vibe-flags:toolbar-position`) and takes priority over the `position` attribute on future page loads.
+
+## Panel resizing
+
+The open panel can be resized by dragging the edge handle. The chosen width is saved in `localStorage` (`vibe-flags:toolbar-size`) and restored on future visits.
+
+## Style isolation
+
+The toolbar uses Shadow DOM with `all: initial` on the host element. Global page styles (fonts, colors, spacing) cannot leak into the toolbar — it always renders consistently regardless of the host page's CSS.
+
+## Toolbar controls
+
+The toolbar renders different controls based on flag type:
+
+- **Boolean flags** — toggle switch (on/off)
+- **Select flags** — dropdown menu with all options
+- **Select flags with `custom`** — dropdown with an additional "Custom..." option that reveals a text input
+
+Each flag shows its `description` as the label. If no description is set, the flag `name` is used.
+
+## Reset to defaults
+
+The toolbar includes a "Reset all to defaults" button that:
+
+1. Resets every boolean flag to its `default` attribute value (`false` if not set)
+2. Resets every select flag to its `default` attribute value (first option if not set)
+3. Clears all flag values from `localStorage`

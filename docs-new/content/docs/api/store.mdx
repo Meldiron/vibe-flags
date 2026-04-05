@@ -1,19 +1,19 @@
 ---
 title: Store API
-description: Imperative API for managing feature flags programmatically.
+description: Imperative API for managing flags programmatically.
 ---
 
-The `vibeFlagsStore` provides an imperative API for managing flags programmatically.
+The `vibeFlagsStore` provides a JavaScript API for managing flags without HTML elements. Useful for programmatic control, app initialization, or framework integrations.
 
 ```ts
-import { vibeFlagsStore } from "vibe-flags";
+import { vibeFlagsStore } from "@vibe-flags/core";
 ```
 
 ## Methods
 
-### `register(config: VibeFlagsConfig)`
+### `register(config)`
 
-Register a single flag. Reads existing value from `localStorage`, falling back to `false` for booleans or the first option for selects. This is called automatically by `<vibe-flags-boolean>` and `<vibe-flags-select>` elements.
+Register a single flag. Reads any existing value from `localStorage`, falling back to the default. This is called automatically by the HTML elements — use it when you need to register flags from JavaScript.
 
 ```ts
 vibeFlagsStore.register({ key: "beta", type: "boolean", label: "Beta Mode" });
@@ -25,7 +25,7 @@ vibeFlagsStore.register({
 });
 ```
 
-### `unregister(key: string)`
+### `unregister(key)`
 
 Remove a flag from the store.
 
@@ -33,48 +33,48 @@ Remove a flag from the store.
 vibeFlagsStore.unregister("beta");
 ```
 
-### `get(key: string): VibeFlagsValue | undefined`
+### `get(key)`
 
-Get the current value of a flag.
+Get the current value of a flag. Returns `undefined` if the flag isn't registered.
 
 ```ts
-vibeFlagsStore.get("beta"); // false
-vibeFlagsStore.get("theme"); // 'light'
+vibeFlagsStore.get("beta");  // false
+vibeFlagsStore.get("theme"); // "light"
 ```
 
-### `set(key: string, value: VibeFlagsValue): void`
+### `set(key, value)`
 
-Set a flag value. Validates the value against the flag's type and options. Persists to `localStorage` and dispatches a change event.
+Set a flag value. Validates against the flag's type and options. Persists to `localStorage` and dispatches a change event. Invalid values are silently ignored.
 
 ```ts
 vibeFlagsStore.set("beta", true);
 vibeFlagsStore.set("theme", "dark");
 
-// Invalid values are silently ignored:
-vibeFlagsStore.set("beta", "yes"); // ignored (not a boolean)
-vibeFlagsStore.set("theme", "neon"); // ignored (not in options)
+// Invalid — silently ignored:
+vibeFlagsStore.set("beta", "yes");   // not a boolean
+vibeFlagsStore.set("theme", "neon"); // not in options
 ```
 
-### `getAll(): VibeFlagsState`
+### `getAll()`
 
 Get all current flag values as a plain object.
 
 ```ts
 vibeFlagsStore.getAll();
-// { beta: false, theme: 'light' }
+// { beta: false, theme: "light" }
 ```
 
-### `getConfig(): VibeFlagsConfig[]`
+### `getConfig()`
 
-Get all registered flag configurations.
+Get all registered flag configurations as an array.
 
-### `getConfigForKey(key: string): VibeFlagsConfig | undefined`
+### `getConfigForKey(key)`
 
-Get the configuration for a specific flag.
+Get the configuration for a specific flag. Returns `undefined` if not registered.
 
-### `reset(): void`
+### `reset()`
 
-Reset all flags to their initial values (`false` for booleans, first option for selects) and clear `localStorage`.
+Reset all flags to their default values and clear `localStorage`.
 
 ```ts
 vibeFlagsStore.reset();
@@ -84,7 +84,7 @@ vibeFlagsStore.reset();
 
 ### `vibe-flags-changed`
 
-Dispatched on `window` whenever a flag value changes.
+Dispatched on `window` whenever a flag value changes. Listen for it to react to flag changes from any source (toolbar, URL overrides, programmatic).
 
 ```ts
 window.addEventListener("vibe-flags-changed", (e) => {
@@ -94,7 +94,7 @@ window.addEventListener("vibe-flags-changed", (e) => {
 });
 ```
 
-| Property       | Type                  | Description                                                    |
-| -------------- | --------------------- | -------------------------------------------------------------- |
-| `detail.key`   | `string \| undefined` | The flag that changed, or `undefined` for bulk changes (reset) |
-| `detail.state` | `VibeFlagsState`      | Snapshot of all current flag values                            |
+| Property       | Type                    | Description |
+|----------------|-------------------------|-------------|
+| `detail.key`   | `string \| undefined`   | The flag that changed. `undefined` for bulk changes (reset). |
+| `detail.state` | `VibeFlagsState`        | Snapshot of all current flag values. |

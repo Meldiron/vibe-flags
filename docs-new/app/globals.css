@@ -1,3 +1,44 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  :root {
+    --grid-color: rgba(0, 0, 0, 0.04);
+    --glow-color: rgba(100, 100, 255, 0.06);
+    --surface: rgba(0, 0, 0, 0.02);
+    --surface-hover: rgba(0, 0, 0, 0.04);
+  }
+
+  .dark {
+    --grid-color: rgba(255, 255, 255, 0.03);
+    --glow-color: rgba(140, 160, 255, 0.05);
+    --surface: rgba(255, 255, 255, 0.03);
+    --surface-hover: rgba(255, 255, 255, 0.06);
+  }
+}
+
+@layer utilities {
+  .bg-grid {
+    background-image:
+      linear-gradient(var(--grid-color) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+    background-size: 64px 64px;
+  }
+
+  .bg-surface {
+    background-color: var(--surface);
+  }
+
+  .hover\:bg-surface-hover:hover {
+    background-color: var(--surface-hover);
+  }
+
+  .hero-glow {
+    background: radial-gradient(
+      ellipse 50% 40% at 50% 0%,
+      var(--glow-color),
+      transparent
+    );
+  }
+}
