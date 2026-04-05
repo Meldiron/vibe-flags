@@ -2,6 +2,7 @@ import { RootProvider } from "fumadocs-ui/provider";
 import { Inter, JetBrains_Mono } from "next/font/google";
 import type { ReactNode } from "react";
 import "fumadocs-ui/style.css";
+import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 const jetbrainsMono = JetBrains_Mono({
