@@ -1,6 +1,7 @@
 packages:
   - packages/*
   - docs
+  - docs-new
   - example
 
 approveBuilds: esbuild

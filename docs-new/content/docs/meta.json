@@ -1,0 +1,16 @@
+{
+  "title": "Docs",
+  "pages": [
+    "---",
+    "Introduction",
+    "getting-started",
+    "configuration",
+    "comparison",
+    "---",
+    "Frameworks",
+    "react",
+    "---",
+    "API Reference",
+    "...api"
+  ]
+}
